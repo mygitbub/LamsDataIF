@@ -33,6 +33,13 @@
 			</plugin>
 		</plugins>
 	</build>
+	<repositories>
+		<repository>
+			<id>thirdparty</id>
+			<name>lams full Repository</name>
+			<url>http://thams.cn:8081/nexus/content/repositories/public</url>
+		</repository>
+	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>org.jdom</groupId>
@@ -232,6 +239,12 @@
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
 			<version>1.9.9</version>
+		</dependency>
+		<!-- zip -->
+		<dependency>
+			<groupId>antZip</groupId>
+			<artifactId>antZip</artifactId>
+			<version>1.0</version>
 		</dependency>
 	</dependencies>
 	<properties>

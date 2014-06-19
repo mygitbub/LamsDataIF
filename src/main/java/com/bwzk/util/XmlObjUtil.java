@@ -1,5 +1,7 @@
 package com.bwzk.util;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
@@ -48,7 +50,7 @@ public class XmlObjUtil<T> {
 					.marshal(c, writer);
 			returnXml = writer.toString();
 		} catch (JAXBException e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		} finally {
 			try {
 				writer.close();
@@ -82,6 +84,51 @@ public class XmlObjUtil<T> {
 		}finally{
 			if(reader != null){
 				reader.close();
+			}
+		}
+		return docu;
+	}
+	/**
+	 * <p>Title: xmlString parse to dom4j.document</p>
+	 * <p>Description: 利用dom4j 将xmlstr解析成dom4j.Document</p>
+	 * @param xmlStr
+	 * @return: dom4j.Document
+	 * 
+	 * @date 2014年1月22日
+	 */
+	public static synchronized Document xmlFile2Document(String xmlFilePath){
+		File xmlFile = new File(xmlFilePath);
+		return xmlFile2Document(xmlFile);
+	}
+	/**
+	 * <p>Title: xmlString parse to dom4j.document</p>
+	 * <p>Description: 利用dom4j 将xmlstr解析成dom4j.Document</p>
+	 * @param xmlStr
+	 * @return: dom4j.Document
+	 * 
+	 * @date 2014年1月22日
+	 */
+	public static synchronized Document xmlFile2Document(File xmlFile){
+		Document docu = null;
+		SAXBuilder sBuilder = null;
+		FileInputStream fin = null;
+		if(xmlFile.exists()){
+			try {
+				sBuilder = new SAXBuilder();
+				fin = new FileInputStream(xmlFile);
+				docu = sBuilder.build(fin);
+			} catch (JDOMException e) {
+				throw new RuntimeException("xml字符串为空"+e.getMessage());
+			} catch (IOException e) {
+				throw new RuntimeException("xml字符串为空"+e.getMessage());
+			}finally{
+				try {
+					if(fin != null){
+						fin.close();
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		return docu;

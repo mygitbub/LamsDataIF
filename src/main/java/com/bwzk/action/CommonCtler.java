@@ -29,7 +29,6 @@ import org.tempuri.MrBaseServiceSoap;
 import ch.qos.logback.classic.Logger;
 
 import com.bwzk.service.i.ArcService;
-import com.bwzk.service.i.GepsService;
 import com.bwzk.service.i.NoticeService;
 import com.bwzk.util.GlobalFinalAttr;
 
@@ -42,15 +41,6 @@ public class CommonCtler {
 	public String gotoIndex() {
 		return "index.jsp";
 	}
-	/**
-	 * 同步用户和部门
-	 */
-	@RequestMapping(value="/syncUserGroup")
-	public ModelAndView syncUserGroup() {
-		String message = arcServcieImpl.initUserGroup();
-		return new ModelAndView("syncResult.jsp", "message", message);
-	}
-	
 	/**
 	 * 列出所有日志 
 	 */
@@ -104,23 +94,6 @@ public class CommonCtler {
 	}
 	
 	/**
-	 *初始化代码表修改
-	 */
-	@RequestMapping(value={"/initMapping"})
-	public String initMapping() {
-		arcServcieImpl.initMlFieldMapping();
-		return "index.jsp";
-	}
-	/**
-	 *接收梦龙项目管理中间库数据
-	 */
-	@RequestMapping(value={"/gepsSync"})
-	public String gepsSync() {
-		gepsService.projectList();
-		return "index.jsp";
-	}
-
-	/**
 	 * 列出所有用户 测试方法
 	 */
 	@RequestMapping(value="/getUsers" , method = RequestMethod.GET)
@@ -145,64 +118,23 @@ public class CommonCtler {
 		return "redirect:" + lamsUrl;   
 	}
 	
-	/**
-	 * 待办入口 会首先判断是否登录成功
-	 */
-	@RequestMapping(value="/toDoList")
-	public void toDoList(HttpServletRequest request, HttpServletResponse response,@RequestParam String  usercode , @RequestParam String token ){
-		String result = GlobalFinalAttr.RE_ML_ERR_MSG;
-		if(StringUtils.isNotEmpty(usercode) && StringUtils.isNotEmpty(token)){
-			Boolean isSSO = judgeSSO(usercode, token);
-			if(isSSO){//返回0 表示成功
-				result = noticeServiceImpl.toDoList(usercode);		
-			}
-			
-		}
-		System.out.println("-------------------------------------------------------------");
-		System.out.println(result);
-		System.out.println("-------------------------------------------------------------");
-		response.setContentType("text/xml; charset=UTF-8");  
-	    PrintWriter out = null;
-		try {
-			out = response.getWriter();
-			out.println(result);   
-		} catch (IOException e) {
-			log.error(e.getMessage());
-		} finally{
-			out.close();
-		}
-	}
 	
 	/**
-	 * 发送消息到 即时通讯软件
+	 *  流程过来的消息 需要发送到 邮件和待办
 	 */
 	@RequestMapping(value="/sendMsg" , method = RequestMethod.POST)
-	public void sendMsg(@RequestParam String  userCodes , @RequestParam String varsJson){
-		if(StringUtils.isNotEmpty(varsJson)){
-			noticeServiceImpl.sendMsg(userCodes, varsJson);
+	public void sendMsg(@RequestParam String  userCodes , @RequestParam String varsJson ,  @RequestParam String actTaskID){
+		if(StringUtils.isNotEmpty(varsJson) && StringUtils.isNotEmpty(actTaskID)){
+			noticeServiceImpl.sendActivitiMsg(userCodes, varsJson , actTaskID);
 		}
 	}
 	
 	/**
-	 * 内部调用 传入token判断是否是ml平台的用户 ture是的
+	 * 内部调用 判断是否是允许用户 ture是的
 	 */
 	private Boolean judgeSSO(String usercode , String token){
 		Boolean result = false;
-		log.error(usercode+" : " +token);
-		Holder<Integer> resultInt = new Holder<Integer>(-1);
-		Holder<String> resultMsg = new Holder<String>("--info--");
-		try {
-			MrBaseServiceSoap service = new MrBaseService(new URL(mlSSOWSDL) ,
-					new QName("http://tempuri.org/", "MrBaseService")).getMrBaseServiceSoap();
-			
-			service.wmCheckUserByToken(usercode, token, resultMsg , resultInt);
-			log.error(resultInt.value+" : "+resultMsg.value);
-		} catch (MalformedURLException e) {
-			log.error(e.getMessage()+" : "+resultInt.value+" : "+resultMsg.value);
-		}
-		System.out.println("===="+resultInt.value.equals(0)+"=====");
-		System.out.println("===="+resultInt.value+"=====");
-		return  (resultInt.value.equals(0) ? true : false);
+		return  result;
 	}
 	
 	@Autowired
@@ -210,15 +142,8 @@ public class CommonCtler {
 	@Autowired
 	private NoticeService noticeServiceImpl;
 	@Autowired
-	private GepsService gepsService;
-	//日志地址
-	@Autowired
 	@Value("${interface.log.home.address}")
 	private String logHomeAdd;
-	//梦龙单点的wsdl
-	@Autowired
-	@Value("${morrowsoft.sso.wsdl}")
-	private String mlSSOWSDL;
 	@Autowired
 	@Value("${lams.ip}")
 	private String lamsIP;//档案服务器ip

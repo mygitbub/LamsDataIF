@@ -1,17 +1,20 @@
 package com.bwzk.service.i;
 
 import java.util.List;
-import java.util.Map;
 
 import com.bwzk.pojo.SBacklog;
 
 public interface NoticeService {
 	/**
-	 * 发送信息 到GXT 广梦的即时通讯软件
-	 * @param vars
-	 * @param usercodess
-	 */
-	public void sendMsg( String  userCodes , String varsJson) ;
+	 * <p>Title: sendActivitiMsg</p>
+	 * <p>Description: 发送流程待办</p>
+	 * @param userCodes
+	 * @param varsJson
+	 * @param actTaskID
+	 * 
+	 * @date 2014年6月19日
+	*/
+	public void sendActivitiMsg(String  userCodes , String varsJson, String actTaskID) ;
 	/**
 	 * 得到个人待办
 	 * @param usercode

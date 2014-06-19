@@ -12,6 +12,8 @@ import java.util.UUID;
  * @Function: 全局常量区
  */
 public class GlobalFinalAttr implements Serializable {
+	//读取文件buffer大小
+	public static final int BUFFER = 2*1024;
 	/**
 	 * 得到系统WEB-INF/classes路径
 	 */
@@ -612,5 +614,4 @@ public class GlobalFinalAttr implements Serializable {
 		
 	}
 	
-	public static final String RE_ML_ERR_MSG= "<?xml version='1.0' encoding='utf-8'?><Message>无待办信息!</Message>";
 }

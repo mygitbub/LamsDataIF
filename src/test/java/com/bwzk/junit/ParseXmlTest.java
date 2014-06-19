@@ -1,20 +1,7 @@
 package com.bwzk.junit;
 
-import java.io.File;
-import java.io.Reader;
-import java.io.StringReader;
-import java.util.List;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-
-import org.apache.commons.io.FileUtils;
 import org.tempuri.ImMessageService;
 import org.tempuri.ImMessageServiceSoap;
-
-import com.bwzk.pojo.MLObjectFactory;
-import com.bwzk.pojo.MLXmlResult;
 
 public class ParseXmlTest {
 	public static void main(String[] args) throws Exception {

@@ -1,11 +1,16 @@
 package com.bwzk.dao;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
+
+import com.bwzk.pojo.FDTable;
+import com.bwzk.pojo.SDalx;
+import com.bwzk.pojo.WWjkgl;
 
 @Repository
 public interface BaseDao{
@@ -52,6 +57,16 @@ public interface BaseDao{
 	 */
 	@Insert("create table ${tName} as  (select * from ${sName})")
 	void copyTable(@Param("sName") String sName , @Param("tName") String tName);
+	
 	@Insert("drop table ${tableName}")
 	void dropTable(@Param("tableName") String tableName);
+	
+	@Select("select * from ${tableName}")
+	List<FDTable> getFtableList(@Param("tableName") String tableName);
+	
+	@Select("select * from s_dalx ")
+	List<SDalx> getAllDalxList();
+	
+	@Select("select * from w_wjkgl ")
+	List<WWjkgl> getAllWjkglList();
 }
