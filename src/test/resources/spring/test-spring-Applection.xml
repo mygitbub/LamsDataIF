@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+	http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
+	http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.1.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+	http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
+	<context:component-scan base-package="com.bwzk" />
+	<bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
+	    <property name="locations">  
+	        <list>  
+	        	<!-- 这里支持多种寻址方式：classpath和file -->  
+	            <value>classpath*:config.properties</value>  
+	            <value>classpath*:gm2unismapping/gm2unis.properties</value>  
+	            <!-- 推荐使用file的方式引入，这样可以将配置和代码分离
+              	<value>file:/opt/demo/config/demo-mq.properties</value>  
+              	 -->  
+	        </list>  
+	    </property>  
+	</bean>  
+	
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+    
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+	</bean>
+	
+	<!-- 梦龙的数据源 -->
+	<bean id="dataSource_ml" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${ml.jdbc.driverClassName}" />
+		<property name="url" value="${ml.jdbc.url}" />
+		<property name="username" value="${ml.jdbc.username}" />
+		<property name="password" value="${ml.jdbc.password}" />
+	</bean>
+	
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations" value="classpath:mybatis/*.xml"></property>
+	</bean>
+	<bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.bwzk.dao.i" />
+		<property name="markerInterface" value="com.bwzk.dao.BaseDao"/>  
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+	</bean>
+	
+	<!-- jdbcTemplate -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource" />
+	</bean>
+	<!-- jdbcTemplate by ML-->
+	<bean id="jdbcTemplate_ml" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource_ml" />
+	</bean>
+	
+	<!-- dao -->
+	<!-- service -->
+	<!-- CXF -->
+	<jaxws:endpoint id="arcServicePublish" implementor="#arcServcieImpl" address="/ArcService" /> 
+	
+    <!-- 事务配置 UNIS-->
+	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+		<qualifier value="thamsTX" />
+	</bean>
+    <!-- 事务配置 ML -->
+	<bean id="txManager_ML" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource_ml" />
+		<qualifier value="mlTX" />
+	</bean>
+	<tx:annotation-driven transaction-manager="txManager" />
+	<tx:annotation-driven transaction-manager="txManager_ML" />
+	
+	<!-- 下面是显示定时相关配置 
+	<task:scheduled-tasks>  
+        <task:scheduled ref="userGropuServiceImp" method="ssss" cron="* * * * * *"/>
+    </task:scheduled-tasks> 
+		注解实现定时器
+		<task:annotation-driven/> 
+	    void的方法上加@Scheduled(cron="0 * * * * *") 可实现定时 
+    	@Scheduled(cron="0 * * * * *")  代表每分钟执行一次  
+    	@Scheduled(cron="* * * * * *")  代表每秒钟执行一次  
+    	                 0 0 2 * * ?    每晚2点执行一次
+	    1 Seconds (0-59) 
+        2 Minutes (0-59) 
+        3 Hours (0-23) 
+        4 Day of month (1-31) 
+        5 Month (1-12 or JAN-DEC) 
+        6 Day of week (1-7 or SUN-SAT) 
+        7 Year (1970-2099) 
+        取值：可以是单个值，如6； 
+              也可以是个范围，如9-12； 
+              也可以是个列表，如9,11,13 
+              也可以是任意取值，使用*  -->
+</beans>

@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//DTD Configure//EN" "http://jetty.mortbay.org/configure.dtd">
+
+<Configure class="org.mortbay.jetty.webapp.WebAppContext">
+	<New id="ertan" class="org.mortbay.jetty.plus.naming.Resource">
+		<Arg>java:DataSource22121212</Arg>
+		<Arg>
+			<New class="org.apache.commons.dbcp.BasicDataSource">
+				<Set name="driverClassName">oracle.jdbc.driver.OracleDriver</Set>
+				<Set name="url">jdbc:oracle:thin:@thams.cn:1521:ORCL</Set>
+				<Set name="username">ertan</Set>
+				<Set name="password">ams2000</Set>
+				<Set name="maxActive">10</Set>
+			</New>
+		</Arg>
+	</New>
+	<New id="22y" class="org.mortbay.jetty.plus.naming.Resource">
+		<Arg>java:DataSource222222222222222222</Arg>
+		<Arg>
+			<New class="org.apache.commons.dbcp.BasicDataSource">
+				<Set name="driverClassName">oracle.jdbc.driver.OracleDriver</Set>
+				<Set name="url">jdbc:oracle:thin:@localhost:1521:ORCL</Set>
+				<Set name="username">tty</Set>
+				<Set name="password">ams2000</Set>
+				<Set name="maxActive">10</Set>
+			</New>
+		</Arg>
+	</New>
+	<New id="wangchunlin" class="org.mortbay.jetty.plus.naming.Resource">
+		<Arg>java:DataSource234324111</Arg>
+		<Arg>
+			<New class="org.apache.commons.dbcp.BasicDataSource">
+				<Set name="driverClassName">oracle.jdbc.driver.OracleDriver</Set>
+				<Set name="url">jdbc:oracle:thin:@192.168.1.2:1521:ORCL</Set>
+				<Set name="username">nceq</Set>
+				<Set name="password">nceq</Set>
+				<Set name="maxActive">10</Set>
+			</New>
+		</Arg>
+	</New>
+	<New id="h2" class="org.mortbay.jetty.plus.naming.Resource">
+		<Arg>java:DataSource--</Arg>
+		<Arg>
+			<New class="org.apache.commons.dbcp.BasicDataSource">
+				<Set name="driverClassName">org.h2.Driver</Set>
+				<Set name="url">jdbc:h2:file:E:/backen/DB BACKEN/h2/Lams;AUTO_SERVER=TRUE</Set>
+				<Set name="username">sa</Set>
+				<Set name="password"></Set>
+				<Set name="maxActive">10</Set>
+			</New>
+		</Arg>
+	</New>
+	<New id="sqlserver" class="org.mortbay.jetty.plus.naming.Resource">
+		<Arg>java:DataSource</Arg>
+		<Arg>
+			<New class="org.apache.commons.dbcp.BasicDataSource">
+				<Set name="driverClassName">net.sourceforge.jtds.jdbc.Driver</Set>
+				<Set name="url">jdbc:jtds:sqlserver://127.0.0.1:1433/gdjc</Set>
+				<Set name="username">sa</Set>
+				<Set name="password">sa</Set>
+				<Set name="maxActive">10</Set>
+			</New>
+		</Arg>
+	</New>
+	<New id="sqlserver" class="org.mortbay.jetty.plus.naming.Resource">
+		<Arg>java:DataSource_ml</Arg>
+		<Arg>
+			<New class="org.apache.commons.dbcp.BasicDataSource">
+				<Set name="driverClassName">net.sourceforge.jtds.jdbc.Driver</Set>
+				<Set name="url">jdbc:jtds:sqlserver://127.0.0.1:1433/mlzjk</Set>
+				<Set name="username">sa</Set>
+				<Set name="password">sa</Set>
+				<Set name="maxActive">10</Set>
+			</New>
+		</Arg>
+	</New>
+</Configure>
