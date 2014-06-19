@@ -19,13 +19,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import ch.qos.logback.classic.Logger;
-import cn.lams.pojo.jaxb.Field;
-import cn.lams.pojo.jaxb.Table;
 
 import com.bwzk.dao.i.SGroupMapper;
 import com.bwzk.pojo.FDTable;
 import com.bwzk.pojo.SDalx;
 import com.bwzk.pojo.WWjkgl;
+import com.bwzk.pojo.jaxb.Field;
+import com.bwzk.pojo.jaxb.Table;
 
 @Component("createXmlUtil")
 public class XmlUtil {

@@ -1,50 +1,25 @@
 package com.bwzk.service.impl;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
-import java.net.URL;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.jws.WebService;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.cxf.message.Attachment;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.tempuri.DataSvc;
-import org.tempuri.DataSvcSoap;
-import org.tempuri.ReturnData;
 
 import ch.qos.logback.classic.Logger;
-import cn.lams.pojo.jaxb.Field;
 
 import com.bwzk.dao.JdbcDao;
 import com.bwzk.dao.i.SGroupMapper;
 import com.bwzk.dao.i.SUserMapper;
 import com.bwzk.dao.i.SUserroleMapper;
-import com.bwzk.pojo.SGroup;
 import com.bwzk.pojo.SUser;
-import com.bwzk.pojo.SUserWithBLOBs;
-import com.bwzk.pojo.SUserrole;
-import com.bwzk.pojo.SUserroleExample;
 import com.bwzk.service.BaseService;
 import com.bwzk.service.i.ArcService;
-import com.bwzk.util.CommonUtil;
 
 @WebService
 @Service("arcServcieImpl")
