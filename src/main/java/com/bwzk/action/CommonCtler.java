@@ -1,16 +1,11 @@
 package com.bwzk.action;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.namespace.QName;
-import javax.xml.ws.Holder;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
@@ -22,9 +17,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-import org.tempuri.MrBaseService;
-import org.tempuri.MrBaseServiceSoap;
 
 import ch.qos.logback.classic.Logger;
 
@@ -45,13 +37,30 @@ public class CommonCtler {
 	 * 列出所有日志 
 	 */
 	@RequestMapping(value="/viewLogList")
-	public ModelAndView viewLogList() {
+	public String viewLogList(Model model) {
 		try {
 			File[] listFile = new File(logHomeAdd).listFiles();
-			return new ModelAndView("listLog.jsp", "listFile", listFile);
+			model.addAttribute("listFile", listFile);
+			model.addAttribute("fileType", "log");
+			return "listLog.jsp";
 		} catch (Exception e) {
 			log.error("获取日志列表错误." , e);
-			return null;
+			return "index.jsp";
+		}
+	} 
+	/**
+	 * 列出所有XML
+	 */
+	@RequestMapping(value="/viewXMLList")
+	public String viewXMLList(Model model) {
+		try {
+			File[] listFile = new File(GlobalFinalAttr.XML_PATH).listFiles();
+			model.addAttribute("listFile", listFile);
+			model.addAttribute("fileType", "xml");
+			return "listLog.jsp";
+		} catch (Exception e) {
+			log.error("获取日志列表错误." , e);
+			return "index.jsp";
 		}
 	} 
 	
@@ -67,21 +76,26 @@ public class CommonCtler {
 			out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">");
 			out.println("<HTML>");
 			out.println("<BODY>");
+			out.println("<XMP>");
 			String filePath = request.getParameter("logFilePath");
+			String fileType = request.getParameter("fileType");
 			if(StringUtils.isEmpty(filePath)){
 				out.print("获取日志错误!");
 			}else{
 				filePath = new String(filePath.getBytes("ISO-8859-1") , "UTF-8");
-				File tempFile = new File(logHomeAdd+File.separatorChar+filePath);
+				File tempFile = new File((fileType.equals("xml") ? GlobalFinalAttr.XML_PATH : logHomeAdd)
+						+File.separatorChar+filePath);
 				if(null != tempFile){
 					List<String> stList = FileUtils.readLines(tempFile);
 					for (String str : stList) {
-						out.println(str+"<br/>");
+//						out.println(str+"<br/>");
+						out.println(str);
 					}
 				}else{
 					out.print("获取日志错误!");
 				}
 			}
+			out.println("</XMP>");
 			out.println("</BODY>");
 			out.println("</HTML>");
 		} catch (Exception e) {

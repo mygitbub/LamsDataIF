@@ -17,8 +17,6 @@ public class SGroup implements Serializable {
 
     private String bz;
 
-    private String depcode;
-
     public Integer getDid() {
         return did;
     }
@@ -65,14 +63,6 @@ public class SGroup implements Serializable {
 
     public void setBz(String bz) {
         this.bz = bz == null ? null : bz.trim();
-    }
-
-    public String getDepcode() {
-        return depcode;
-    }
-
-    public void setDepcode(String depcode) {
-        this.depcode = depcode == null ? null : depcode.trim();
     }
 
 	@Override

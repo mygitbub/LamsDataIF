@@ -5,7 +5,7 @@ import java.util.List;
 import javax.jws.WebService;
 
 import com.bwzk.pojo.SUser;
-@WebService
+@WebService(name="ArcDataWs" , targetNamespace = "http://service.unis.com/")
 public interface ArcService {
 	/**
 	 * 数据接受服务

@@ -55,19 +55,7 @@
 		<Arg>
 			<New class="org.apache.commons.dbcp.BasicDataSource">
 				<Set name="driverClassName">net.sourceforge.jtds.jdbc.Driver</Set>
-				<Set name="url">jdbc:jtds:sqlserver://127.0.0.1:1433/gdjc</Set>
-				<Set name="username">sa</Set>
-				<Set name="password">sa</Set>
-				<Set name="maxActive">10</Set>
-			</New>
-		</Arg>
-	</New>
-	<New id="sqlserver" class="org.mortbay.jetty.plus.naming.Resource">
-		<Arg>java:DataSource_ml</Arg>
-		<Arg>
-			<New class="org.apache.commons.dbcp.BasicDataSource">
-				<Set name="driverClassName">net.sourceforge.jtds.jdbc.Driver</Set>
-				<Set name="url">jdbc:jtds:sqlserver://127.0.0.1:1433/mlzjk</Set>
+				<Set name="url">jdbc:jtds:sqlserver://127.0.0.1:1433/zj</Set>
 				<Set name="username">sa</Set>
 				<Set name="password">sa</Set>
 				<Set name="maxActive">10</Set>

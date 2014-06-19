@@ -44,4 +44,7 @@ public interface SUserMapper extends BaseDao{
 	
 	@Select("SELECT * FROM S_USER WHERE USERCODE = '${usercode}'")
 	SUser getUserByUsercode(@Param("usercode") String usercode);
+	
+	@Select("SELECT QZH FROM S_GROUP WHERE DID IN (SELECT PID FROM S_USER WHERE USERCODE LIKE '${usercode}')")
+	String getQzhByUserCode(@Param("usercode") String usercode);
 }

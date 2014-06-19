@@ -8,7 +8,6 @@
     <result column="GID" property="gid" jdbcType="INTEGER" />
     <result column="GNAME" property="gname" jdbcType="VARCHAR" />
     <result column="BZ" property="bz" jdbcType="VARCHAR" />
-    <result column="DEPCODE" property="depcode" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -69,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    DID, PID, QZH, GID, GNAME, BZ, DEPCODE
+    DID, PID, QZH, GID, GNAME, BZ
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.bwzk.pojo.SGroupExample" >
     select
@@ -103,11 +102,10 @@
   </delete>
   <insert id="insert" parameterType="com.bwzk.pojo.SGroup" >
     insert into S_GROUP (DID, PID, QZH, 
-      GID, GNAME, BZ, DEPCODE
+      GID, GNAME, BZ
       )
     values (#{did,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER}, #{qzh,jdbcType=VARCHAR}, 
-      #{gid,jdbcType=INTEGER}, #{gname,jdbcType=VARCHAR}, #{bz,jdbcType=VARCHAR}, #{depcode,jdbcType=VARCHAR}
-      )
+      #{gid,jdbcType=INTEGER}, #{gname,jdbcType=VARCHAR}, #{bz,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.bwzk.pojo.SGroup" >
     insert into S_GROUP
@@ -130,9 +128,6 @@
       <if test="bz != null" >
         BZ,
       </if>
-      <if test="depcode != null" >
-        DEPCODE,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="did != null" >
@@ -152,9 +147,6 @@
       </if>
       <if test="bz != null" >
         #{bz,jdbcType=VARCHAR},
-      </if>
-      <if test="depcode != null" >
-        #{depcode,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -185,9 +177,6 @@
       <if test="record.bz != null" >
         BZ = #{record.bz,jdbcType=VARCHAR},
       </if>
-      <if test="record.depcode != null" >
-        DEPCODE = #{record.depcode,jdbcType=VARCHAR},
-      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -200,9 +189,8 @@
       QZH = #{record.qzh,jdbcType=VARCHAR},
       GID = #{record.gid,jdbcType=INTEGER},
       GNAME = #{record.gname,jdbcType=VARCHAR},
-      BZ = #{record.bz,jdbcType=VARCHAR},
-      DEPCODE = #{record.depcode,jdbcType=VARCHAR}
-    <if test="_parameter != null" >
+      BZ = #{record.bz,jdbcType=VARCHAR}
+     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
@@ -224,9 +212,6 @@
       <if test="bz != null" >
         BZ = #{bz,jdbcType=VARCHAR},
       </if>
-      <if test="depcode != null" >
-        DEPCODE = #{depcode,jdbcType=VARCHAR},
-      </if>
     </set>
     where DID = #{did,jdbcType=INTEGER}
   </update>
@@ -236,8 +221,7 @@
       QZH = #{qzh,jdbcType=VARCHAR},
       GID = #{gid,jdbcType=INTEGER},
       GNAME = #{gname,jdbcType=VARCHAR},
-      BZ = #{bz,jdbcType=VARCHAR},
-      DEPCODE = #{depcode,jdbcType=VARCHAR}
+      BZ = #{bz,jdbcType=VARCHAR}
     where DID = #{did,jdbcType=INTEGER}
   </update>
 </mapper>

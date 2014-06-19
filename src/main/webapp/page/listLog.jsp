@@ -19,7 +19,7 @@
 					<div class="col-md-1">${count.index+1}</div>
 					<div class="col-md-4">${file.name}</div>
 					<div class="col-md-1">
-						<a href="/LamsIFML/viewLog?logFilePath=${file.name}&rand=<%=Math.random()%>"> 查看</a>
+						<a href="${pageContext.request.contextPath}/viewLog?logFilePath=${file.name}&fileType=${fileType}&rand=<%=Math.random()%>"> 查看</a>
 					</div>
 				</div>
 			</c:forEach>

@@ -494,76 +494,6 @@ public class SGroupExample {
             return (Criteria) this;
         }
 
-        public Criteria andDepcodeIsNull() {
-            addCriterion("DEPCODE is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDepcodeIsNotNull() {
-            addCriterion("DEPCODE is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDepcodeEqualTo(String value) {
-            addCriterion("DEPCODE =", value, "depcode");
-            return (Criteria) this;
-        }
-
-        public Criteria andDepcodeNotEqualTo(String value) {
-            addCriterion("DEPCODE <>", value, "depcode");
-            return (Criteria) this;
-        }
-
-        public Criteria andDepcodeGreaterThan(String value) {
-            addCriterion("DEPCODE >", value, "depcode");
-            return (Criteria) this;
-        }
-
-        public Criteria andDepcodeGreaterThanOrEqualTo(String value) {
-            addCriterion("DEPCODE >=", value, "depcode");
-            return (Criteria) this;
-        }
-
-        public Criteria andDepcodeLessThan(String value) {
-            addCriterion("DEPCODE <", value, "depcode");
-            return (Criteria) this;
-        }
-
-        public Criteria andDepcodeLessThanOrEqualTo(String value) {
-            addCriterion("DEPCODE <=", value, "depcode");
-            return (Criteria) this;
-        }
-
-        public Criteria andDepcodeLike(String value) {
-            addCriterion("DEPCODE like", value, "depcode");
-            return (Criteria) this;
-        }
-
-        public Criteria andDepcodeNotLike(String value) {
-            addCriterion("DEPCODE not like", value, "depcode");
-            return (Criteria) this;
-        }
-
-        public Criteria andDepcodeIn(List<String> values) {
-            addCriterion("DEPCODE in", values, "depcode");
-            return (Criteria) this;
-        }
-
-        public Criteria andDepcodeNotIn(List<String> values) {
-            addCriterion("DEPCODE not in", values, "depcode");
-            return (Criteria) this;
-        }
-
-        public Criteria andDepcodeBetween(String value1, String value2) {
-            addCriterion("DEPCODE between", value1, value2, "depcode");
-            return (Criteria) this;
-        }
-
-        public Criteria andDepcodeNotBetween(String value1, String value2) {
-            addCriterion("DEPCODE not between", value1, value2, "depcode");
-            return (Criteria) this;
-        }
-
         public Criteria andQzhLikeInsensitive(String value) {
             addCriterion("upper(QZH) like", value.toUpperCase(), "qzh");
             return (Criteria) this;
@@ -579,10 +509,6 @@ public class SGroupExample {
             return (Criteria) this;
         }
 
-        public Criteria andDepcodeLikeInsensitive(String value) {
-            addCriterion("upper(DEPCODE) like", value.toUpperCase(), "depcode");
-            return (Criteria) this;
-        }
     }
 
     public static class Criteria extends GeneratedCriteria {

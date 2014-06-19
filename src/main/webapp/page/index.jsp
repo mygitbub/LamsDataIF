@@ -37,9 +37,11 @@
 			 -->
 			<a class="btn btn-lg btn-primary"
 	 			href="${pageContext.request.contextPath}/viewLogList">查看日志</a>
+	 			<a class="btn btn-lg btn-danger"
+				href="${pageContext.request.contextPath}/viewXMLList">查看XML</a>
 			<a class="btn btn-lg btn-success"
 				href="${pageContext.request.contextPath}/getUsers">列出所有用户</a>
-			<a class="btn btn-lg btn-info"
+			<a class="btn btn-lg btn-warning"
 				href="${pageContext.request.contextPath}/cxf">查看服务</a>
 		</p>
 	</div>

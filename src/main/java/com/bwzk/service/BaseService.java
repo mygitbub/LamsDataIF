@@ -391,6 +391,17 @@ public class BaseService {
 		}
 		return bmid.toString();
 	}
+	/**
+	 * 根据usercode的到qzh
+	 * @author: LuYu
+	 */
+	protected String getQzhByUserCode(String usercode){
+		String qzh = sUserMapper.getQzhByUserCode(usercode);
+		if(StringUtils.isBlank(qzh)){
+			qzh = defaultQzh;
+		}
+		return qzh;
+	}
 	
 	/**
 	 * 获取数据库参数 数据库类型名称,时间
@@ -468,6 +479,17 @@ public class BaseService {
 	@Autowired
 	@Value("${sqlserverSchemaName}")
 	private String sqlserverSchemaName;
+	
+	/** 默认的全宗号 */
+	@Autowired
+	@Value("${lams.default.qzh}")
+	protected String defaultQzh;
+	@Autowired
+	@Value("${lams.dfile.attrex}")
+	protected String attrex;//移交接收状态
+	@Autowired
+	@Value("${lams.dfile.attr}")
+	protected String attr;//归档前后
 	private String sysdate = null;
 	private Logger log =  (Logger) LoggerFactory.getLogger(this.getClass());
 }

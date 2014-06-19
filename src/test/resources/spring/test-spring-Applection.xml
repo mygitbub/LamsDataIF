@@ -22,7 +22,6 @@
 	        <list>  
 	        	<!-- 这里支持多种寻址方式：classpath和file -->  
 	            <value>classpath*:config.properties</value>  
-	            <value>classpath*:gm2unismapping/gm2unis.properties</value>  
 	            <!-- 推荐使用file的方式引入，这样可以将配置和代码分离
               	<value>file:/opt/demo/config/demo-mq.properties</value>  
               	 -->  
@@ -40,14 +39,6 @@
 		<property name="password" value="${jdbc.password}" />
 	</bean>
 	
-	<!-- 梦龙的数据源 -->
-	<bean id="dataSource_ml" class="org.apache.commons.dbcp.BasicDataSource">
-		<property name="driverClassName" value="${ml.jdbc.driverClassName}" />
-		<property name="url" value="${ml.jdbc.url}" />
-		<property name="username" value="${ml.jdbc.username}" />
-		<property name="password" value="${ml.jdbc.password}" />
-	</bean>
-	
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="mapperLocations" value="classpath:mybatis/*.xml"></property>
@@ -62,10 +53,6 @@
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
         <property name="dataSource" ref="dataSource" />
 	</bean>
-	<!-- jdbcTemplate by ML-->
-	<bean id="jdbcTemplate_ml" class="org.springframework.jdbc.core.JdbcTemplate">
-        <property name="dataSource" ref="dataSource_ml" />
-	</bean>
 	
 	<!-- dao -->
 	<!-- service -->
@@ -77,13 +64,7 @@
 		<property name="dataSource" ref="dataSource" />
 		<qualifier value="thamsTX" />
 	</bean>
-    <!-- 事务配置 ML -->
-	<bean id="txManager_ML" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource_ml" />
-		<qualifier value="mlTX" />
-	</bean>
 	<tx:annotation-driven transaction-manager="txManager" />
-	<tx:annotation-driven transaction-manager="txManager_ML" />
 	
 	<!-- 下面是显示定时相关配置 
 	<task:scheduled-tasks>  
@@ -105,5 +86,11 @@
         取值：可以是单个值，如6； 
               也可以是个范围，如9-12； 
               也可以是个列表，如9,11,13 
-              也可以是任意取值，使用*  -->
+              也可以是任意取值，使用* 
+      每晚11点同步
+	<task:scheduled-tasks>  
+        <task:scheduled ref="arcServcieImpl" method="initUserGroup" cron="0 0 23 * * ?"/>
+    </task:scheduled-tasks>
+     -->
+	
 </beans>

@@ -1,5 +1,6 @@
 package com.bwzk.util;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
@@ -12,12 +13,24 @@ import java.util.UUID;
  * @Function: 全局常量区
  */
 public class GlobalFinalAttr implements Serializable {
+	
+	/** 工程编码 UTF-8 */
+	public static final String PRJ_CHAR_CODE = "UTF-8";
+	/** txt参数传入的分隔符 */
+	public static final String SEPARATOR = "&;";
+	/** 忽略不需要的字段 */
+	public static final String[] IGNORE_FIELD_NAME = {"EFILEID","XLH","BBH","SWT","BBH","STATUS","ATTR","ATTREX","CREATOR"
+			,"CREATETIME","EDITOR","EDITTIME","DELTOR","DELTIME","DHYY","DID", "RECEIVER","BMID", "QZH"};
 	//读取文件buffer大小
 	public static final int BUFFER = 2*1024;
 	/**
 	 * 得到系统WEB-INF/classes路径
 	 */
 	public static final String BASE_PATH_WEBINF = GlobalFinalAttr.class.getClassLoader().getResource("/").getFile();
+	/**
+	 * xml地址
+	 */
+	public static final String XML_PATH = GlobalFinalAttr.class.getClassLoader().getResource("/").getFile()+File.separator+"XML"+File.separator;
 	private GlobalFinalAttr() { }
 	private static final long serialVersionUID = -1055286768481978085L;
 	/**

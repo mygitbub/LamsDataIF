@@ -21,8 +21,8 @@ import com.bwzk.pojo.SUser;
 import com.bwzk.service.BaseService;
 import com.bwzk.service.i.ArcService;
 
-@WebService
 @Service("arcServcieImpl")
+@WebService(name="ArcDataWs" , targetNamespace = "http://service.unis.com/")
 public class ArcServcieImpl  extends BaseService implements ArcService{
 	@Transactional("txManager")
 	public String fileRecive(String xml) {

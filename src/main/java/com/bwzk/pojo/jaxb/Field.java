@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlType;
  * @version createtime：2013年11月27日 下午1:16:12 
  */
 @XmlAccessorOrder(XmlAccessOrder.ALPHABETICAL)
-@XmlType(name="field",propOrder={"notnull","length","fieldtype","chname","fieldname"})
+@XmlType(name="field",propOrder={"notnull","length","fieldtype","chname","fieldname","thevalue"})
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name="field")
 public class Field {
@@ -27,6 +27,8 @@ public class Field {
 	private Boolean notnull;
 	@XmlAttribute
 	private Integer length;
+	@XmlAttribute
+	private String thevalue;
 	
 	public String getFieldname() {
 		return fieldname;
@@ -57,5 +59,11 @@ public class Field {
 	}
 	public void setNotnull(Boolean notnull) {
 		this.notnull = notnull;
+	}
+	public String getThevalue() {
+		return thevalue;
+	}
+	public void setThevalue(String thevalue) {
+		this.thevalue = thevalue;
 	}
 }

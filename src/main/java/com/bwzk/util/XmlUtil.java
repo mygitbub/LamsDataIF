@@ -72,11 +72,11 @@ public class XmlUtil {
 	}
 
 	public void generatorXmlByTableName(String tableName, String chName) throws IOException {
-		File folder = new File(GlobalFinalAttr.BASE_PATH_WEBINF);
+		File folder = new File(GlobalFinalAttr.XML_PATH);
 		if(!folder.exists()){
 			folder.mkdir();
 		}
-		File targetFile = new File(GlobalFinalAttr.BASE_PATH_WEBINF + tableName + ".xml");
+		File targetFile = new File(GlobalFinalAttr.XML_PATH + tableName + ".XML");
 		if (targetFile.exists()) {
 			return;
 		}else{
@@ -102,6 +102,13 @@ public class XmlUtil {
 				field.setFieldtype(tt.getFieldtype());
 				field.setLength(tt.getLength());
 				field.setNotnull(tt.getNotnull()==1);
+				if(tt.getFieldtype().equals(3)){
+					field.setThevalue("1");
+				}else if(tt.getFieldtype().equals(11)){
+					field.setThevalue("1986-06-19 hh:mm:ss.S");
+				}else{
+					field.setThevalue("just a string");
+				}
 				fields.add(field);
 			}
 			table.setFields(fields);
@@ -122,7 +129,7 @@ public class XmlUtil {
 	*/
 	private Boolean isIgnore(String fieldName){
 		Boolean isIgnore = false;
-		for (String ig : ignoreFieldName) {
+		for (String ig : GlobalFinalAttr.IGNORE_FIELD_NAME) {
 			if(ig.equals(fieldName)){
 				isIgnore = true;
 				break;
@@ -134,9 +141,5 @@ public class XmlUtil {
 	@Autowired
 	private SGroupMapper sGroupMapper;
 	
-	/** 忽略不需要的字段 */
-	private String[] ignoreFieldName = {"EFILEID","XLH","BBH","SWT","BBH","STATUS","ATTR","ATTREX","CREATOR"
-			,"CREATETIME","EDITOR","EDITTIME","DELTOR","DELTIME","DHYY","DID","PID", "RECEIVER"};
-
 	private Logger log =  (Logger) LoggerFactory.getLogger(this.getClass());
 }
