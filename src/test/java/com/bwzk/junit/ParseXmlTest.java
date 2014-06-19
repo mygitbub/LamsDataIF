@@ -1,7 +1,5 @@
 package com.bwzk.junit;
 
-import org.tempuri.ImMessageService;
-import org.tempuri.ImMessageServiceSoap;
 
 public class ParseXmlTest {
 	public static void main(String[] args) throws Exception {
@@ -31,12 +29,6 @@ public class ParseXmlTest {
 //        //可选 结束
 //        mashaller.marshal(toxmlResult, new File("c:/outPut.xml"));
 //		
-		ImMessageServiceSoap service = new ImMessageService().getImMessageServiceSoap();
-		short nOnlineOnly = 0;
-		short nReserveDays = 2;
-		System.out.println(service.sendCommonMessageByUserCode(2121L, "luyu", "2121@luyu", 
-				"测试看看是http://lams.canycan.com否这是消息可以", nOnlineOnly , nReserveDays , "GXT.IM", null, "陆宇", null));
-
 //		service.sendCommonMessageByUserCode(nSenderPlatID, nSenderUserCode, sReceiverPlatUserIds,
 //				strContent, nOnlineOnly, nReserveDays, strFromApp, strAppCode, strFromUserName, strCustomInfo)
 		

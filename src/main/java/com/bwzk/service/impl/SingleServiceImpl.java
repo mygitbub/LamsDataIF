@@ -90,10 +90,16 @@ public class SingleServiceImpl extends BaseService implements SingleService{
 				}
 				i = i+1;
 			}
-			fields.append("status, attr,attrex,qzh,bmid,creator,did ");
-			values.append("0,").append(attr).append(",").append(attrex).append(",'");
-			values.append(qzh).append("','").append(bmid).append("','").append(gdrCode);
-			values.append("',").append(maxdid);
+			if(xmlName.toUpperCase().contains("E_FILE")){
+				fields.append("status, attr,attrex,creator,did ");
+				values.append("0,").append(attr).append(",").append(attrex).append(",'").append(gdrCode);
+				values.append("',").append(maxdid);
+			}else{
+				fields.append("status, attr,attrex,qzh,bmid,creator,did ");
+				values.append("0,").append(attr).append(",").append(attrex).append(",'");
+				values.append(qzh).append("','").append(bmid).append("','").append(gdrCode);
+				values.append("',").append(maxdid);
+			}
 			
 			SQL = "insert into " + table.getName() + " (" + fields.toString()
 					+ ") values ( " + values.toString() + " )";
@@ -165,10 +171,16 @@ public class SingleServiceImpl extends BaseService implements SingleService{
 				}
 				i = i+1;
 			}
-			fields.append("status, attr,attrex,qzh,bmid,creator,did ");
-			values.append("0,").append(attr).append(",").append(attrex).append(",'");
-			values.append(qzh).append("','").append(bmid).append("','").append(gdrCode);
-			values.append("',").append(maxdid);
+			if(xmlName.toUpperCase().contains("E_FILE")){
+				fields.append("status, attr,attrex,creator,did ");
+				values.append("0,").append(attr).append(",").append(attrex).append(",'").append(gdrCode);
+				values.append("',").append(maxdid);
+			}else{
+				fields.append("status, attr,attrex,qzh,bmid,creator,did ");
+				values.append("0,").append(attr).append(",").append(attrex).append(",'");
+				values.append(qzh).append("','").append(bmid).append("','").append(gdrCode);
+				values.append("',").append(maxdid);
+			}
 			
 			SQL = "insert into " + table.getName() + " (" + fields.toString()
 					+ ") values ( " + values.toString() + " )";
@@ -248,10 +260,16 @@ public class SingleServiceImpl extends BaseService implements SingleService{
 				}
 				i = i+1;
 			}
-			fields.append("status, attr,attrex,qzh,bmid,creator,did ");
-			values.append("0,").append(attr).append(",").append(attrex).append(",'");
-			values.append(qzh).append("','").append(bmid).append("','").append(gdrCode);
-			values.append("',").append(maxdid);
+			if(xmlName.toUpperCase().contains("E_FILE")){
+				fields.append("status, attr,attrex,creator,did ");
+				values.append("0,").append(attr).append(",").append(attrex).append(",'").append(gdrCode);
+				values.append("',").append(maxdid);
+			}else{
+				fields.append("status, attr,attrex,qzh,bmid,creator,did ");
+				values.append("0,").append(attr).append(",").append(attrex).append(",'");
+				values.append(qzh).append("','").append(bmid).append("','").append(gdrCode);
+				values.append("',").append(maxdid);
+			}
 			
 			SQL = "insert into " + table.getName() + " (" + fields.toString()
 					+ ") values ( " + values.toString() + " )";
