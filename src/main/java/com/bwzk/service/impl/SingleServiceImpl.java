@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.jws.WebMethod;
+import javax.jws.WebParam;
 import javax.jws.WebService;
 
 import org.apache.commons.io.FileUtils;
@@ -29,7 +30,8 @@ import com.bwzk.util.XmlObjUtil;
 public class SingleServiceImpl extends BaseService implements SingleService{
 
 	@WebMethod
-	public Integer fileReciveTxt(String xmlName , String dataTxt , String gdrCode) {
+	public Integer fileReciveTxt(@WebParam(name = "xmlName") String xmlName
+				, @WebParam(name = "dataTxt") String dataTxt , @WebParam(name = "gdrCode") String gdrCode) {
 		Integer maxdid = 0;
 		String SQL = "";
 		String bmid = "";
@@ -116,7 +118,8 @@ public class SingleServiceImpl extends BaseService implements SingleService{
 		return resultInteger;
 	}
 	@WebMethod
-	public Integer fileReciveXml(String xmlName , String dataXml , String gdrCode) {
+	public Integer fileReciveXml(@WebParam(name = "xmlName") String xmlName 
+			, @WebParam(name = "dataXml") String dataXml , @WebParam(name = "gdrCode") String gdrCode) {
 		Integer maxdid = 0;
 		String SQL = "";
 		String bmid = "";
@@ -197,7 +200,8 @@ public class SingleServiceImpl extends BaseService implements SingleService{
 		return resultInteger;
 	}
 	@WebMethod
-	public Integer fileReciveJson(String xmlName , String dataJson , String gdrCode) {
+	public Integer fileReciveJson(@WebParam(name = "xmlName") String xmlName 
+			, @WebParam(name = "dataJson") String dataJson , @WebParam(name = "gdrCode") String gdrCode) {
 		Integer maxdid = 0;
 		String SQL = "";
 		String bmid = "";
