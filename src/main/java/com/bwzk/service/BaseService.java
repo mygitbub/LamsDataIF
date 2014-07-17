@@ -377,8 +377,8 @@ public class BaseService {
 	 */
 	protected String getBmidByuserCode(String usercode){
 		StringBuffer bmid = new StringBuffer();
-		Integer groupDid = sUserMapper.getUserByUsercode(usercode).getPid();
 		try {
+		    Integer groupDid = sUserMapper.getUserByUsercode(usercode).getPid();
 			List<SGroup> groupList = this.getGroupList(groupDid , null);
 			bmid.append(groupList.get(0).getQzh());
 			Collections.reverse(groupList);

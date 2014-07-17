@@ -2,38 +2,34 @@ package com.unis.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.StringWriter;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
 
 
 public class TestCallWs {
 	public static void main(String[] args) throws JsonGenerationException, JsonMappingException, IOException {
 		ArcDataWsSingle ws = new SingleServiceImplService().getArcDataWsSinglePort();
 		//txt插入
-		System.out.println(ws.fileReciveTxt("D_FILE26.xml", "1&;-1&;这'sdfasdfasdfasdfasdf'斯蒂芬&;4&;这是个提名&;1986-06-19&;", "qink"));
+//		System.out.println(ws.fileReciveTxt("D_FILE8.xml", "1&;-1&;这'sdfasdfasdfasdfasdf'斯蒂芬&;4&;这是个提名&;1986-06-19&;", "qink"));
 		//json插入
-		StringWriter sw = new StringWriter();
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("ATTACHED", "1");
-		map.put("PID", "-1");
-		map.put("KEYWORD", "这'sdfasdfasdfasdfasdf'斯蒂芬");
-		map.put("JH", "4");
-		map.put("TITLE", "这是个提名");
-		map.put("F13", "1986-06-19");
-		ObjectMapper mapper = new ObjectMapper(); 
-		mapper.writeValue(sw, map);
-//		
-		System.out.println(ws.fileReciveJson("D_FILE26.xml", sw.toString().toString(), "qink"));
-		sw.close();
-//		//xml
-		String xml = FileUtils.readFileToString(new File("d:/D_FILE26.XML") , "UTF-8");
-		System.out.println(ws.fileReciveXml("D_FILE26.xml", xml, "qink"));
+//		StringWriter sw = new StringWriter();
+//		Map<String, String> map = new HashMap<String, String>();
+//		map.put("ATTACHED", "1");
+//		map.put("PID", "-1");
+//		map.put("KEYWORD", "这'sdfasdfasdfasdfasdf'斯蒂芬");
+//		map.put("JH", "4");
+//		map.put("TITLE", "这是个提名");
+//		map.put("F13", "1986-06-19");
+//		ObjectMapper mapper = new ObjectMapper(); 
+//		mapper.writeValue(sw, map);
+////		
+//		System.out.println(ws.fileReciveJson("D_FILE8.xml", sw.toString().toString(), "jiamy"));
+//		sw.close();
+////		//xml
+		String xml = FileUtils.readFileToString(new File("d:/D_FILE8.XML") , "UTF-8");
+		System.out.println(ws.fileReciveXml("D_FILE8.xml", xml, "qink"));
 	}
 }
 

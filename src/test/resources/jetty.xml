@@ -3,12 +3,12 @@
 
 <Configure class="org.mortbay.jetty.webapp.WebAppContext">
 	<New id="ertan" class="org.mortbay.jetty.plus.naming.Resource">
-		<Arg>java:DataSource22121212</Arg>
+		<Arg>java:DataSource</Arg>
 		<Arg>
 			<New class="org.apache.commons.dbcp.BasicDataSource">
 				<Set name="driverClassName">oracle.jdbc.driver.OracleDriver</Set>
-				<Set name="url">jdbc:oracle:thin:@thams.cn:1521:ORCL</Set>
-				<Set name="username">ertan</Set>
+				<Set name="url">jdbc:oracle:thin:@127.0.0.1:1521:ORCL</Set>
+				<Set name="username">tjg</Set>
 				<Set name="password">ams2000</Set>
 				<Set name="maxActive">10</Set>
 			</New>
@@ -51,7 +51,7 @@
 		</Arg>
 	</New>
 	<New id="sqlserver" class="org.mortbay.jetty.plus.naming.Resource">
-		<Arg>java:DataSource</Arg>
+		<Arg>java:DataSource----</Arg>
 		<Arg>
 			<New class="org.apache.commons.dbcp.BasicDataSource">
 				<Set name="driverClassName">net.sourceforge.jtds.jdbc.Driver</Set>

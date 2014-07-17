@@ -25,9 +25,9 @@ public interface ArcDataWsSingle {
 
     /**
      * 
-     * @param arg2
-     * @param arg1
-     * @param arg0
+     * @param dataXml
+     * @param xmlName
+     * @param gdrCode
      * @return
      *     returns java.lang.Integer
      */
@@ -36,18 +36,18 @@ public interface ArcDataWsSingle {
     @RequestWrapper(localName = "fileReciveXml", targetNamespace = "http://service.unis.com/", className = "com.unis.service.FileReciveXml")
     @ResponseWrapper(localName = "fileReciveXmlResponse", targetNamespace = "http://service.unis.com/", className = "com.unis.service.FileReciveXmlResponse")
     public Integer fileReciveXml(
-        @WebParam(name = "arg0", targetNamespace = "")
-        String arg0,
-        @WebParam(name = "arg1", targetNamespace = "")
-        String arg1,
-        @WebParam(name = "arg2", targetNamespace = "")
-        String arg2);
+        @WebParam(name = "xmlName", targetNamespace = "")
+        String xmlName,
+        @WebParam(name = "dataXml", targetNamespace = "")
+        String dataXml,
+        @WebParam(name = "gdrCode", targetNamespace = "")
+        String gdrCode);
 
     /**
      * 
-     * @param arg2
-     * @param arg1
-     * @param arg0
+     * @param xmlName
+     * @param gdrCode
+     * @param dataJson
      * @return
      *     returns java.lang.Integer
      */
@@ -56,18 +56,18 @@ public interface ArcDataWsSingle {
     @RequestWrapper(localName = "fileReciveJson", targetNamespace = "http://service.unis.com/", className = "com.unis.service.FileReciveJson")
     @ResponseWrapper(localName = "fileReciveJsonResponse", targetNamespace = "http://service.unis.com/", className = "com.unis.service.FileReciveJsonResponse")
     public Integer fileReciveJson(
-        @WebParam(name = "arg0", targetNamespace = "")
-        String arg0,
-        @WebParam(name = "arg1", targetNamespace = "")
-        String arg1,
-        @WebParam(name = "arg2", targetNamespace = "")
-        String arg2);
+        @WebParam(name = "xmlName", targetNamespace = "")
+        String xmlName,
+        @WebParam(name = "dataJson", targetNamespace = "")
+        String dataJson,
+        @WebParam(name = "gdrCode", targetNamespace = "")
+        String gdrCode);
 
     /**
      * 
-     * @param arg2
-     * @param arg1
-     * @param arg0
+     * @param xmlName
+     * @param gdrCode
+     * @param dataTxt
      * @return
      *     returns java.lang.Integer
      */
@@ -76,11 +76,11 @@ public interface ArcDataWsSingle {
     @RequestWrapper(localName = "fileReciveTxt", targetNamespace = "http://service.unis.com/", className = "com.unis.service.FileReciveTxt")
     @ResponseWrapper(localName = "fileReciveTxtResponse", targetNamespace = "http://service.unis.com/", className = "com.unis.service.FileReciveTxtResponse")
     public Integer fileReciveTxt(
-        @WebParam(name = "arg0", targetNamespace = "")
-        String arg0,
-        @WebParam(name = "arg1", targetNamespace = "")
-        String arg1,
-        @WebParam(name = "arg2", targetNamespace = "")
-        String arg2);
+        @WebParam(name = "xmlName", targetNamespace = "")
+        String xmlName,
+        @WebParam(name = "dataTxt", targetNamespace = "")
+        String dataTxt,
+        @WebParam(name = "gdrCode", targetNamespace = "")
+        String gdrCode);
 
 }
