@@ -7,8 +7,8 @@
 		<Arg>
 			<New class="org.apache.commons.dbcp.BasicDataSource">
 				<Set name="driverClassName">oracle.jdbc.driver.OracleDriver</Set>
-				<Set name="url">jdbc:oracle:thin:@127.0.0.1:1521:ORCL</Set>
-				<Set name="username">tjg</Set>
+				<Set name="url">jdbc:oracle:thin:@192.168.191.1:1521:oracle</Set>
+				<Set name="username">scsd</Set>
 				<Set name="password">ams2000</Set>
 				<Set name="maxActive">10</Set>
 			</New>
