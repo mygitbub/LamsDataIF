@@ -129,7 +129,7 @@ public class XmlUtil {
 	*/
 	private Boolean isIgnore(String fieldName){
 		Boolean isIgnore = false;
-		for (String ig : GlobalFinalAttr.IGNORE_FIELD_NAME) {
+		for (String ig : IGNORE_FIELD_NAME) {
 			if(ig.equals(fieldName)){
 				isIgnore = true;
 				break;
@@ -140,6 +140,12 @@ public class XmlUtil {
 	
 	@Autowired
 	private SGroupMapper sGroupMapper;
+
+	/** 忽略不需要的字段 */
+	private String[] IGNORE_FIELD_NAME = {"EFILEID","XLH","BBH","SWT","BBH","STATUS","ATTR","ATTREX"
+			,"CREATETIME","EDITOR","EDITTIME","DELTOR","DELTIME","DHYY","DID" , "RECEIVER"
+			, "QZH", "BMID"};
+
 	
 	private Logger log =  (Logger) LoggerFactory.getLogger(this.getClass());
 }

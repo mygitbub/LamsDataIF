@@ -18,9 +18,6 @@ public class GlobalFinalAttr implements Serializable {
 	public static final String PRJ_CHAR_CODE = "UTF-8";
 	/** txt参数传入的分隔符 */
 	public static final String SEPARATOR = "&;";
-	/** 忽略不需要的字段 */
-	public static final String[] IGNORE_FIELD_NAME = {"EFILEID","XLH","BBH","SWT","BBH","STATUS","ATTR","ATTREX","CREATOR"
-			,"CREATETIME","EDITOR","EDITTIME","DELTOR","DELTIME","DHYY","DID", "RECEIVER","BMID", "QZH"};
 	//读取文件buffer大小
 	public static final int BUFFER = 2*1024;
 	/**
