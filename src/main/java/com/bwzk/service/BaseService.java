@@ -389,6 +389,9 @@ public class BaseService {
 			bmid.append("");
 			log.error("getUserByUserCode类在通过groupDID得到group的时候的时错误,在 getGroupByDid is " + e.getMessage());
 		}
+		if(StringUtils.isBlank(bmid.toString())){
+			bmid.append(defaultQzh);
+		}
 		return bmid.toString();
 	}
 	/**
