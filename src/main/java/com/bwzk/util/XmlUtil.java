@@ -143,9 +143,8 @@ public class XmlUtil {
 
 	/** 忽略不需要的字段 */
 	private String[] IGNORE_FIELD_NAME = {"EFILEID","XLH","BBH","SWT","BBH","STATUS","ATTR","ATTREX"
-			,"CREATETIME","EDITOR","EDITTIME","DELTOR","DELTIME","DHYY","DID" , "RECEIVER"
+			,"CREATOR","CREATETIME","EDITOR","EDITTIME","DELTOR","DELTIME","DHYY","DID" , "RECEIVER"
 			, "QZH", "BMID"};
-
 	
 	private Logger log =  (Logger) LoggerFactory.getLogger(this.getClass());
 }
