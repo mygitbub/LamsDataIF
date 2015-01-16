@@ -1,12 +1,9 @@
 package com.bwzk.action;
 
-import java.io.File;
-import java.io.PrintWriter;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import ch.qos.logback.classic.Logger;
+import com.bwzk.service.i.ArcService;
+import com.bwzk.service.i.NoticeService;
+import com.bwzk.util.GlobalFinalAttr;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.LoggerFactory;
@@ -18,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import ch.qos.logback.classic.Logger;
-
-import com.bwzk.service.i.ArcService;
-import com.bwzk.service.i.NoticeService;
-import com.bwzk.util.GlobalFinalAttr;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.PrintWriter;
+import java.util.List;
 
 @Controller
 public class CommonCtler {
@@ -34,12 +31,12 @@ public class CommonCtler {
 		return "index.jsp";
 	}
 	/**
-	 * 列出所有日志 
+	 * 列出所有日志- add
 	 */
 	@RequestMapping(value="/viewLogList")
 	public String viewLogList(Model model) {
 		try {
-			File[] listFile = new File(logHomeAdd).listFiles();
+            File[] listFile = new File(logHomeAdd).listFiles();
 			model.addAttribute("listFile", listFile);
 			model.addAttribute("fileType", "log");
 			return "listLog.jsp";
