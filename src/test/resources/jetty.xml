@@ -3,12 +3,12 @@
 
 <Configure class="org.mortbay.jetty.webapp.WebAppContext">
 	<New id="22y" class="org.mortbay.jetty.plus.naming.Resource">
-		<Arg>java:DataSource---</Arg>
+		<Arg>java:DataSource</Arg>
 		<Arg>
 			<New class="org.apache.commons.dbcp.BasicDataSource">
 				<Set name="driverClassName">oracle.jdbc.driver.OracleDriver</Set>
 				<Set name="url">jdbc:oracle:thin:@localhost:1521:ORCL</Set>
-				<Set name="username">lams</Set>
+				<Set name="username">thams</Set>
 				<Set name="password">ams2000</Set>
 				<Set name="maxActive">10</Set>
 			</New>
@@ -19,8 +19,8 @@
 		<Arg>
 			<New class="org.apache.commons.dbcp.BasicDataSource">
 				<Set name="driverClassName">oracle.jdbc.driver.OracleDriver</Set>
-				<Set name="url">jdbc:oracle:thin:@192.168.0.129:1521:ORCL</Set>
-				<Set name="username">ylzy</Set>
+				<Set name="url">jdbc:oracle:thin:@localhost:1521:ORCL</Set>
+				<Set name="username">thams</Set>
 				<Set name="password">ams2000</Set>
 				<Set name="maxActive">10</Set>
 			</New>
@@ -39,7 +39,7 @@
 		</Arg>
 	</New>
 	<New id="sqlserver" class="org.mortbay.jetty.plus.naming.Resource">
-		<Arg>java:DataSource</Arg>
+		<Arg>java:DataSource_bak</Arg>
 		<Arg>
 			<New class="org.apache.commons.dbcp.BasicDataSource">
 				<Set name="driverClassName">net.sourceforge.jtds.jdbc.Driver</Set>

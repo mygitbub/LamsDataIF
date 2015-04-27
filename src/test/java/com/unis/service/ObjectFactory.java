@@ -39,14 +39,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link FileReciveTxtResponse }
-     * 
-     */
-    public FileReciveTxtResponse createFileReciveTxtResponse() {
-        return new FileReciveTxtResponse();
-    }
-
-    /**
      * Create an instance of {@link FileReciveTxt }
      * 
      */
@@ -63,6 +55,22 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link FileReciveJsonResponse }
+     * 
+     */
+    public FileReciveJsonResponse createFileReciveJsonResponse() {
+        return new FileReciveJsonResponse();
+    }
+
+    /**
+     * Create an instance of {@link FileReciveTxtResponse }
+     * 
+     */
+    public FileReciveTxtResponse createFileReciveTxtResponse() {
+        return new FileReciveTxtResponse();
+    }
+
+    /**
      * Create an instance of {@link FileReciveJson }
      * 
      */
@@ -76,14 +84,6 @@ public class ObjectFactory {
      */
     public FileReciveXmlResponse createFileReciveXmlResponse() {
         return new FileReciveXmlResponse();
-    }
-
-    /**
-     * Create an instance of {@link FileReciveJsonResponse }
-     * 
-     */
-    public FileReciveJsonResponse createFileReciveJsonResponse() {
-        return new FileReciveJsonResponse();
     }
 
     /**

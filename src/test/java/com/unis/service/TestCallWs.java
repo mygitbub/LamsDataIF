@@ -12,7 +12,7 @@ public class TestCallWs {
 	public static void main(String[] args) throws JsonGenerationException, JsonMappingException, IOException {
 		ArcDataWsSingle ws = new SingleServiceImplService().getArcDataWsSinglePort();
 		//txt插入
-//		System.out.println(ws.fileReciveTxt("D_FILE8.xml", "1&;-1&;这'sdfasdfasdfasdfasdf'斯蒂芬&;4&;这是个提名&;1986-06-19&;", "qink"));
+		System.out.println(ws.fileReciveTxt("D_FILE8.xml", "1&;-1&;1&;这'sdfasdfasdfasdfasdf'斯蒂芬&;4&;这是个提名&;", "aa"));
 		//json插入
 //		StringWriter sw = new StringWriter();
 //		Map<String, String> map = new HashMap<String, String>();
@@ -28,8 +28,8 @@ public class TestCallWs {
 //		System.out.println(ws.fileReciveJson("D_FILE8.xml", sw.toString().toString(), "jiamy"));
 //		sw.close();
 ////		//xml
-		String xml = FileUtils.readFileToString(new File("d:/D_FILE8.XML") , "UTF-8");
-		System.out.println(ws.fileReciveXml("D_FILE8.xml", xml, "qink"));
+//		String xml = FileUtils.readFileToString(new File("d:/D_FILE8.XML") , "UTF-8");
+//		System.out.println(ws.fileReciveXml("D_FILE8.xml", xml, "qink"));
 	}
 }
 
