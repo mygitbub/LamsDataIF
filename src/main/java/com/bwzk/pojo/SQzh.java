@@ -1,14 +1,19 @@
 package com.bwzk.pojo;
 
-import java.io.Serializable;
+import java.math.BigDecimal;
 
-public class SQzh implements Serializable {
-	private static final long serialVersionUID = -1370624280197857594L;
-	private Integer did;
+public class SQzh {
+    private Integer did;
+
     private String qzh;
+
     private String qzmc;
+
     private Integer isdef;
+
     private String bz;
+
+    private String primarykey;
 
     public Integer getDid() {
         return did;
@@ -48,5 +53,13 @@ public class SQzh implements Serializable {
 
     public void setBz(String bz) {
         this.bz = bz == null ? null : bz.trim();
+    }
+
+    public String getPrimarykey() {
+        return primarykey;
+    }
+
+    public void setPrimarykey(String primarykey) {
+        this.primarykey = primarykey == null ? null : primarykey.trim();
     }
 }

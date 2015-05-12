@@ -52,6 +52,9 @@ public class XmlUtil {
 			generatorXmlByTableName("W_QT" + wjkgl.getDid() ,  wjkgl.getWjkmc() + "-库");
 			generatorXmlByTableName("E_FILEQT" + wjkgl.getDid() ,  wjkgl.getWjkmc() + "-电子文件库");
 		}
+		generatorXmlByTableName("S_USER",  "用户表");
+		generatorXmlByTableName("S_GROUP",  "部门表");
+		generatorXmlByTableName("S_QZH",  "全宗表");
 	}
 	
 	public Table getTable(String xmlclasspath) {
@@ -93,8 +96,14 @@ public class XmlUtil {
 			
 			List<FDTable> fdtableList = sGroupMapper.getFtableList("F_"+tableName);
 			for (FDTable tt : fdtableList) {
-				if(isIgnore(tt.getFieldname().toUpperCase())){
-					continue;
+				if(tableName.equals("S_USER") || tableName.equals("S_GROUP")){
+					if(isIgnores(tt.getFieldname().toUpperCase())){
+						continue;
+					}
+				}else{
+					if(isIgnore(tt.getFieldname().toUpperCase())){
+						continue;
+					}
 				}
 				Field field = new Field();
 				field.setChname(tt.getChname());
@@ -137,7 +146,19 @@ public class XmlUtil {
 		}
 		return isIgnore;
 	}
-	
+	/**
+	 * <p>Title: 传入字段的英文名称 如果是忽略列表返回ture </p>
+	*/
+	private Boolean isIgnores(String fieldName){
+		Boolean isIgnore = false;
+		for (String ig : IGNORE_FIELD_NAMES) {
+			if(ig.equals(fieldName)){
+				isIgnore = true;
+				break;
+			}
+		}
+		return isIgnore;
+	}
 	@Autowired
 	private SGroupMapper sGroupMapper;
 
@@ -145,6 +166,8 @@ public class XmlUtil {
 	private String[] IGNORE_FIELD_NAME = {"EFILEID","XLH","BBH","SWT","BBH","STATUS","ATTR","ATTREX"
 			,"CREATOR","CREATETIME","EDITOR","EDITTIME","DELTOR","DELTIME","DHYY","DID" , "RECEIVER"
 			, "QZH", "BMID"};
+	/** 忽略不需要的字段 */
+	private String[] IGNORE_FIELD_NAMES = {"DID","PID","QZH"};
 	
 	private Logger log =  (Logger) LoggerFactory.getLogger(this.getClass());
 }

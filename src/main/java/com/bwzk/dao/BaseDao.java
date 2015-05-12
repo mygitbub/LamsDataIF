@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.bwzk.pojo.FDTable;
 import com.bwzk.pojo.SDalx;
+import com.bwzk.pojo.SUser;
 import com.bwzk.pojo.WWjkgl;
 
 @Repository
@@ -57,7 +58,6 @@ public interface BaseDao{
 	 */
 	@Insert("create table ${tName} as  (select * from ${sName})")
 	void copyTable(@Param("sName") String sName , @Param("tName") String tName);
-	
 	@Insert("drop table ${tableName}")
 	void dropTable(@Param("tableName") String tableName);
 	
@@ -69,4 +69,5 @@ public interface BaseDao{
 	
 	@Select("select * from w_wjkgl ")
 	List<WWjkgl> getAllWjkglList();
+	
 }

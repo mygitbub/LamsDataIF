@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TimeZone;
 
 import org.apache.commons.lang.StringUtils;
@@ -25,10 +26,14 @@ import ch.qos.logback.classic.Logger;
 
 import com.bwzk.dao.JdbcDao;
 import com.bwzk.dao.i.SGroupMapper;
+import com.bwzk.dao.i.SQzhMapper;
 import com.bwzk.dao.i.SUserMapper;
 import com.bwzk.dao.i.SUserroleMapper;
+import com.bwzk.pojo.FDTable;
 import com.bwzk.pojo.SGroup;
 import com.bwzk.pojo.SUser;
+import com.bwzk.pojo.SUserrole;
+import com.bwzk.util.CommonUtil;
 import com.bwzk.util.DateUtil;
 import com.bwzk.util.GlobalFinalAttr.DatabaseType;
 
@@ -436,7 +441,7 @@ public class BaseService {
 		return sGroupMapper.selectByPrimaryKey(did);
 	}
 	protected SGroup getGroupByDepCode(String depCode){
-		return sGroupMapper.getGroupByDepcode(depCode);
+		return sGroupMapper.getGroupByDepCode(depCode);
 	}
 	
 	protected SUser getUserByUserCode(String usercode){
@@ -470,23 +475,364 @@ public class BaseService {
 		return returnMaxDid;
 		
 	}
-	
+	protected String insertUser4Map(Map<String,String> map, String tableName , String dept_zj , String esbid){
+		String archKey = ""; 
+		String archVal = ""; 
+		Integer pid = null;
+		String result = "1";
+		FDTable fDtable = null;
+		List<FDTable> fDTableList = null;
+		StringBuffer fields = new StringBuffer();
+		StringBuffer values = new StringBuffer();
+		if (null != map && null != map.keySet() && map.keySet().size() > 0) {
+			try {
+				Integer maxdid = getMaxDid(tableName);
+				fDTableList = sGroupMapper.getFtableList("F_" + tableName);
+				Set<String> fieldSet = map.keySet();
+				for (String outSysField : fieldSet) {
+					archKey = outSysField;
+					archVal = map.get(outSysField);
+					if (StringUtils.isNotBlank(archVal)
+							&& StringUtils.isNotBlank(archKey)) {
+						archVal = (StringUtils.isBlank(archVal) ? "" : archVal);
+						archVal = (archVal.contains("'") ? archVal.replace("'",
+								"''") : archVal);// 兼容单引号
+						fDtable = CommonUtil.getFDtable(fDTableList,
+								archKey);
+						fields.append(fDtable.getFieldname()).append(",");
+						switch (fDtable.getFieldtype()) {
+						case 11:
+							if (archVal.equals("")) {
+								values.append("sysdate,");
+							} else {
+								values.append(generateTimeToSQLDate(archVal))
+										.append(",");
+							}
+							break;
+						case 1:
+							values.append("'").append(archVal).append("',");
+							break;
+						case 3:
+							if (StringUtils.isBlank(archVal)) {
+								values.append("null ,");
+							} else {
+								values.append(Integer.parseInt(archVal))
+										.append(",");
+							}
+							break;
+						default:
+							values.append("'").append(archVal).append("',");
+							break;
+						}
+					}
+				}
+				SGroup group = sGroupMapper.getGroupByGfzj(dept_zj);
+				if(group == null){
+					pid = defaultYhGroup;
+				}else{
+					pid = group.getDid();
+				}
+				fields.append("did,pid,esbid,esbcode");
+				values.append(maxdid).append(",").append(pid).append(",'").append(esbid).append("',").append("'").append(dept_zj).append("'");
+				String SQL = "insert into " + tableName + " ("
+						+ fields.toString() + ") values ( " + values.toString()
+						+ " )";
+				System.out.println(SQL);
+				execSql(SQL);
+				result = "0";
+				log.error("插入一条数据成功.insertUser4Map: " + SQL);
+				SUserrole userrole = new SUserrole();
+				userrole.setDid(getMaxDid("S_USERROLE"));
+				userrole.setYhid(maxdid);
+				userrole.setJsid(jsid);
+				sUserroleMapper.insert(userrole);
+				log.error("用户:" + esbid + " 关联角色");
+			} catch (Exception e) {
+				e.printStackTrace();
+				log.error("插入一条数据失败.insertUser4Map: " + e.getMessage());
+			}
+		} else {
+			result = "1";
+		}
+		fields.setLength(0);
+		values.setLength(0);
+		return result;
+	}
+	protected String updateUser4Map(Map<String,String> map, String tableName , String esbid){
+		String archKey = ""; 
+		String archVal = ""; 
+		String result = "0";
+		FDTable fDtable = null;
+		List<FDTable> fDTableList = null;
+		StringBuffer fields = new StringBuffer();
+		StringBuffer values = new StringBuffer();
+		if (null != map && null != map.keySet() && map.keySet().size() > 0) {
+			try {
+				fDTableList = sGroupMapper.getFtableList("F_" + tableName);
+				Set<String> fieldSet = map.keySet();
+				for (String outSysField : fieldSet) {
+					archKey = outSysField;
+					archVal = map.get(outSysField);
+					if (StringUtils.isNotBlank(archVal)
+							&& StringUtils.isNotBlank(archKey)) {
+						archVal = (StringUtils.isBlank(archVal) ? "" : archVal);
+						archVal = (archVal.contains("'") ? archVal.replace("'",
+								"''") : archVal);// 兼容单引号
+						fDtable = CommonUtil.getFDtable(fDTableList,
+								archKey);
+						fields.append(fDtable.getFieldname()).append("=");
+						switch (fDtable.getFieldtype()) {
+						case 11:
+							if (archVal.equals("")) {
+								fields.append("sysdate,");
+							} else {
+								fields.append(generateTimeToSQLDate(archVal))
+										.append(",");
+							}
+							break;
+						case 1:
+							fields.append("'").append(archVal).append("',");
+							break;
+						case 3:
+							if (StringUtils.isBlank(archVal)) {
+								fields.append("null ,");
+							} else {
+								fields.append(Integer.parseInt(archVal))
+										.append(",");
+							}
+							break;
+						default:
+							fields.append("'").append(archVal).append("',");
+							break;
+						}
+					}
+				}
+				SUser user = sUserMapper.getUserByEsbid(esbid);
+				if (user != null) {
+				String SQL = "update " +tableName+ " set " +fields.toString().substring(0,fields.length()-1)+ " where esbid = '"+esbid+"'";
+				System.out.println(SQL);
+				execSql(SQL);
+				result = "0";
+				log.error("更新一条数据成功.updateUser4Map: " + SQL);
+				}else{
+					result = "1";
+					log.error("修改用户:" + esbid + "不存在");				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				log.error("更新一条数据失败.updateUser4Map: " + e.getMessage());
+			}
+		} else {
+			result = "1";
+		}
+		fields.setLength(0);
+		values.setLength(0);
+		return result;
+	}
+	protected String insertOrg4Map(Map<String,String> map, String tableName , String gfzj , String parent_org_no){
+		String archKey = ""; 
+		String archVal = ""; 
+		String qzh = null;
+		Integer pid = null;
+		String result = "1";
+		FDTable fDtable = null;
+		List<FDTable> fDTableList = null;
+		StringBuffer fields = new StringBuffer();
+		StringBuffer values = new StringBuffer();
+		if (null != map && null != map.keySet() && map.keySet().size() > 0) {
+			try {
+				Integer maxdid = getMaxDid(tableName);
+				fDTableList = sGroupMapper.getFtableList("F_" + tableName);
+				Set<String> fieldSet = map.keySet();
+				for (String outSysField : fieldSet) {
+					archKey = outSysField;
+					archVal = map.get(outSysField);
+					if (StringUtils.isNotBlank(archVal)
+							&& StringUtils.isNotBlank(archKey)) {
+						archVal = (StringUtils.isBlank(archVal) ? "" : archVal);
+						archVal = (archVal.contains("'") ? archVal.replace("'",
+								"''") : archVal);// 兼容单引号
+						fDtable = CommonUtil.getFDtable(fDTableList,
+								archKey);
+						fields.append(fDtable.getFieldname()).append(",");
+						switch (fDtable.getFieldtype()) {
+						case 11:
+							if (archVal.equals("")) {
+								values.append("sysdate,");
+							} else {
+								values.append(generateTimeToSQLDate(archVal))
+										.append(",");
+							}
+							break;
+						case 1:
+							values.append("'").append(archVal).append("',");
+							break;
+						case 3:
+							if (StringUtils.isBlank(archVal)) {
+								values.append("null ,");
+							} else {
+								values.append(Integer.parseInt(archVal))
+										.append(",");
+							}
+							break;
+						default:
+							values.append("'").append(archVal).append("',");
+							break;
+						}
+					}
+				}
+				pid = TOPGROUPPID;
+				String orgSql = "select gname from s_group where gfzj = '"+gfzj+"'";
+				String org_name = jdbcDao.query4String(orgSql);
+				qzh = getQzh(org_name);
+				if (StringUtils.isBlank(qzh)) {
+					SGroup parent = sGroupMapper.getGroupByBz(parent_org_no);
+					pid = (parent == null ? defaultgrouppid : parent.getDid());
+					qzh = getQzhByPid(pid);
+				}
+				fields.append("did,pid,qzh,gfzj,depid");
+				values.append(maxdid).append(",").append(pid).append(",'").append(qzh).append("','").append(gfzj).append("','").append(parent_org_no).append("'");
+				String SQL = "insert into " + tableName + " ("
+						+ fields.toString() + ") values ( " + values.toString()
+						+ " )";
+				System.out.println(SQL);
+				execSql(SQL);
+				result = gfzj;
+				log.error("插入一条数据成功.insertOrg4Map: " + SQL);
+			} catch (Exception e) {
+				e.printStackTrace();
+				log.error("插入一条数据失败.insertOrg4Map: " + e.getMessage());
+			}
+		} else {
+			result = "1";
+		}
+		fields.setLength(0);
+		values.setLength(0);
+		return result;
+	}
+	protected String updateOrg4Map(Map<String,String> map, String tableName , String gfzj){
+		String archKey = ""; // 档案字段
+		String archVal = ""; // 档案字段对应的值
+		String result = "1";
+		FDTable fDtable = null;
+		List<FDTable> fDTableList = null;
+		StringBuffer fields = new StringBuffer();
+		StringBuffer values = new StringBuffer();
+		if (null != map && null != map.keySet() && map.keySet().size() > 0) {
+			try {
+				fDTableList = sGroupMapper.getFtableList("F_" + tableName);
+				Set<String> fieldSet = map.keySet();
+				for (String outSysField : fieldSet) {
+					archKey = outSysField;
+					archVal = map.get(outSysField);
+					if (StringUtils.isNotBlank(archVal)
+							&& StringUtils.isNotBlank(archKey)) {
+						archVal = (StringUtils.isBlank(archVal) ? "" : archVal);
+						archVal = (archVal.contains("'") ? archVal.replace("'",
+								"''") : archVal);// 兼容单引号
+						fDtable = CommonUtil.getFDtable(fDTableList,
+								archKey);
+						fields.append(fDtable.getFieldname()).append("=");
+						switch (fDtable.getFieldtype()) {
+						case 11:
+							if (archVal.equals("")) {
+								fields.append("sysdate,");
+							} else {
+								fields.append(generateTimeToSQLDate(archVal))
+										.append(",");
+							}
+							break;
+						case 1:
+							fields.append("'").append(archVal).append("',");
+							break;
+						case 3:
+							if (StringUtils.isBlank(archVal)) {
+								fields.append("null ,");
+							} else {
+								fields.append(Integer.parseInt(archVal))
+										.append(",");
+							}
+							break;
+						default:
+							fields.append("'").append(archVal).append("',");
+							break;
+						}
+					}
+				}
+				SGroup sg = sGroupMapper.getGroupByGfzj(gfzj);
+				if (sg != null) {
+				String SQL = "update " +tableName+ " set " +fields.toString().substring(0,fields.length()-1)+ " where gfzj = '"+gfzj+"'";
+				System.out.println(SQL);
+				execSql(SQL);
+				result = "0";
+				log.error("更新一条数据成功.updateOrg4Map: " + SQL);
+				}else{
+					result = "1";
+					log.error("修改部门:" + gfzj + "不存在");				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				log.error("更新一条数据失败.updateOrg4Map: " + e.getMessage());
+			}
+		} else {
+			result = "1";
+		}
+		fields.setLength(0);
+		values.setLength(0);
+		return result;
+	}
+	/**
+	 * 根据部门名称获取全宗号
+	 * 
+	 * @param qzmc
+	 * @return
+	 */
+	protected String getQzh(String qzmc) {
+		String sql = "select qzh from s_qzh where bz = '" + qzmc + "'";
+		String qzh = jdbcDao.query4String(sql);
+		return qzh;
+	}
+
+	/**
+	 * 根据pid获取全宗号
+	 * 
+	 * @param pid
+	 * @return
+	 */
+	protected String getQzhByPid(Integer pid) {
+		String sql = "select qzh from s_qzh where did = " + pid;
+		String qzh = jdbcDao.query4String(sql);
+		return qzh;
+	}
 	@Autowired
-	private JdbcDao jdbcDao;
+	protected JdbcDao jdbcDao;
 	@Autowired
-	private SGroupMapper sGroupMapper;
+	protected SGroupMapper sGroupMapper;
 	@Autowired
-	private SUserMapper sUserMapper;
+	protected SUserMapper sUserMapper;
 	@Autowired
-	private SUserroleMapper sUserroleMapper;
+	protected SQzhMapper sQzhMapper;
+	@Autowired
+	protected SUserroleMapper sUserroleMapper;
+	@Autowired
+	@Value("${default.jsid}")
+	protected Integer jsid;// 默认的角色 普通用户
+	// 默认用户部门
+	@Autowired
+	@Value("${lams.default.nogroup.user.pid}")
+	protected Integer defaultYhGroup;
 	@Autowired
 	@Value("${sqlserverSchemaName}")
-	private String sqlserverSchemaName;
+	protected String sqlserverSchemaName;
 	
 	/** 默认的全宗号 */
 	@Autowired
 	@Value("${lams.default.qzh}")
 	protected String defaultQzh;
+	@Autowired
+	@Value("${default.group.pid}")
+	protected Integer defaultgrouppid;
+	@Autowired
+	@Value("${top.group.no}")
+	protected String topGroupNo;
 	@Autowired
 	@Value("${lams.dfile.attrex}")
 	protected String attrex;//移交接收状态
@@ -494,5 +840,6 @@ public class BaseService {
 	@Value("${lams.dfile.attr}")
 	protected String attr;//归档前后
 	private String sysdate = null;
+	private static final int TOPGROUPPID = 0;// 父级id
 	private Logger log =  (Logger) LoggerFactory.getLogger(this.getClass());
 }

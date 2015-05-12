@@ -4,8 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class SUser implements Serializable {
-	private static final long serialVersionUID = -7639534891271697008L;
-
+	private static final long serialVersionUID = 1627863812166469679L;
 	private Integer did;
 
     private Integer pid;
@@ -49,6 +48,12 @@ public class SUser implements Serializable {
     private String fqjs;
 
     private String managedep;
+
+    private String mj;
+
+    private String esbid;
+
+    private String esbcode;
 
     public Integer getDid() {
         return did;
@@ -224,5 +229,29 @@ public class SUser implements Serializable {
 
     public void setManagedep(String managedep) {
         this.managedep = managedep == null ? null : managedep.trim();
+    }
+
+    public String getMj() {
+        return mj;
+    }
+
+    public void setMj(String mj) {
+        this.mj = mj;
+    }
+
+    public String getEsbid() {
+        return esbid;
+    }
+
+    public void setEsbid(String esbid) {
+        this.esbid = esbid == null ? null : esbid.trim();
+    }
+
+    public String getEsbcode() {
+        return esbcode;
+    }
+
+    public void setEsbcode(String esbcode) {
+        this.esbcode = esbcode == null ? null : esbcode.trim();
     }
 }

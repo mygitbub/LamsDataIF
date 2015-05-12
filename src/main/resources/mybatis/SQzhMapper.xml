@@ -1,211 +1,100 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.bwzk.dao.i.SQzhMapper" >
-  <resultMap id="BaseResultMap" type="com.bwzk.pojo.SQzh" >
-    <id column="DID" property="did" jdbcType="INTEGER" />
-    <result column="QZH" property="qzh" jdbcType="VARCHAR" />
-    <result column="QZMC" property="qzmc" jdbcType="VARCHAR" />
-    <result column="ISDEF" property="isdef" jdbcType="INTEGER" />
-    <result column="BZ" property="bz" jdbcType="VARCHAR" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bwzk.dao.i.SQzhMapper">
+  <resultMap id="BaseResultMap" type="com.bwzk.pojo.SQzh">
+    <id column="DID" jdbcType="INTEGER" property="did" />
+    <result column="QZH" jdbcType="VARCHAR" property="qzh" />
+    <result column="QZMC" jdbcType="VARCHAR" property="qzmc" />
+    <result column="ISDEF" jdbcType="INTEGER" property="isdef" />
+    <result column="BZ" jdbcType="VARCHAR" property="bz" />
+    <result column="PRIMARYKEY" jdbcType="VARCHAR" property="primarykey" />
   </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
+  <sql id="Base_Column_List">
+    DID, QZH, QZMC, ISDEF, BZ, PRIMARYKEY
   </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List" >
-    DID, QZH, QZMC, ISDEF, BZ
-  </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.bwzk.pojo.SQzhExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from S_QZH
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from S_QZH
-    where DID = #{did,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from S_QZH
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from S_Qzh
     where DID = #{did,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.bwzk.pojo.SQzhExample" >
-    delete from S_QZH
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.bwzk.pojo.SQzh" >
-    insert into S_QZH (DID, QZH, QZMC, 
-      ISDEF, BZ)
+  <insert id="insert" parameterType="com.bwzk.pojo.SQzh">
+    insert into S_Qzh(DID, QZH, QZMC, 
+      ISDEF, BZ, PRIMARYKEY
+      )
     values (#{did,jdbcType=INTEGER}, #{qzh,jdbcType=VARCHAR}, #{qzmc,jdbcType=VARCHAR}, 
-      #{isdef,jdbcType=INTEGER}, #{bz,jdbcType=VARCHAR})
+      #{isdef,jdbcType=INTEGER}, #{bz,jdbcType=VARCHAR}, #{primarykey,jdbcType=VARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.bwzk.pojo.SQzh" >
-    insert into S_QZH
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="did != null" >
+  <insert id="insertSelective" parameterType="com.bwzk.pojo.SQzh">
+    insert into S_Qzh
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="did != null">
         DID,
       </if>
-      <if test="qzh != null" >
+      <if test="qzh != null">
         QZH,
       </if>
-      <if test="qzmc != null" >
+      <if test="qzmc != null">
         QZMC,
       </if>
-      <if test="isdef != null" >
+      <if test="isdef != null">
         ISDEF,
       </if>
-      <if test="bz != null" >
+      <if test="bz != null">
         BZ,
       </if>
+      <if test="primarykey != null">
+        PRIMARYKEY,
+      </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="did != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="did != null">
         #{did,jdbcType=INTEGER},
       </if>
-      <if test="qzh != null" >
+      <if test="qzh != null">
         #{qzh,jdbcType=VARCHAR},
       </if>
-      <if test="qzmc != null" >
+      <if test="qzmc != null">
         #{qzmc,jdbcType=VARCHAR},
       </if>
-      <if test="isdef != null" >
+      <if test="isdef != null">
         #{isdef,jdbcType=INTEGER},
       </if>
-      <if test="bz != null" >
+      <if test="bz != null">
         #{bz,jdbcType=VARCHAR},
+      </if>
+      <if test="primarykey != null">
+        #{primarykey,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.bwzk.pojo.SQzhExample" resultType="java.lang.Integer" >
-    select count(*) from S_QZH
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map" >
-    update S_QZH
-    <set >
-      <if test="record.did != null" >
-        DID = #{record.did,jdbcType=INTEGER},
-      </if>
-      <if test="record.qzh != null" >
-        QZH = #{record.qzh,jdbcType=VARCHAR},
-      </if>
-      <if test="record.qzmc != null" >
-        QZMC = #{record.qzmc,jdbcType=VARCHAR},
-      </if>
-      <if test="record.isdef != null" >
-        ISDEF = #{record.isdef,jdbcType=INTEGER},
-      </if>
-      <if test="record.bz != null" >
-        BZ = #{record.bz,jdbcType=VARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map" >
-    update S_QZH
-    set DID = #{record.did,jdbcType=INTEGER},
-      QZH = #{record.qzh,jdbcType=VARCHAR},
-      QZMC = #{record.qzmc,jdbcType=VARCHAR},
-      ISDEF = #{record.isdef,jdbcType=INTEGER},
-      BZ = #{record.bz,jdbcType=VARCHAR}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.bwzk.pojo.SQzh" >
-    update S_QZH
-    <set >
-      <if test="qzh != null" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.bwzk.pojo.SQzh">
+    update S_Qzh
+    <set>
+      <if test="qzh != null">
         QZH = #{qzh,jdbcType=VARCHAR},
       </if>
-      <if test="qzmc != null" >
+      <if test="qzmc != null">
         QZMC = #{qzmc,jdbcType=VARCHAR},
       </if>
-      <if test="isdef != null" >
+      <if test="isdef != null">
         ISDEF = #{isdef,jdbcType=INTEGER},
       </if>
-      <if test="bz != null" >
+      <if test="bz != null">
         BZ = #{bz,jdbcType=VARCHAR},
+      </if>
+      <if test="primarykey != null">
+        PRIMARYKEY = #{primarykey,jdbcType=VARCHAR},
       </if>
     </set>
     where DID = #{did,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.bwzk.pojo.SQzh" >
-    update S_QZH
+  <update id="updateByPrimaryKey" parameterType="com.bwzk.pojo.SQzh">
+    update S_Qzh
     set QZH = #{qzh,jdbcType=VARCHAR},
       QZMC = #{qzmc,jdbcType=VARCHAR},
       ISDEF = #{isdef,jdbcType=INTEGER},
-      BZ = #{bz,jdbcType=VARCHAR}
+      BZ = #{bz,jdbcType=VARCHAR},
+      PRIMARYKEY = #{primarykey,jdbcType=VARCHAR}
     where DID = #{did,jdbcType=INTEGER}
   </update>
 </mapper>

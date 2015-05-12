@@ -1,5 +1,7 @@
 package com.bwzk.junit;
 
+import org.apache.commons.lang.StringUtils;
+
 
 public class ParseXmlTest {
 	public static void main(String[] args) throws Exception {
@@ -32,7 +34,12 @@ public class ParseXmlTest {
 //		service.sendCommonMessageByUserCode(nSenderPlatID, nSenderUserCode, sReceiverPlatUserIds,
 //				strContent, nOnlineOnly, nReserveDays, strFromApp, strAppCode, strFromUserName, strCustomInfo)
 		
-		
+		String a = "null&;'gname'&;'bz'&;";
+		String [] aa = a.split("&;");
+		for(String aaa : aa){
+			System.out.println(aaa);
+			System.out.println(StringUtils.isBlank(aaa));
+		}
 		
 	}
 }

@@ -64,10 +64,10 @@ public class CommonUtil {
 	 * @param fieldChname 字段中文名称得到fdtable
 	 * @date 2014年5月8日
 	*/
-	public static FDTable getFDtable(List<FDTable> list , String fieldChname){
+	public static FDTable getFDtable(List<FDTable> list , String fieldname){
 		FDTable fDtable = null;
 		for (FDTable ele : list) {
-			if(ele.getChname().equals(fieldChname)){
+			if(ele.getFieldname().equals(fieldname)){
 				fDtable = ele;
 				break;
 			}

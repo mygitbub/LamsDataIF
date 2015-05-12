@@ -3,7 +3,7 @@ package com.bwzk.pojo;
 import java.io.Serializable;
 
 public class SGroup implements Serializable {
-	private static final long serialVersionUID = 1318932593055723177L;
+	private static final long serialVersionUID = 7668913055238566167L;
 
 	private Integer did;
 
@@ -17,57 +17,92 @@ public class SGroup implements Serializable {
 
     private String bz;
 
-    public Integer getDid() {
-        return did;
-    }
+    private String depcode;
 
-    public void setDid(Integer did) {
-        this.did = did;
-    }
+    private String depid;
+    
+    private String gfzj;//数据供应方主键
+    
+    private String bh ; //部门编号
 
-    public Integer getPid() {
-        return pid;
-    }
+	public Integer getDid() {
+		return did;
+	}
 
-    public void setPid(Integer pid) {
-        this.pid = pid;
-    }
+	public void setDid(Integer did) {
+		this.did = did;
+	}
 
-    public String getQzh() {
-        return qzh;
-    }
+	public Integer getPid() {
+		return pid;
+	}
 
-    public void setQzh(String qzh) {
-        this.qzh = qzh == null ? null : qzh.trim();
-    }
+	public void setPid(Integer pid) {
+		this.pid = pid;
+	}
 
-    public Integer getGid() {
-        return gid;
-    }
+	public String getQzh() {
+		return qzh;
+	}
 
-    public void setGid(Integer gid) {
-        this.gid = gid;
-    }
+	public void setQzh(String qzh) {
+		this.qzh = qzh;
+	}
 
-    public String getGname() {
-        return gname;
-    }
+	public Integer getGid() {
+		return gid;
+	}
 
-    public void setGname(String gname) {
-        this.gname = gname == null ? null : gname.trim();
-    }
+	public void setGid(Integer gid) {
+		this.gid = gid;
+	}
 
-    public String getBz() {
-        return bz;
-    }
+	public String getGname() {
+		return gname;
+	}
 
-    public void setBz(String bz) {
-        this.bz = bz == null ? null : bz.trim();
-    }
+	public void setGname(String gname) {
+		this.gname = gname;
+	}
 
-	@Override
-	public String toString() {
-		return this.getDid()+" : "+this.getPid()+" : " + this.getGname();
+	public String getBz() {
+		return bz;
+	}
+
+	public void setBz(String bz) {
+		this.bz = bz;
+	}
+
+	public String getDepcode() {
+		return depcode;
+	}
+
+	public void setDepcode(String depcode) {
+		this.depcode = depcode;
+	}
+
+	public String getDepid() {
+		return depid;
+	}
+
+	public void setDepid(String depid) {
+		this.depid = depid;
+	}
+
+	public String getGfzj() {
+		return gfzj;
+	}
+
+	public void setGfzj(String gfzj) {
+		this.gfzj = gfzj;
+	}
+
+	public String getBh() {
+		return bh;
+	}
+
+	public void setBh(String bh) {
+		this.bh = bh;
 	}
     
     
