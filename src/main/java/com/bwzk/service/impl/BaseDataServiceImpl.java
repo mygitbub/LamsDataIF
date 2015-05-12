@@ -178,15 +178,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 		} 
 		return result;
 	}
-
-	/**
-	 * <p>
-	 * Title: 删除用户 返回; 0：成功！ 1：不成功！[失败原因]
-	 * </p>
-	 * 
-	 * @param ESBID
-	 * @return
-	 */
+	
 	@WebMethod(operationName = "DelUser")
 	public String delUser(@WebParam(name = "ESBID") String ESBID) {
 		String result = "0";
@@ -384,13 +376,13 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 	@WebMethod
 	public String modifyUserByJson(@WebParam(name = "dataJson") String dataJson,
 			@WebParam(name = "tableName") String tableName,
-			@WebParam(name = "ESBID") String ESBID) {
+			@WebParam(name = "esbid") String esbid) {
 		String result = "0";
 		try {
 			ObjectMapper mapper = new ObjectMapper();
 			Map<String, String> vars = null;
 			vars = mapper.readValue(dataJson, Map.class);
-			result = updateUser4Map(vars,tableName,ESBID);
+			result = updateUser4Map(vars,tableName,esbid);
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			result = "1[" + e.getMessage() + "]";

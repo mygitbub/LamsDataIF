@@ -101,7 +101,7 @@ public interface BaseDataService {
 	public String modifyUserByJson(
 			@WebParam(name = "dataJson") String dataJson,
 			@WebParam(name = "tableName") String tableName,
-			@WebParam(name = "ESBID") String ESBID);
+			@WebParam(name = "esbid") String esbid);
 
 	/**
 	 * <p>
