@@ -45,24 +45,24 @@ public class BaseService {
 	protected Map<String, Object> getDBInfo() throws RuntimeSqlException {
 		Date dataTime = null;
 		Map<String, Object> infos = new LinkedHashMap<String, Object>();
-		TimeZone.setDefault(TimeZone.getTimeZone("ETC/GMT-8"));  //设置时区 中国/北京/香港
+		TimeZone.setDefault(TimeZone.getTimeZone("ETC/GMT-8")); // 设置时区 中国/北京/香港
 		String typeStr = getDBTyeStr();
-		if(StringUtils.isNotEmpty(typeStr)){
-			if(typeStr!=null&&typeStr.equals("Microsoft SQL Server")){
+		if (StringUtils.isNotEmpty(typeStr)) {
+			if (typeStr != null && typeStr.equals("Microsoft SQL Server")) {
 				dataTime = sUserMapper.selectDateTimeForMSSQL();
-			}else if(typeStr!=null&&typeStr.equals("Oracle")){
+			} else if (typeStr != null && typeStr.equals("Oracle")) {
 				dataTime = sUserMapper.selectDateTimeForOra();
-			}else if(typeStr!=null&&typeStr.equals("Db2")){
+			} else if (typeStr != null && typeStr.equals("Db2")) {
 				dataTime = sUserMapper.selectDateTimeForDB2();
-			}else if(typeStr!=null&&typeStr.equals("MySQL")){
+			} else if (typeStr != null && typeStr.equals("MySQL")) {
 				dataTime = sUserMapper.selectDateTimeForMySQL();
-			}else if(typeStr!=null&&typeStr.equals("H2")){
+			} else if (typeStr != null && typeStr.equals("H2")) {
 				dataTime = sUserMapper.selectDateTimeForH2();
-			}else{
+			} else {
 				dataTime = new Date();
 				log.error("DB Type not funder!");
 			}
-		}else{
+		} else {
 			dataTime = new Date();
 			log.error("get database time is error!");
 		}
@@ -70,78 +70,82 @@ public class BaseService {
 		infos.put("databaseTime", dataTime);
 		return infos;
 	}
-	
-	
-	protected String generateTimeToSQLDate(Object date){
+
+	protected String generateTimeToSQLDate(Object date) {
 		String datevalue = null;
 		String typeStr = getDBTyeStr();
-		TimeZone.setDefault(TimeZone.getTimeZone("ETC/GMT-8"));  //设置时区 中国/北京/香港
-		if(date instanceof Date){
+		TimeZone.setDefault(TimeZone.getTimeZone("ETC/GMT-8")); // 设置时区 中国/北京/香港
+		if (date instanceof Date) {
 			datevalue = DateUtil.getDateTimeFormat().format(date);
-		}else if(date instanceof String){
-			datevalue = (String)date;
+		} else if (date instanceof String) {
+			datevalue = (String) date;
 		}
-		if(StringUtils.isNotEmpty(typeStr)){
-			if(typeStr!=null&&typeStr.equals("Microsoft SQL Server")){
+		if (StringUtils.isNotEmpty(typeStr)) {
+			if (typeStr != null && typeStr.equals("Microsoft SQL Server")) {
 				datevalue = "cast('" + datevalue + "' as datetime)";
-			}else if(typeStr!=null&&typeStr.equals("Oracle")){
-				if(datevalue.indexOf(".")>-1){//防止出现 2056-12-25 00:00:00.0 而无法导入
-					datevalue = datevalue.substring(0, datevalue.lastIndexOf("."));
+			} else if (typeStr != null && typeStr.equals("Oracle")) {
+				if (datevalue.indexOf(".") > -1) {// 防止出现 2056-12-25 00:00:00.0
+													// 而无法导入
+					datevalue = datevalue.substring(0,
+							datevalue.lastIndexOf("."));
 				}
-				datevalue = "TO_DATE('"+datevalue+"', 'yyyy-MM-dd HH24:mi:ss')";
-			}else if(typeStr!=null&&typeStr.equals("Db2")){
+				datevalue = "TO_DATE('" + datevalue
+						+ "', 'yyyy-MM-dd HH24:mi:ss')";
+			} else if (typeStr != null && typeStr.equals("Db2")) {
 				datevalue = "TIMESTAMP('" + datevalue + "' )";
-			}else if(typeStr!=null&&typeStr.equals("MySQL")){
-				datevalue =  "DATE_FORMAT('"+datevalue+"', '%Y-%m-%d %H:%i:%s')";
-			}else if(typeStr!=null&&typeStr.equals("H2")){
-				datevalue = "PARSEDATETIME('" + datevalue + "'，'dd-MM-yyyy hh:mm:ss.SS' )";
-			}else{
+			} else if (typeStr != null && typeStr.equals("MySQL")) {
+				datevalue = "DATE_FORMAT('" + datevalue
+						+ "', '%Y-%m-%d %H:%i:%s')";
+			} else if (typeStr != null && typeStr.equals("H2")) {
+				datevalue = "PARSEDATETIME('" + datevalue
+						+ "'，'dd-MM-yyyy hh:mm:ss.SS' )";
+			} else {
 				datevalue = "";
 				log.error("DB Type not funder!");
 			}
-		}else{
+		} else {
 			datevalue = "";
 			log.error("get database time is error!");
 		}
 		return datevalue;
 	}
-	
+
 	/**
 	 * 得到数据库的时间 如果错误返回new的时间
 	 * 
 	 */
-	protected Date getDBDateTime() throws RuntimeSqlException{
+	protected Date getDBDateTime() throws RuntimeSqlException {
 		Date dbDate = null;
-		TimeZone.setDefault(TimeZone.getTimeZone("ETC/GMT-8"));  //设置时区 中国/北京/香港
+		TimeZone.setDefault(TimeZone.getTimeZone("ETC/GMT-8")); // 设置时区 中国/北京/香港
 		String typeStr = getDBTyeStr();
-		if(StringUtils.isNotEmpty(typeStr)){
-			if(typeStr.equals("Microsoft SQL Server")){
+		if (StringUtils.isNotEmpty(typeStr)) {
+			if (typeStr.equals("Microsoft SQL Server")) {
 				dbDate = sUserMapper.selectDateTimeForMSSQL();
-			}else if(typeStr.equals("Oracle")){
+			} else if (typeStr.equals("Oracle")) {
 				dbDate = sUserMapper.selectDateTimeForOra();
-			}else if(typeStr.equals("Db2")){
+			} else if (typeStr.equals("Db2")) {
 				dbDate = sUserMapper.selectDateTimeForDB2();
-			}else if(typeStr.equals("MySQL")){
+			} else if (typeStr.equals("MySQL")) {
 				dbDate = sUserMapper.selectDateTimeForMySQL();
-			}else if(typeStr.equals("H2")){
+			} else if (typeStr.equals("H2")) {
 				dbDate = sUserMapper.selectDateTimeForH2();
-			}else{
+			} else {
 				dbDate = new Date();
 				log.error("DB is no look!");
 			}
-		}else{
+		} else {
 			dbDate = new Date();
 			log.error("get database time is error!");
 		}
 		return dbDate;
-	}	
-	
+	}
+
 	/**
 	 * 得到数据库的类型str
 	 */
 	protected String getDBTyeStr() throws RuntimeSqlException {
 		String typeStr = null;
-		TimeZone.setDefault(TimeZone.getTimeZone("ETC/GMT-8"));  //设置时区 中国/北京/香港
+		TimeZone.setDefault(TimeZone.getTimeZone("ETC/GMT-8")); // 设置时区 中国/北京/香港
 		Connection conn = null;
 		DatabaseMetaData dbmd = null;
 		try {
@@ -149,8 +153,8 @@ public class BaseService {
 			dbmd = conn.getMetaData();
 			typeStr = dbmd.getDatabaseProductName();
 		} catch (Exception e) {
-			log.error("get database type is error!" , e);
-		}finally{
+			log.error("get database type is error!", e);
+		} finally {
 			try {
 				dbmd = null;
 				conn.close();
@@ -160,11 +164,11 @@ public class BaseService {
 		}
 		return typeStr;
 	}
-	
+
 	/**
 	 * 得到数据库类型的 DatabaseType
 	 */
-	protected DatabaseType getDatabaseType(){
+	protected DatabaseType getDatabaseType() {
 		DatabaseType databaseType = null;
 		try {
 			databaseType = DatabaseType.getDatabaseType(getDBTyeStr());
@@ -173,11 +177,11 @@ public class BaseService {
 		}
 		return databaseType;
 	}
-	
+
 	/**
 	 * 根据表名判断数据表是否存在
 	 */
-	protected Boolean existTable(String tablename){
+	protected Boolean existTable(String tablename) {
 		boolean result = false;
 		Connection conn = null;
 		DatabaseMetaData dbmd = null;
@@ -186,13 +190,14 @@ public class BaseService {
 			conn = jdbcDao.getConn();
 			dbmd = conn.getMetaData();
 			String schemaName = getSchemaName(dbmd);
-			rs = dbmd.getTables(null , schemaName ,  tablename, new String[]{"TABLE"});
-			if(rs.next()){
+			rs = dbmd.getTables(null, schemaName, tablename,
+					new String[] { "TABLE" });
+			if (rs.next()) {
 				result = true;
 			}
-		}catch(Exception ex){
+		} catch (Exception ex) {
 			log.error(ex.getMessage());
-		}finally{
+		} finally {
 			try {
 				dbmd = null;
 				rs.close();
@@ -203,44 +208,55 @@ public class BaseService {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * 判断表的字段是否存在
 	 */
-	protected boolean existColumn(String tablename,String columnName){
+	protected boolean existColumn(String tablename, String columnName) {
 		return existColumnOrIndex(tablename, columnName, true);
 	}
+
 	/**
 	 * 判断字段的索引是否存在
 	 */
-	protected boolean existIndex(String tablename,String indexName){
-		
+	protected boolean existIndex(String tablename, String indexName) {
+
 		return existColumnOrIndex(tablename, indexName, false);
 	}
-	
-	protected Map<String, Object> queryForMap(String sql){
+
+	protected Map<String, Object> queryForMap(String sql) {
 		return jdbcDao.queryForMap(sql);
 	}
-	protected List<Map<String, Object>> quertListMap(String sql){
+
+	protected List<Map<String, Object>> quertListMap(String sql) {
 		return jdbcDao.quertListMap(sql);
 	}
-	protected String queryForString(String sql){
+
+	protected String queryForString(String sql) {
 		return jdbcDao.query4String(sql);
 	}
+
 	/**
 	 * 查新表2列 第一列是key第二列是value的一个map
 	 */
-	protected Map<String , String> quert2Colum4Map(String sql , String col1 , String col2){
-		return jdbcDao.quert2Colum4Map(sql , col1 , col2);
+	protected Map<String, String> quert2Colum4Map(String sql, String col1,
+			String col2) {
+		return jdbcDao.quert2Colum4Map(sql, col1, col2);
 	}
+
 	/**
 	 * 判断表的字段或者索引是否存在
-	 * @param tablename 表名
-	 * @param columnOrIndexName 字段名, 或者索引名
-	 * @param isColumn true字段 false索引
+	 * 
+	 * @param tablename
+	 *            表名
+	 * @param columnOrIndexName
+	 *            字段名, 或者索引名
+	 * @param isColumn
+	 *            true字段 false索引
 	 * @return boolean true存在 false 不存在
 	 */
-	protected boolean existColumnOrIndex(String tablename,String columnOrIndexName,boolean isColumn){
+	protected boolean existColumnOrIndex(String tablename,
+			String columnOrIndexName, boolean isColumn) {
 		boolean result = false;
 		Connection conn = null;
 		DatabaseMetaData dbmd = null;
@@ -249,24 +265,27 @@ public class BaseService {
 			conn = jdbcDao.getConn();
 			dbmd = conn.getMetaData();
 			String schemaName = getSchemaName(dbmd);
-			if(isColumn){
-				rs = dbmd.getColumns(null, schemaName, tablename, columnOrIndexName);
-				if(rs.next()){
+			if (isColumn) {
+				rs = dbmd.getColumns(null, schemaName, tablename,
+						columnOrIndexName);
+				if (rs.next()) {
 					result = true;
 				}
-			}else{
-				rs = dbmd.getIndexInfo(null, schemaName, tablename, false, false);
+			} else {
+				rs = dbmd.getIndexInfo(null, schemaName, tablename, false,
+						false);
 				while (rs.next()) {
 					String indexName = rs.getString(6);
-					if(indexName!=null&&indexName.equals(columnOrIndexName)){
+					if (indexName != null
+							&& indexName.equals(columnOrIndexName)) {
 						result = true;
 						break;
 					}
 				}
 			}
-		}catch(Exception ex){
+		} catch (Exception ex) {
 			log.error(ex.getMessage());
-		}finally{
+		} finally {
 			try {
 				dbmd = null;
 				rs.close();
@@ -277,11 +296,11 @@ public class BaseService {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * 根据表字段是否可以为空
 	 */
-	protected boolean validateColumnIsNULL(String tablename,String columnName){
+	protected boolean validateColumnIsNULL(String tablename, String columnName) {
 		boolean result = false;
 		Connection conn = null;
 		DatabaseMetaData dbmd = null;
@@ -289,15 +308,15 @@ public class BaseService {
 		try {
 			conn = jdbcDao.getConn();
 			dbmd = conn.getMetaData();
-			String schemaName = getSchemaName(dbmd); 
-			rs = dbmd.getColumns(null, schemaName , tablename, columnName);
-			if(rs.next()){
+			String schemaName = getSchemaName(dbmd);
+			rs = dbmd.getColumns(null, schemaName, tablename, columnName);
+			if (rs.next()) {
 				String notnull = rs.getString(11);
-				result = notnull!=null&&notnull.equals("1");
+				result = notnull != null && notnull.equals("1");
 			}
-		}catch(Exception ex){
+		} catch (Exception ex) {
 			log.error(ex.getMessage());
-		}finally{
+		} finally {
 			try {
 				dbmd = null;
 				rs.close();
@@ -308,42 +327,42 @@ public class BaseService {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * 执行sql文件
 	 */
-	protected boolean runScript(Reader reader){
+	protected boolean runScript(Reader reader) {
 		boolean result = false;
 		Connection conn = null;
 		try {
 			conn = jdbcDao.getConn();
-			ScriptRunner runner = new ScriptRunner(conn);  
-			runner.setErrorLogWriter(null);  
-			runner.setLogWriter(null);  
-			runner.runScript(reader);  
+			ScriptRunner runner = new ScriptRunner(conn);
+			runner.setErrorLogWriter(null);
+			runner.setLogWriter(null);
+			runner.runScript(reader);
 			result = true;
-		}catch(Exception ex){
-			log.error(ex.getMessage() + "执行sql文件错误" , ex);
-		}finally{
+		} catch (Exception ex) {
+			log.error(ex.getMessage() + "执行sql文件错误", ex);
+		} finally {
 			try {
 				conn.close();
 			} catch (SQLException e) {
-				log.error(e.getMessage() + "获取ConnectionMetaData关闭链接错误!" , e);
+				log.error(e.getMessage() + "获取ConnectionMetaData关闭链接错误!", e);
 			}
 		}
 		return result;
 	}
-	
+
 	/**
 	 * 获取表模式 private
 	 */
-	private String getSchemaName(DatabaseMetaData dbmd) throws SQLException{
+	private String getSchemaName(DatabaseMetaData dbmd) throws SQLException {
 		String schemaName;
 		switch (getDatabaseType().getValue()) {
-		case 1://mssql
+		case 1:// mssql
 			schemaName = sqlserverSchemaName;
 			break;
-		case 4://h2
+		case 4:// h2
 			schemaName = null;
 			break;
 		default:
@@ -352,19 +371,22 @@ public class BaseService {
 		}
 		return schemaName;
 	}
-	
-	protected void execSql(String sql){
+
+	protected void execSql(String sql) {
 		jdbcDao.excute(sql);
 	}
+
 	/**
 	 * 通过groupdid得到bmid
+	 * 
 	 * @author: LuYu
 	 */
-	protected String getBmidByDepCode(String depCode){
+	protected String getBmidByDepCode(String depCode) {
 		StringBuffer bmid = new StringBuffer();
 		SGroup firstGroup = this.getGroupByDepCode(depCode);
 		try {
-			List<SGroup> groupList = this.getGroupList(firstGroup.getDid() , null);
+			List<SGroup> groupList = this.getGroupList(firstGroup.getDid(),
+					null);
 			bmid.append(groupList.get(0).getQzh());
 			Collections.reverse(groupList);
 			for (SGroup group : groupList) {
@@ -372,19 +394,22 @@ public class BaseService {
 			}
 		} catch (Exception e) {
 			bmid.append("");
-			log.error("getUserByUserCode类在通过groupDID得到group的时候的时错误,在 getGroupByDid is " + e.getMessage());
+			log.error("getUserByUserCode类在通过groupDID得到group的时候的时错误,在 getGroupByDid is "
+					+ e.getMessage());
 		}
 		return bmid.toString();
 	}
+
 	/**
 	 * 通过groupdid得到bmid
+	 * 
 	 * @author: LuYu
 	 */
-	protected String getBmidByuserCode(String usercode){
+	protected String getBmidByuserCode(String usercode) {
 		StringBuffer bmid = new StringBuffer();
 		try {
-		    Integer groupDid = sUserMapper.getUserByUsercode(usercode).getPid();
-			List<SGroup> groupList = this.getGroupList(groupDid , null);
+			Integer groupDid = sUserMapper.getUserByUsercode(usercode).getPid();
+			List<SGroup> groupList = this.getGroupList(groupDid, null);
 			bmid.append(groupList.get(0).getQzh());
 			Collections.reverse(groupList);
 			for (SGroup group : groupList) {
@@ -392,43 +417,47 @@ public class BaseService {
 			}
 		} catch (Exception e) {
 			bmid.append("");
-			log.error("getUserByUserCode类在通过groupDID得到group的时候的时错误,在 getGroupByDid is " + e.getMessage());
+			log.error("getUserByUserCode类在通过groupDID得到group的时候的时错误,在 getGroupByDid is "
+					+ e.getMessage());
 		}
-		if(StringUtils.isBlank(bmid.toString())){
+		if (StringUtils.isBlank(bmid.toString())) {
 			bmid.append(defaultQzh);
 		}
 		return bmid.toString();
 	}
+
 	/**
 	 * 根据usercode的到qzh
+	 * 
 	 * @author: LuYu
 	 */
-	protected String getQzhByUserCode(String usercode){
+	protected String getQzhByUserCode(String usercode) {
 		String qzh = sUserMapper.getQzhByUserCode(usercode);
-		if(StringUtils.isBlank(qzh)){
+		if (StringUtils.isBlank(qzh)) {
 			qzh = defaultQzh;
 		}
 		return qzh;
 	}
-	
+
 	/**
 	 * 获取数据库参数 数据库类型名称,时间
 	 */
-	protected String getSysdate(){
-		if(sysdate!=null){
+	protected String getSysdate() {
+		if (sysdate != null) {
 			return sysdate;
 		}
 		try {
 			String databaseType = getDBTyeStr();
-			if(databaseType!=null&&databaseType.equals("Microsoft SQL Server")){
+			if (databaseType != null
+					&& databaseType.equals("Microsoft SQL Server")) {
 				sysdate = "GETDATE()";
-			}else if(databaseType!=null&&databaseType.equals("Oracle")){
+			} else if (databaseType != null && databaseType.equals("Oracle")) {
 				sysdate = "SYSDATE";
-			}else if(databaseType!=null&&databaseType.equals("Db2")){
+			} else if (databaseType != null && databaseType.equals("Db2")) {
 				sysdate = "CURRENT TIMESTAMP";
-			}else if(databaseType!=null&&databaseType.equals("MySQL")){
+			} else if (databaseType != null && databaseType.equals("MySQL")) {
 				sysdate = "NOW()";
-			}else if(databaseType!=null&&databaseType.equals("H2")){
+			} else if (databaseType != null && databaseType.equals("H2")) {
 				sysdate = "current_timestamp";
 			}
 		} catch (Exception e) {
@@ -436,48 +465,52 @@ public class BaseService {
 		}
 		return sysdate;
 	}
-	
-	protected SGroup getGroupByDid(Integer did){
+
+	protected SGroup getGroupByDid(Integer did) {
 		return sGroupMapper.selectByPrimaryKey(did);
 	}
-	protected SGroup getGroupByDepCode(String depCode){
+
+	protected SGroup getGroupByDepCode(String depCode) {
 		return sGroupMapper.getGroupByDepCode(depCode);
 	}
-	
-	protected SUser getUserByUserCode(String usercode){
+
+	protected SUser getUserByUserCode(String usercode) {
 		return sUserMapper.getUserByUsercode(usercode);
 	}
-	
+
 	/**
 	 * 通过组的得到一个groupList 从小到大 从最底层到最高层
+	 * 
 	 * @param 组的did
 	 */
-	private List<SGroup> getGroupList(Integer groupDid , List<SGroup> groupList){
+	private List<SGroup> getGroupList(Integer groupDid, List<SGroup> groupList) {
 		SGroup tempGroup = this.getGroupByDid(groupDid);
-		if(groupList == null){
+		if (groupList == null) {
 			groupList = new ArrayList<SGroup>();
 		}
 		groupList.add(tempGroup);
-		if(tempGroup.getPid() != 0){
+		if (tempGroup.getPid() != 0) {
 			this.getGroupList(tempGroup.getPid(), groupList);
 		}
 		return groupList;
-		
+
 	}
-	
-	protected Integer getMaxDid(String tableName){
+
+	protected Integer getMaxDid(String tableName) {
 		Integer returnMaxDid = sUserMapper.getMaxDid(tableName);
-		if(returnMaxDid == null ){
+		if (returnMaxDid == null) {
 			returnMaxDid = 1;
-		}else{
+		} else {
 			returnMaxDid = returnMaxDid + 1;
 		}
 		return returnMaxDid;
-		
+
 	}
-	protected String insertUser4Map(Map<String,String> map, String tableName , String dept_zj , String esbid){
-		String archKey = ""; 
-		String archVal = ""; 
+
+	protected String insertUser4Map(Map<String, String> map, String dept_zj,
+			String esbid) {
+		String archKey = "";
+		String archVal = "";
 		Integer pid = null;
 		String result = "1";
 		FDTable fDtable = null;
@@ -486,8 +519,8 @@ public class BaseService {
 		StringBuffer values = new StringBuffer();
 		if (null != map && null != map.keySet() && map.keySet().size() > 0) {
 			try {
-				Integer maxdid = getMaxDid(tableName);
-				fDTableList = sGroupMapper.getFtableList("F_" + tableName);
+				Integer maxdid = getMaxDid("s_user");
+				fDTableList = sGroupMapper.getFtableList("F_S_USER");
 				Set<String> fieldSet = map.keySet();
 				for (String outSysField : fieldSet) {
 					archKey = outSysField;
@@ -497,8 +530,7 @@ public class BaseService {
 						archVal = (StringUtils.isBlank(archVal) ? "" : archVal);
 						archVal = (archVal.contains("'") ? archVal.replace("'",
 								"''") : archVal);// 兼容单引号
-						fDtable = CommonUtil.getFDtable(fDTableList,
-								archKey);
+						fDtable = CommonUtil.getFDtable(fDTableList, archKey);
 						fields.append(fDtable.getFieldname()).append(",");
 						switch (fDtable.getFieldtype()) {
 						case 11:
@@ -526,27 +558,36 @@ public class BaseService {
 						}
 					}
 				}
-				SGroup group = sGroupMapper.getGroupByGfzj(dept_zj);
-				if(group == null){
-					pid = defaultYhGroup;
-				}else{
-					pid = group.getDid();
+				String esbidListSql = "select esbid from s_user ";
+				List<String> gfzhList = jdbcDao.quert4List(esbidListSql);
+				for (String bid : gfzhList) {
+					if (bid.equals(esbid)) {
+						updateUser4Map(map, esbid);
+					} else {
+						SGroup group = sGroupMapper.getGroupByGfzj(dept_zj);
+						if (group == null) {
+							pid = defaultYhGroup;
+						} else {
+							pid = group.getDid();
+						}
+						fields.append("did,pid,esbid,esbcode");
+						values.append(maxdid).append(",").append(pid)
+								.append(",'").append(esbid).append("',")
+								.append("'").append(dept_zj).append("'");
+						String SQL = "insert into s_user" + fields.toString()
+								+ ") values ( " + values.toString() + " )";
+						System.out.println(SQL);
+						execSql(SQL);
+						result = "0";
+						log.error("插入一条数据成功.insertUser4Map: " + SQL);
+						SUserrole userrole = new SUserrole();
+						userrole.setDid(getMaxDid("S_USERROLE"));
+						userrole.setYhid(maxdid);
+						userrole.setJsid(jsid);
+						sUserroleMapper.insert(userrole);
+						log.error("用户:" + esbid + " 关联角色");
+					}
 				}
-				fields.append("did,pid,esbid,esbcode");
-				values.append(maxdid).append(",").append(pid).append(",'").append(esbid).append("',").append("'").append(dept_zj).append("'");
-				String SQL = "insert into " + tableName + " ("
-						+ fields.toString() + ") values ( " + values.toString()
-						+ " )";
-				System.out.println(SQL);
-				execSql(SQL);
-				result = "0";
-				log.error("插入一条数据成功.insertUser4Map: " + SQL);
-				SUserrole userrole = new SUserrole();
-				userrole.setDid(getMaxDid("S_USERROLE"));
-				userrole.setYhid(maxdid);
-				userrole.setJsid(jsid);
-				sUserroleMapper.insert(userrole);
-				log.error("用户:" + esbid + " 关联角色");
 			} catch (Exception e) {
 				e.printStackTrace();
 				log.error("插入一条数据失败.insertUser4Map: " + e.getMessage());
@@ -558,9 +599,10 @@ public class BaseService {
 		values.setLength(0);
 		return result;
 	}
-	protected String updateUser4Map(Map<String,String> map, String tableName , String esbid){
-		String archKey = ""; 
-		String archVal = ""; 
+
+	protected String updateUser4Map(Map<String, String> map, String esbid) {
+		String archKey = "";
+		String archVal = "";
 		String result = "0";
 		FDTable fDtable = null;
 		List<FDTable> fDTableList = null;
@@ -568,7 +610,7 @@ public class BaseService {
 		StringBuffer values = new StringBuffer();
 		if (null != map && null != map.keySet() && map.keySet().size() > 0) {
 			try {
-				fDTableList = sGroupMapper.getFtableList("F_" + tableName);
+				fDTableList = sGroupMapper.getFtableList("F_S_USER");
 				Set<String> fieldSet = map.keySet();
 				for (String outSysField : fieldSet) {
 					archKey = outSysField;
@@ -578,8 +620,7 @@ public class BaseService {
 						archVal = (StringUtils.isBlank(archVal) ? "" : archVal);
 						archVal = (archVal.contains("'") ? archVal.replace("'",
 								"''") : archVal);// 兼容单引号
-						fDtable = CommonUtil.getFDtable(fDTableList,
-								archKey);
+						fDtable = CommonUtil.getFDtable(fDTableList, archKey);
 						fields.append(fDtable.getFieldname()).append("=");
 						switch (fDtable.getFieldtype()) {
 						case 11:
@@ -609,14 +650,18 @@ public class BaseService {
 				}
 				SUser user = sUserMapper.getUserByEsbid(esbid);
 				if (user != null) {
-				String SQL = "update " +tableName+ " set " +fields.toString().substring(0,fields.length()-1)+ " where esbid = '"+esbid+"'";
-				System.out.println(SQL);
-				execSql(SQL);
-				result = "0";
-				log.error("更新一条数据成功.updateUser4Map: " + SQL);
-				}else{
+					String SQL = "update s_user set "
+							+ fields.toString().substring(0,
+									fields.length() - 1) + " where esbid = '"
+							+ esbid + "'";
+					System.out.println(SQL);
+					execSql(SQL);
+					result = "0";
+					log.error("更新一条数据成功.updateUser4Map: " + SQL);
+				} else {
 					result = "1";
-					log.error("修改用户:" + esbid + "不存在");				}
+					log.error("修改用户:" + esbid + "不存在");
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 				log.error("更新一条数据失败.updateUser4Map: " + e.getMessage());
@@ -628,9 +673,11 @@ public class BaseService {
 		values.setLength(0);
 		return result;
 	}
-	protected String insertOrg4Map(Map<String,String> map, String tableName , String gfzj , String parent_org_no){
-		String archKey = ""; 
-		String archVal = ""; 
+
+	protected String insertOrg4Map(Map<String, String> map, String gfzj,
+			String org_name, String parent_org_no) {
+		String archKey = "";
+		String archVal = "";
 		String qzh = null;
 		Integer pid = null;
 		String result = "1";
@@ -640,8 +687,8 @@ public class BaseService {
 		StringBuffer values = new StringBuffer();
 		if (null != map && null != map.keySet() && map.keySet().size() > 0) {
 			try {
-				Integer maxdid = getMaxDid(tableName);
-				fDTableList = sGroupMapper.getFtableList("F_" + tableName);
+				Integer maxdid = getMaxDid("s_group");
+				fDTableList = sGroupMapper.getFtableList("F_S_GROUP");
 				Set<String> fieldSet = map.keySet();
 				for (String outSysField : fieldSet) {
 					archKey = outSysField;
@@ -651,8 +698,7 @@ public class BaseService {
 						archVal = (StringUtils.isBlank(archVal) ? "" : archVal);
 						archVal = (archVal.contains("'") ? archVal.replace("'",
 								"''") : archVal);// 兼容单引号
-						fDtable = CommonUtil.getFDtable(fDTableList,
-								archKey);
+						fDtable = CommonUtil.getFDtable(fDTableList, archKey);
 						fields.append(fDtable.getFieldname()).append(",");
 						switch (fDtable.getFieldtype()) {
 						case 11:
@@ -680,24 +726,35 @@ public class BaseService {
 						}
 					}
 				}
-				pid = TOPGROUPPID;
-				String orgSql = "select gname from s_group where gfzj = '"+gfzj+"'";
-				String org_name = jdbcDao.query4String(orgSql);
-				qzh = getQzh(org_name);
-				if (StringUtils.isBlank(qzh)) {
-					SGroup parent = sGroupMapper.getGroupByBz(parent_org_no);
-					pid = (parent == null ? defaultgrouppid : parent.getDid());
-					qzh = getQzhByPid(pid);
+				String esbidListSql = "select gfzj from s_group ";
+				List<String> gfzhList = jdbcDao.quert4List(esbidListSql);
+				for (String zj : gfzhList) {
+					if (zj.equals(gfzj)) {
+						updateOrg4Map(map, gfzj);
+					} else {
+						pid = TOPGROUPPID;
+						qzh = getQzh(org_name);
+						if (StringUtils.isBlank(qzh)) {
+							SGroup parent = sGroupMapper
+									.getGroupByBz(parent_org_no);
+							pid = (parent == null ? defaultgrouppid : parent
+									.getDid());
+							qzh = getQzhByPid(pid);
+						}
+						fields.append("did,pid,qzh,gfzj,depid");
+						values.append(maxdid).append(",").append(pid)
+								.append(",'").append(qzh).append("','")
+								.append(gfzj).append("','")
+								.append(parent_org_no).append("'");
+						String SQL = "insert into s_group ("
+								+ fields.toString() + ") values ( "
+								+ values.toString() + " )";
+						System.out.println(SQL);
+						execSql(SQL);
+						result = gfzj;
+						log.error("插入一条数据成功.insertOrg4Map: " + SQL);
+					}
 				}
-				fields.append("did,pid,qzh,gfzj,depid");
-				values.append(maxdid).append(",").append(pid).append(",'").append(qzh).append("','").append(gfzj).append("','").append(parent_org_no).append("'");
-				String SQL = "insert into " + tableName + " ("
-						+ fields.toString() + ") values ( " + values.toString()
-						+ " )";
-				System.out.println(SQL);
-				execSql(SQL);
-				result = gfzj;
-				log.error("插入一条数据成功.insertOrg4Map: " + SQL);
 			} catch (Exception e) {
 				e.printStackTrace();
 				log.error("插入一条数据失败.insertOrg4Map: " + e.getMessage());
@@ -709,7 +766,8 @@ public class BaseService {
 		values.setLength(0);
 		return result;
 	}
-	protected String updateOrg4Map(Map<String,String> map, String tableName , String gfzj){
+
+	protected String updateOrg4Map(Map<String, String> map, String gfzj) {
 		String archKey = ""; // 档案字段
 		String archVal = ""; // 档案字段对应的值
 		String result = "1";
@@ -719,7 +777,7 @@ public class BaseService {
 		StringBuffer values = new StringBuffer();
 		if (null != map && null != map.keySet() && map.keySet().size() > 0) {
 			try {
-				fDTableList = sGroupMapper.getFtableList("F_" + tableName);
+				fDTableList = sGroupMapper.getFtableList("F_S_GROUP");
 				Set<String> fieldSet = map.keySet();
 				for (String outSysField : fieldSet) {
 					archKey = outSysField;
@@ -729,8 +787,7 @@ public class BaseService {
 						archVal = (StringUtils.isBlank(archVal) ? "" : archVal);
 						archVal = (archVal.contains("'") ? archVal.replace("'",
 								"''") : archVal);// 兼容单引号
-						fDtable = CommonUtil.getFDtable(fDTableList,
-								archKey);
+						fDtable = CommonUtil.getFDtable(fDTableList, archKey);
 						fields.append(fDtable.getFieldname()).append("=");
 						switch (fDtable.getFieldtype()) {
 						case 11:
@@ -760,14 +817,18 @@ public class BaseService {
 				}
 				SGroup sg = sGroupMapper.getGroupByGfzj(gfzj);
 				if (sg != null) {
-				String SQL = "update " +tableName+ " set " +fields.toString().substring(0,fields.length()-1)+ " where gfzj = '"+gfzj+"'";
-				System.out.println(SQL);
-				execSql(SQL);
-				result = "0";
-				log.error("更新一条数据成功.updateOrg4Map: " + SQL);
-				}else{
+					String SQL = "update s_group set "
+							+ fields.toString().substring(0,
+									fields.length() - 1) + " where gfzj = '"
+							+ gfzj + "'";
+					System.out.println(SQL);
+					execSql(SQL);
+					result = "0";
+					log.error("更新一条数据成功.updateOrg4Map: " + SQL);
+				} else {
 					result = "1";
-					log.error("修改部门:" + gfzj + "不存在");				}
+					log.error("修改部门:" + gfzj + "不存在");
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 				log.error("更新一条数据失败.updateOrg4Map: " + e.getMessage());
@@ -779,6 +840,7 @@ public class BaseService {
 		values.setLength(0);
 		return result;
 	}
+
 	/**
 	 * 根据部门名称获取全宗号
 	 * 
@@ -802,6 +864,7 @@ public class BaseService {
 		String qzh = jdbcDao.query4String(sql);
 		return qzh;
 	}
+
 	@Autowired
 	protected JdbcDao jdbcDao;
 	@Autowired
@@ -822,7 +885,7 @@ public class BaseService {
 	@Autowired
 	@Value("${sqlserverSchemaName}")
 	protected String sqlserverSchemaName;
-	
+
 	/** 默认的全宗号 */
 	@Autowired
 	@Value("${lams.default.qzh}")
@@ -835,11 +898,11 @@ public class BaseService {
 	protected String topGroupNo;
 	@Autowired
 	@Value("${lams.dfile.attrex}")
-	protected String attrex;//移交接收状态
+	protected String attrex;// 移交接收状态
 	@Autowired
 	@Value("${lams.dfile.attr}")
-	protected String attr;//归档前后
+	protected String attr;// 归档前后
 	private String sysdate = null;
 	private static final int TOPGROUPPID = 0;// 父级id
-	private Logger log =  (Logger) LoggerFactory.getLogger(this.getClass());
+	private Logger log = (Logger) LoggerFactory.getLogger(this.getClass());
 }

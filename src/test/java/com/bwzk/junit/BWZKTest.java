@@ -179,7 +179,7 @@ public class BWZKTest extends AbstractJUnit4SpringContextTests {
 //		String xml = FileUtils.readFileToString(new File("C:/XML/S_USER.XML") , "UTF-8");
 //		baseDataServiceImpl.modifyUserByXml("s_user", xml, "1");
 //		System.out.println(baseDataServiceImpl.delOrg("11"));
-		baseDataServiceImpl.delUser("1");
+//		baseDataServiceImpl.d;
 	}
 	
 	
