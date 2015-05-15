@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Select;
 import com.bwzk.dao.BaseDao;
 import com.bwzk.pojo.SGroup;
 import com.bwzk.pojo.SGroupExample;
+import com.bwzk.pojo.SQzh;
 
 public interface SGroupMapper   extends BaseDao{
     int countByExample(SGroupExample example);
@@ -58,6 +59,9 @@ public interface SGroupMapper   extends BaseDao{
     
     @Select("SELECT * FROM S_GROUP WHERE GFZJ = '${gfzj}'")
     SGroup getGroupByGfzj(@Param("gfzj") String gfzj);
+    
+    @Select("SELECT * FROM S_QZH WHERE primarykey = '${primarykey}'")
+    SQzh getQzhByQzzj(@Param("primarykey") String primarykey);
     
     @Select("SELECT * FROM S_GROUP WHERE BH = '${bh}'")
     SGroup getGroupByBh(@Param("bh") String bh);

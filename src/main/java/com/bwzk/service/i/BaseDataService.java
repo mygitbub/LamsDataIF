@@ -69,7 +69,7 @@ public interface BaseDataService {
 	 * @return
 	 */
 
-	@WebMethod(operationName = "DelOrg")
+	@WebMethod
 	public String delOrgByTxt(@WebParam(name = "dept_zj") String dept_zj) ;
 
 	/**
@@ -205,4 +205,78 @@ public interface BaseDataService {
 	 */
 	@WebMethod
 	public String delOrgByXml(@WebParam(name = "dept_zj") String dept_zj);
+	/**
+	 * Title: 增加全宗（字符串形式） 返回; 0：成功！ 1：不成功！[失败原因]
+	 * @param dataTxt
+	 * @param qzh_zj
+	 * @return
+	 */
+	@WebMethod
+	public String addQzhByTxt(@WebParam(name = "dataTxt") String dataTxt,
+			@WebParam(name = "qzh_zj") String qzh_zj);
+	/**
+	 * Title: 修改全宗（字符串形式） 返回; 0：成功！ 1：不成功！[失败原因]
+	 * @param dataTxt
+	 * @param qzh_zj
+	 * @return
+	 */
+	@WebMethod
+	public String modifyQzhByTxt(@WebParam(name = "dataTxt") String dataTxt,
+			@WebParam(name = "qzh_zj") String qzh_zj);
+	/**
+	 * Title: 删除全宗（字符串形式） 返回; 0：成功！ 1：不成功！[失败原因]
+	 * @param qzh_zj
+	 * @return
+	 */
+	@WebMethod
+	public String delQzhByTxt(@WebParam(name = "qzh_zj") String qzh_zj);
+	/**
+	 *  Title: 增加全宗（JSON形式） 返回; 0：成功！ 1：不成功！[失败原因]
+	 * @param dataJson
+	 * @param qzh_zj
+	 * @return
+	 */
+	@WebMethod
+	public String addQzhByJson(@WebParam(name = "dataJson") String dataJson,
+			@WebParam(name = "qzh_zj") String qzh_zj);
+	/**
+	 * Title: 修改全宗（JSON形式） 返回; 0：成功！ 1：不成功！[失败原因]
+	 * @param dataJson
+	 * @param qzh_zj
+	 * @return
+	 */
+	@WebMethod
+	public String modifyQzhByJson(@WebParam(name = "dataJson") String dataJson,
+			@WebParam(name = "qzh_zj") String qzh_zj);
+	/**
+	 * Title: 删除全宗（JSON形式） 返回; 0：成功！ 1：不成功！[失败原因]
+	 * @param qzh_zj
+	 * @return
+	 */
+	@WebMethod
+	public String delQzhByJson(@WebParam(name = "qzh_zj") String qzh_zj);
+	/**
+	 * Title: 增加全宗（XML形式） 返回; 0：成功！ 1：不成功！[失败原因]
+	 * @param dataXml
+	 * @param qzh_zj
+	 * @return
+	 */
+	public String addQzhByXml(@WebParam(name = "dataXml") String dataXml,
+			@WebParam(name = "qzh_zj") String qzh_zj);
+	/**
+	 * Title: 修改全宗（XML形式） 返回; 0：成功！ 1：不成功！[失败原因]
+	 * @param dataXml
+	 * @param qzh_zj
+	 * @return
+	 */
+	@WebMethod
+	public String modifyQzhByXml(@WebParam(name = "dataXml") String dataXml,
+			@WebParam(name = "qzh_zj") String qzh_zj);
+	/**
+	 * Title: 删除全宗（XML形式） 返回; 0：成功！ 1：不成功！[失败原因]
+	 * @param qzh_zj
+	 * @return
+	 */
+	@WebMethod
+	public String delQzhByXml(@WebParam(name = "qzh_zj") String qzh_zj);
 }

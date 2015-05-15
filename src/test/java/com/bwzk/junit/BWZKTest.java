@@ -132,10 +132,10 @@ public class BWZKTest extends AbstractJUnit4SpringContextTests {
 //		baseDataServiceImpl.ModifyOrgByJson(sw.toString().toString(), "s_group", "123");
 //		sw.close();
 //		String xml = FileUtils.readFileToString(new File("C:/XML/S_USER.XML") , "UTF-8");
-//		baseDataServiceImpl.AddUserByXml("S_USER", xml, "S_USER", "112", "2123");
+//	    baseDataServiceImpl.addUserByXml(dataXml, dept_zj, user_zj);
 //		String xml = FileUtils.readFileToString(new File("C:/XML/S_GROUP.XML") , "UTF-8");
 //		baseDataServiceImpl.addOrgByTxt("S_GROUP", "&;'gname'&;'bz'&;", "11", "111");
-//		baseDataServiceImpl.addUserByTxt("S_USER", "USERCODE&;USERCODE&; &; &; &; &; &; &; &; &; &; &; &; &; &; &; &; &; &; &; &; &; &;", "123", "12233");
+		baseDataServiceImpl.addUserByTxt("USERCODE&;USERCODE&; &; &; &; &; &; &; &; &; &; &; &; &; &; &; &; &; &; &; &; &; &;", "123", "12233");
 //		StringWriter sw = new StringWriter();
 //		Map<String, String> map = new HashMap<String, String>();
 //		map.put("GNAME", "1133331");

@@ -560,33 +560,31 @@ public class BaseService {
 				}
 				String esbidListSql = "select esbid from s_user ";
 				List<String> gfzhList = jdbcDao.quert4List(esbidListSql);
-				for (String bid : gfzhList) {
-					if (bid.equals(esbid)) {
-						updateUser4Map(map, esbid);
+				if (gfzhList.contains(esbid)) {
+					updateUser4Map(map, esbid);
+				} else {
+					SGroup group = sGroupMapper.getGroupByGfzj(dept_zj);
+					if (group == null) {
+						pid = defaultYhGroup;
 					} else {
-						SGroup group = sGroupMapper.getGroupByGfzj(dept_zj);
-						if (group == null) {
-							pid = defaultYhGroup;
-						} else {
-							pid = group.getDid();
-						}
-						fields.append("did,pid,esbid,esbcode");
-						values.append(maxdid).append(",").append(pid)
-								.append(",'").append(esbid).append("',")
-								.append("'").append(dept_zj).append("'");
-						String SQL = "insert into s_user" + fields.toString()
-								+ ") values ( " + values.toString() + " )";
-						System.out.println(SQL);
-						execSql(SQL);
-						result = "0";
-						log.error("插入一条数据成功.insertUser4Map: " + SQL);
-						SUserrole userrole = new SUserrole();
-						userrole.setDid(getMaxDid("S_USERROLE"));
-						userrole.setYhid(maxdid);
-						userrole.setJsid(jsid);
-						sUserroleMapper.insert(userrole);
-						log.error("用户:" + esbid + " 关联角色");
+						pid = group.getDid();
 					}
+					fields.append("did,pid,esbid,esbcode");
+					values.append(maxdid).append(",").append(pid).append(",'")
+							.append(esbid).append("',").append("'")
+							.append(dept_zj).append("'");
+					String SQL = "insert into s_user" + fields.toString()
+							+ ") values ( " + values.toString() + " )";
+					System.out.println(SQL);
+					execSql(SQL);
+					result = "0";
+					log.error("插入一条数据成功.insertUser4Map: " + SQL);
+					SUserrole userrole = new SUserrole();
+					userrole.setDid(getMaxDid("S_USERROLE"));
+					userrole.setYhid(maxdid);
+					userrole.setJsid(jsid);
+					sUserroleMapper.insert(userrole);
+					log.error("用户:" + esbid + " 关联角色");
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -728,32 +726,28 @@ public class BaseService {
 				}
 				String esbidListSql = "select gfzj from s_group ";
 				List<String> gfzhList = jdbcDao.quert4List(esbidListSql);
-				for (String zj : gfzhList) {
-					if (zj.equals(gfzj)) {
-						updateOrg4Map(map, gfzj);
-					} else {
-						pid = TOPGROUPPID;
-						qzh = getQzh(org_name);
-						if (StringUtils.isBlank(qzh)) {
-							SGroup parent = sGroupMapper
-									.getGroupByBz(parent_org_no);
-							pid = (parent == null ? defaultgrouppid : parent
-									.getDid());
-							qzh = getQzhByPid(pid);
-						}
-						fields.append("did,pid,qzh,gfzj,depid");
-						values.append(maxdid).append(",").append(pid)
-								.append(",'").append(qzh).append("','")
-								.append(gfzj).append("','")
-								.append(parent_org_no).append("'");
-						String SQL = "insert into s_group ("
-								+ fields.toString() + ") values ( "
-								+ values.toString() + " )";
-						System.out.println(SQL);
-						execSql(SQL);
-						result = gfzj;
-						log.error("插入一条数据成功.insertOrg4Map: " + SQL);
+				if (gfzhList.contains(gfzj)) {
+					updateOrg4Map(map, gfzj);
+				} else {
+					pid = TOPGROUPPID;
+					qzh = getQzh(org_name);
+					if (StringUtils.isBlank(qzh)) {
+						SGroup parent = sGroupMapper
+								.getGroupByBz(parent_org_no);
+						pid = (parent == null ? defaultgrouppid : parent
+								.getDid());
+						qzh = getQzhByPid(pid);
 					}
+					fields.append("did,pid,qzh,gfzj,depid");
+					values.append(maxdid).append(",").append(pid).append(",'")
+							.append(qzh).append("','").append(gfzj)
+							.append("','").append(parent_org_no).append("'");
+					String SQL = "insert into s_group (" + fields.toString()
+							+ ") values ( " + values.toString() + " )";
+					System.out.println(SQL);
+					execSql(SQL);
+					result = gfzj;
+					log.error("插入一条数据成功.insertOrg4Map: " + SQL);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

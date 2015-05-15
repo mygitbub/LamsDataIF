@@ -23,12 +23,12 @@ public class GlobalFinalAttr implements Serializable {
 	/**
 	 * 得到系统WEB-INF/classes路径
 	 */
-	public static final String BASE_PATH_WEBINF = GlobalFinalAttr.class.getClassLoader().getResource("").getFile();
+	public static final String BASE_PATH_WEBINF = GlobalFinalAttr.class.getClassLoader().getResource("/").getFile();
 	/**
 	 * xml地址
 	 */
-//	public static final String XML_PATH = GlobalFinalAttr.class.getClassLoader().getResource("").getFile()+"XML"+"/";
-	public static final String XML_PATH = "C:/XML/";
+	public static final String XML_PATH = GlobalFinalAttr.class.getClassLoader().getResource("/").getFile()+"XML"+"/";
+//	public static final String XML_PATH = "C:/XML/";
 	private GlobalFinalAttr() { }
 	private static final long serialVersionUID = -1055286768481978085L;
 	/**
