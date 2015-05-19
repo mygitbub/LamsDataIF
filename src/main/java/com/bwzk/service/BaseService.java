@@ -35,7 +35,9 @@ import com.bwzk.pojo.SUser;
 import com.bwzk.pojo.SUserrole;
 import com.bwzk.util.CommonUtil;
 import com.bwzk.util.DateUtil;
+import com.bwzk.util.ExceptionThrows;
 import com.bwzk.util.GlobalFinalAttr.DatabaseType;
+import com.bwzk.util.IsExistDepOrUser;
 
 @Service
 public class BaseService {
@@ -558,11 +560,9 @@ public class BaseService {
 						}
 					}
 				}
-				String esbidListSql = "select esbid from s_user ";
-				List<String> gfzhList = jdbcDao.quert4List(esbidListSql);
-				if (gfzhList.contains(esbid)) {
-					updateUser4Map(map, esbid);
-				} else {
+				try {
+					SUser user = sUserMapper.getUserByEsbid(esbid);
+					new IsExistDepOrUser().isUserExist(user);
 					SGroup group = sGroupMapper.getGroupByGfzj(dept_zj);
 					if (group == null) {
 						pid = defaultYhGroup;
@@ -573,22 +573,26 @@ public class BaseService {
 					values.append(maxdid).append(",").append(pid).append(",'")
 							.append(esbid).append("',").append("'")
 							.append(dept_zj).append("'");
-					String SQL = "insert into s_user" + fields.toString()
+					String SQL = "insert into s_user (" + fields.toString()
 							+ ") values ( " + values.toString() + " )";
 					System.out.println(SQL);
 					execSql(SQL);
 					result = "0";
-					log.error("插入一条数据成功.insertUser4Map: " + SQL);
+					log.error("插入一条数据成功. " + SQL);
 					SUserrole userrole = new SUserrole();
 					userrole.setDid(getMaxDid("S_USERROLE"));
 					userrole.setYhid(maxdid);
 					userrole.setJsid(jsid);
 					sUserroleMapper.insert(userrole);
 					log.error("用户:" + esbid + " 关联角色");
+				} catch (ExceptionThrows e) {
+					System.out.println(e.getMessage());
+					log.error(e.getMessage());
+					result = "1";
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				log.error("插入一条数据失败.insertUser4Map: " + e.getMessage());
+				log.error("插入一条数据失败." + e.getMessage());
 			}
 		} else {
 			result = "1";
@@ -646,8 +650,9 @@ public class BaseService {
 						}
 					}
 				}
-				SUser user = sUserMapper.getUserByEsbid(esbid);
-				if (user != null) {
+				try {
+					SUser user = sUserMapper.getUserByEsbid(esbid);
+					new IsExistDepOrUser().isUserNotExist(user);
 					String SQL = "update s_user set "
 							+ fields.toString().substring(0,
 									fields.length() - 1) + " where esbid = '"
@@ -655,14 +660,15 @@ public class BaseService {
 					System.out.println(SQL);
 					execSql(SQL);
 					result = "0";
-					log.error("更新一条数据成功.updateUser4Map: " + SQL);
-				} else {
+					log.error("更新一条数据成功. " + SQL);
+				} catch (ExceptionThrows e) {
+					System.out.println(e.getMessage());
+					log.error(e.getMessage());
 					result = "1";
-					log.error("修改用户:" + esbid + "不存在");
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				log.error("更新一条数据失败.updateUser4Map: " + e.getMessage());
+				log.error("更新一条数据失败. " + e.getMessage());
 			}
 		} else {
 			result = "1";
@@ -673,7 +679,7 @@ public class BaseService {
 	}
 
 	protected String insertOrg4Map(Map<String, String> map, String gfzj,
-			String org_name, String parent_org_no) {
+			String parent_org_no, String qzh_zj) {
 		String archKey = "";
 		String archVal = "";
 		String qzh = null;
@@ -724,21 +730,14 @@ public class BaseService {
 						}
 					}
 				}
-				String esbidListSql = "select gfzj from s_group ";
-				List<String> gfzhList = jdbcDao.quert4List(esbidListSql);
-				if (gfzhList.contains(gfzj)) {
-					updateOrg4Map(map, gfzj);
-				} else {
-					pid = TOPGROUPPID;
-					qzh = getQzh(org_name);
-					if (StringUtils.isBlank(qzh)) {
-						SGroup parent = sGroupMapper
-								.getGroupByBz(parent_org_no);
-						pid = (parent == null ? defaultgrouppid : parent
-								.getDid());
-						qzh = getQzhByPid(pid);
-					}
-					fields.append("did,pid,qzh,gfzj,depid");
+				try {
+					SGroup group = sGroupMapper.getGroupByGfzj(gfzj);
+					new IsExistDepOrUser().isDeptExist(group);
+					String deptQzh = getQzhByKey(qzh_zj);
+					SGroup parent = sGroupMapper.getGroupByGfzj(parent_org_no);
+					qzh = (deptQzh == null ? defaultDeptQzh : deptQzh);
+					pid = (parent == null ? defaultDeptPid : parent.getDid());
+					fields.append("did,pid,qzh,gfzj,depcode");
 					values.append(maxdid).append(",").append(pid).append(",'")
 							.append(qzh).append("','").append(gfzj)
 							.append("','").append(parent_org_no).append("'");
@@ -746,12 +745,16 @@ public class BaseService {
 							+ ") values ( " + values.toString() + " )";
 					System.out.println(SQL);
 					execSql(SQL);
-					result = gfzj;
-					log.error("插入一条数据成功.insertOrg4Map: " + SQL);
+					result = "0";
+					log.error("插入一条数据成功. " + SQL);
+				} catch (ExceptionThrows e) {
+					log.error(e.getMessage());
+					System.out.println(e.getMessage());
+					result = "1";
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				log.error("插入一条数据失败.insertOrg4Map: " + e.getMessage());
+				log.error("插入一条数据失败. " + e.getMessage());
 			}
 		} else {
 			result = "1";
@@ -809,8 +812,9 @@ public class BaseService {
 						}
 					}
 				}
-				SGroup sg = sGroupMapper.getGroupByGfzj(gfzj);
-				if (sg != null) {
+				try {
+					SGroup sg = sGroupMapper.getGroupByGfzj(gfzj);
+					new IsExistDepOrUser().isDepNotExist(sg);
 					String SQL = "update s_group set "
 							+ fields.toString().substring(0,
 									fields.length() - 1) + " where gfzj = '"
@@ -818,14 +822,15 @@ public class BaseService {
 					System.out.println(SQL);
 					execSql(SQL);
 					result = "0";
-					log.error("更新一条数据成功.updateOrg4Map: " + SQL);
-				} else {
+					log.error("更新一条数据成功. " + SQL);
+				} catch (ExceptionThrows e) {
+					log.error(e.getMessage());
+					System.out.println(e.getMessage());
 					result = "1";
-					log.error("修改部门:" + gfzj + "不存在");
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				log.error("更新一条数据失败.updateOrg4Map: " + e.getMessage());
+				log.error("更新一条数据失败. " + e.getMessage());
 			}
 		} else {
 			result = "1";
@@ -859,6 +864,12 @@ public class BaseService {
 		return qzh;
 	}
 
+	protected String getQzhByKey(String key) {
+		String sql = "select qzh from s_qzh where primarykey = " + key;
+		String qzh = jdbcDao.query4String(sql);
+		return qzh;
+	}
+
 	@Autowired
 	protected JdbcDao jdbcDao;
 	@Autowired
@@ -884,12 +895,14 @@ public class BaseService {
 	@Autowired
 	@Value("${lams.default.qzh}")
 	protected String defaultQzh;
+	/** 默认部门pid */
 	@Autowired
-	@Value("${default.group.pid}")
-	protected Integer defaultgrouppid;
+	@Value("${default.dept.pid}")
+	protected Integer defaultDeptPid;
+	/** 默认部门全宗号 */
 	@Autowired
-	@Value("${top.group.no}")
-	protected String topGroupNo;
+	@Value("${default.dept.qzh}")
+	protected String defaultDeptQzh;
 	@Autowired
 	@Value("${lams.dfile.attrex}")
 	protected String attrex;// 移交接收状态
@@ -897,6 +910,5 @@ public class BaseService {
 	@Value("${lams.dfile.attr}")
 	protected String attr;// 归档前后
 	private String sysdate = null;
-	private static final int TOPGROUPPID = 0;// 父级id
 	private Logger log = (Logger) LoggerFactory.getLogger(this.getClass());
 }

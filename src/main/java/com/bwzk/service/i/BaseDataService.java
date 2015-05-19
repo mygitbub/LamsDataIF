@@ -7,276 +7,431 @@ import javax.jws.WebService;
 @WebService(name = "BaseDataWS", targetNamespace = "http://service.lams.cn/")
 public interface BaseDataService {
 	/**
-	 * Title: 增加用户 返回; 0：成功！ 1：不成功！[失败原因]
+	 * <p>
+	 * Title: 添加用户数据 返回; 0：成功！ 1：不成功！[失败原因]
+	 * </p>
+	 * 
 	 * @param dataTxt
-	 * @param dept_zj
-	 * @param esbid
+	 * @param deptPk
+	 * @param primaryKey
 	 * @return
 	 */
-	@WebMethod
 	public String addUserByTxt(@WebParam(name = "dataTxt") String dataTxt,
-			@WebParam(name = "dept_zj") String dept_zj,
-			@WebParam(name = "user_zj") String user_zj);
+			@WebParam(name = "deptPk") String deptPk,
+			@WebParam(name = "primaryKey") String primaryKey);
+
 	/**
-	 *  Title: 修改用户 返回; 0：成功！ 1：不成功！[失败原因]
+	 * <p>
+	 * Title: 修改用户数据 返回; 0：成功！ 1：不成功！[失败原因]
+	 * </p>
+	 * 
 	 * @param dataTxt
-	 * @param esbid
+	 * @param primaryKey
 	 * @return
 	 */
 	@WebMethod
-	public String modifyUserByTxt(@WebParam(name = "dataTxt") String dataTxt,
-			@WebParam(name = "user_zj") String user_zj);
+	public String updateUserByTxt(@WebParam(name = "dataTxt") String dataTxt,
+			@WebParam(name = "primaryKey") String primaryKey);
 
 	/**
 	 * <p>
-	 * Title: 删除用户 返回; 0：成功！ 1：不成功！[失败原因]
+	 * Title: 增加部门数据 返回; 0：成功！ 1：不成功！[失败原因]
 	 * </p>
 	 * 
-	 * @param ESBID
-	 * @return
-	 */
-	@WebMethod
-	public String delUserByTxt(@WebParam(name = "user_zj") String user_zj);
-	/**
-	 *  Title: 增加部门 返回; 业务主键：成功！ 1：不成功！[失败原因]
 	 * @param dataTxt
-	 * @param gfzj
-	 * @param org_name
-	 * @param parent_org_no
+	 * @param primaryKey
+	 * @param orgPk
+	 * @param parentPk
 	 * @return
 	 */
 	@WebMethod
-	public String addOrgByTxt(@WebParam(name = "dataTxt") String dataTxt,
-			@WebParam(name = "dept_zj") String dept_zj,
-			@WebParam(name = "org_name") String org_name,
-			@WebParam(name = "parent_org_no") String parent_org_no);
+	public String addDeptByTxt(@WebParam(name = "dataTxt") String dataTxt,
+			@WebParam(name = "primaryKey") String primaryKey,
+			@WebParam(name = "orgPk") String orgPk,
+			@WebParam(name = "parentPk") String parentPk);
+
 	/**
-	 * Title: 修改部门 返回; 业务主键：成功！ 1：不成功！[失败原因]
+	 * <p>
+	 * Title: 修改部门数据 返回; 0：成功！ 1：不成功！[失败原因]
+	 * </p>
+	 * 
 	 * @param dataTxt
-	 * @param gfzj
+	 * @param primaryKey
 	 * @return
 	 */
 	@WebMethod
-	public String modifyOrgByTxt(@WebParam(name = "dataTxt") String dataTxt,
-			@WebParam(name = "dept_zj") String dept_zj);
+	public String updateDeptByTxt(@WebParam(name = "dataTxt") String dataTxt,
+			@WebParam(name = "primaryKey") String primaryKey);
 
 	/**
 	 * <p>
-	 * Title: 删除部门 返回; 0：成功！ 1：不成功！[失败原因]
+	 * Title: 增加用户数据 返回; 0：成功！ 1：不成功！[失败原因]
 	 * </p>
 	 * 
-	 * @param GFZJ
-	 * @return
-	 */
-
-	@WebMethod
-	public String delOrgByTxt(@WebParam(name = "dept_zj") String dept_zj) ;
-
-	/**
-	 *  Title: 增加用户 返回; 0：成功！ 1：不成功！[失败原因]
-	 * @param dataJson
-	 * @param dept_zj
-	 * @param esbid
-	 * @return
-	 */
-	@WebMethod
-	public String addUserByJson(@WebParam(name = "dataJson") String dataJson,
-			@WebParam(name = "dept_zj") String dept_zj,
-			@WebParam(name = "user_zj") String user_zj) ;
-
-	/**
-	 * Title: 修改用户 返回; 0：成功！ 1：不成功！[失败原因]
-	 * @param dataJson
-	 * @param esbid
-	 * @return
-	 */
-	@WebMethod
-	public String modifyUserByJson(
-			@WebParam(name = "dataJson") String dataJson,
-			@WebParam(name = "user_zj") String user_zj);
-
-	/**
-	 * <p>
-	 * Title: 删除用户 返回; 0：成功！ 1：不成功！[失败原因]
-	 * </p>
-	 * 
-	 * @param ESBID
-	 * @return
-	 */
-	@WebMethod
-	public String delUserByJson(@WebParam(name = "user_zj") String user_zj);
-
-	/**
-	 * Title: 增加部门 返回; 业务主键：成功！ 1：不成功！[失败原因]
-	 * @param dataJson
-	 * @param gfzj
-	 * @param org_name
-	 * @param parent_org_no
-	 * @return
-	 */
-	@WebMethod
-	public String addOrgByJson(@WebParam(name = "dataJson") String dataJson,
-			@WebParam(name = "dept_zj") String dept_zj,
-			@WebParam(name = "org_name") String org_name,
-			@WebParam(name = "parent_org_no") String parent_org_no);
-
-	/**
-	 * Title: 修改部门 返回; 业务主键：成功！ 1：不成功！[失败原因]
-	 * @param dataJson
-	 * @param gfzj
-	 * @return
-	 */
-	@WebMethod
-	public String modifyOrgByJson(@WebParam(name = "dataJson") String dataJson,
-			@WebParam(name = "dept_zj") String dept_zj);
-
-	/**
-	 * <p>
-	 * Title: 删除部门 返回; 0：成功！ 1：不成功！[失败原因]
-	 * </p>
-	 * 
-	 * @param GFZJ
-	 * @return
-	 */
-	@WebMethod
-	public String delOrgByJson(@WebParam(name = "dept_zj") String dept_zj) ;
-
-	/**
-	 * Title: 增加用户 返回; 0：成功！ 1：不成功！[失败原因]
 	 * @param dataXml
-	 * @param dept_zj
-	 * @param esbid
+	 * @param deptPk
+	 * @param primaryKey
 	 * @return
 	 */
 	@WebMethod
 	public String addUserByXml(@WebParam(name = "dataXml") String dataXml,
-			@WebParam(name = "dept_zj") String dept_zj,
-			@WebParam(name = "user_zj") String user_zj);
-	/**
-	 * Title: 修改用户 返回; 0：成功！ 1：不成功！[失败原因]
-	 * @param dataXml
-	 * @param esbid
-	 * @return
-	 */
-	@WebMethod
-	public String modifyUserByXml(@WebParam(name = "dataXml") String dataXml,
-			@WebParam(name = "user_zj") String user_zj);
+			@WebParam(name = "deptPk") String deptPk,
+			@WebParam(name = "primaryKey") String primaryKey);
 
 	/**
 	 * <p>
-	 * Title: 删除用户 返回; 0：成功！ 1：不成功！[失败原因]
+	 * Title: 更新用户数据 返回; 0：成功！ 1：不成功！[失败原因]
 	 * </p>
 	 * 
-	 * @param ESBID
-	 * @return
-	 */
-	@WebMethod
-	public String delUserByXml(@WebParam(name = "user_zj") String user_zj);
-	/**
-	 * Title: 增加部门 返回; 业务主键：成功！ 1：不成功！[失败原因]
 	 * @param dataXml
-	 * @param gfzj
-	 * @param org_name
-	 * @param parent_org_no
+	 * @param primaryKey
 	 * @return
 	 */
 	@WebMethod
-	public String addOrgByXml(@WebParam(name = "dataXml") String dataXml,
-			@WebParam(name = "dept_zj") String dept_zj,
-			@WebParam(name = "org_name") String org_name,
-			@WebParam(name = "parent_org_no") String parent_org_no) ;
-	/**
-	 * Title: 修改部门 返回; 0：成功！ 1：不成功！[失败原因]
-	 * @param dataXml
-	 * @param gfzj
-	 * @return
-	 */
-	@WebMethod
-	public String modifyOrgByXml(@WebParam(name = "dataXml") String dataXml,
-			@WebParam(name = "dept_zj") String dept_zj);
+	public String updateUserByXml(@WebParam(name = "dataXml") String dataXml,
+			@WebParam(name = "primaryKey") String primaryKey);
 
 	/**
 	 * <p>
-	 * Title: 删除部门 返回; 0：成功！ 1：不成功！[失败原因]
+	 * Title: 增加部门数据 返回; 0：成功！ 1：不成功！[失败原因]
 	 * </p>
 	 * 
-	 * @param GFZJ
+	 * @param dataXml
+	 * @param primaryKey
+	 * @param orgPk
+	 * @param parentPk
 	 * @return
 	 */
 	@WebMethod
-	public String delOrgByXml(@WebParam(name = "dept_zj") String dept_zj);
+	public String addDeptByXml(@WebParam(name = "dataXml") String dataXml,
+			@WebParam(name = "primaryKey") String primaryKey,
+			@WebParam(name = "orgPk") String orgPk,
+			@WebParam(name = "parentPk") String parentPk);
+
 	/**
-	 * Title: 增加全宗（字符串形式） 返回; 0：成功！ 1：不成功！[失败原因]
+	 * <p>
+	 * Title: 修改部门数据 返回; 0：成功！ 1：不成功！[失败原因]
+	 * </p>
+	 * 
+	 * @param dataXml
+	 * @param primaryKey
+	 * @return
+	 */
+	@WebMethod
+	public String updateDeptByXml(@WebParam(name = "dataXml") String dataXml,
+			@WebParam(name = "primaryKey") String primaryKey);
+
+	/**
+	 * <p>
+	 * Title: 增加用户数据 返回; 0：成功！ 1：不成功！[失败原因]
+	 * </p>
+	 * 
+	 * @param dataJson
+	 * @param deptPk
+	 * @param primaryKey
+	 * @return
+	 */
+	@WebMethod
+	public String addUserByJson(@WebParam(name = "dataJson") String dataJson,
+			@WebParam(name = "deptPk") String deptPk,
+			@WebParam(name = "primaryKey") String primaryKey);
+
+	/**
+	 * <p>
+	 * Title: 修改用户数据 返回; 0：成功！ 1：不成功！[失败原因]
+	 * </p>
+	 * 
+	 * @param dataJson
+	 * @param primaryKey
+	 * @return
+	 */
+	@WebMethod
+	public String updateUserByJson(
+			@WebParam(name = "dataJson") String dataJson,
+			@WebParam(name = "primaryKey") String primaryKey);
+
+	/**
+	 * <p>
+	 * Title: 增加部门数据 返回; 0：成功！ 1：不成功！[失败原因]
+	 * </p>
+	 * 
+	 * @param dataJson
+	 * @param primaryKey
+	 * @param orgPk
+	 * @param parentPk
+	 * @return
+	 */
+	@WebMethod
+	public String addDeptByJson(@WebParam(name = "dataJson") String dataJson,
+			@WebParam(name = "primaryKey") String primaryKey,
+			@WebParam(name = "orgPk") String orgPk,
+			@WebParam(name = "parentPk") String parentPk);
+
+	/**
+	 * <p>
+	 * Title: 修改部门数据 返回; 0：成功！ 1：不成功！[失败原因]
+	 * </p>
+	 * 
+	 * @param dataJson
+	 * @param primaryKey
+	 * @return
+	 */
+	@WebMethod
+	public String updateDeptByJson(
+			@WebParam(name = "dataJson") String dataJson,
+			@WebParam(name = "primaryKey") String primaryKey);
+
+	/**
+	 *  Title: 增加或修改用户数据 返回; 0：成功！ 1：不成功！[失败原因]
 	 * @param dataTxt
-	 * @param qzh_zj
+	 * @param deptPk
+	 * @param primaryKey
+	 * @return
+	 */
+	@WebMethod
+	public String addOrUpdateUserByTxt(
+			@WebParam(name = "dataTxt") String dataTxt,
+			@WebParam(name = "deptPk") String deptPk,
+			@WebParam(name = "primaryKey") String primaryKey);
+
+	/**
+	 * <p>
+	 * Title: 增加或修改部门数据 返回; 0：成功！ 1：不成功！[失败原因]
+	 * </p>
+	 * 
+	 * @param dataTxt
+	 * @param primaryKey
+	 * @param orgPk
+	 * @param parentPk
+	 * @return
+	 */
+	@WebMethod
+	public String addOrUpdateDeptByTxt(
+			@WebParam(name = "dataTxt") String dataTxt,
+			@WebParam(name = "primaryKey") String primaryKey,
+			@WebParam(name = "orgPk") String orgPk,
+			@WebParam(name = "parentPk") String parentPk);
+
+	/**
+	 * <p>
+	 * Title: 增加或修改用户数据 返回; 0：成功！ 1：不成功！[失败原因]
+	 * </p>
+	 * 
+	 * @param dataXml
+	 * @param deptPk
+	 * @param primaryKey
+	 * @return
+	 */
+	@WebMethod
+	public String addOrUpdateUserByXml(
+			@WebParam(name = "dataXml") String dataXml,
+			@WebParam(name = "deptPk") String deptPk,
+			@WebParam(name = "primaryKey") String primaryKey);
+
+	/**
+	 * <p>
+	 * Title: 增加或修改部门数据 返回; 0：成功！ 1：不成功！[失败原因]
+	 * </p>
+	 * 
+	 * @param dataXml
+	 * @param primaryKey
+	 * @param orgPk
+	 * @param parentPk
+	 * @return
+	 */
+	@WebMethod
+	public String addOrUpdateDeptByXml(
+			@WebParam(name = "dataXml") String dataXml,
+			@WebParam(name = "primaryKey") String primaryKey,
+			@WebParam(name = "orgPk") String orgPk,
+			@WebParam(name = "parentPk") String parentPk);
+
+	/**
+	 * <p>
+	 * Title: 增加或修改用户数据 返回; 0：成功！ 1：不成功！[失败原因]
+	 * </p>
+	 * 
+	 * @param dataJson
+	 * @param deptPk
+	 * @param primaryKey
+	 * @return
+	 */
+	@WebMethod
+	public String addOrUpdateUserByJson(
+			@WebParam(name = "dataJson") String dataJson,
+			@WebParam(name = "deptPk") String deptPk,
+			@WebParam(name = "primaryKey") String primaryKey);
+
+	/**
+	 * <p>
+	 * Title: 增加或修改部门数据 返回; 0：成功！ 1：不成功！[失败原因]
+	 * </p>
+	 * 
+	 * @param dataJson
+	 * @param primaryKey
+	 * @param orgPk
+	 * @param parentPk
+	 * @return
+	 */
+	@WebMethod
+	public String addOrUpdateDeptByJson(
+			@WebParam(name = "dataJson") String dataJson,
+			@WebParam(name = "primaryKey") String primaryKey,
+			@WebParam(name = "orgPk") String orgPk,
+			@WebParam(name = "parentPk") String parentPk);
+
+	/**
+	 * <p>
+	 * Title: 增加或修改全宗数据 返回; 0：成功！ 1：不成功！[失败原因]
+	 * </p>
+	 * 
+	 * @param dataTxt
+	 * @param primaryKey
+	 * @return
+	 */
+	@WebMethod
+	public String addOrUpdateQzhByTxt(
+			@WebParam(name = "dataTxt") String dataTxt,
+			@WebParam(name = "primaryKey") String primaryKey);
+
+	/**
+	 * <p>
+	 * Title: 增加或修改全宗数据 返回; 0：成功！ 1：不成功！[失败原因]
+	 * </p>
+	 * 
+	 * @param dataXml
+	 * @param primaryKey
+	 * @return
+	 */
+	@WebMethod
+	public String addOrUpdateQzhByXml(
+			@WebParam(name = "dataXml") String dataXml,
+			@WebParam(name = "primaryKey") String primaryKey);
+
+	/**
+	 * <p>
+	 * Title: 增加或修改全宗数据 返回; 0：成功！ 1：不成功！[失败原因]
+	 * </p>
+	 * 
+	 * @param dataJson
+	 * @param primaryKey
+	 * @return
+	 */
+	@WebMethod
+	public String addOrUpdateQzhByJson(
+			@WebParam(name = "dataJson") String dataJson,
+			@WebParam(name = "primaryKey") String primaryKey);
+
+	/**
+	 * <p>
+	 * Title: 增加全宗数据 返回; 0：成功！ 1：不成功！[失败原因]
+	 * </p>
+	 * 
+	 * @param dataTxt
+	 * @param primaryKey
 	 * @return
 	 */
 	@WebMethod
 	public String addQzhByTxt(@WebParam(name = "dataTxt") String dataTxt,
-			@WebParam(name = "qzh_zj") String qzh_zj);
+			@WebParam(name = "primaryKey") String primaryKey);
+
 	/**
-	 * Title: 修改全宗（字符串形式） 返回; 0：成功！ 1：不成功！[失败原因]
+	 * <p>
+	 * Title: 修改全宗数据 返回; 0：成功！ 1：不成功！[失败原因]
+	 * </p>
+	 * 
 	 * @param dataTxt
-	 * @param qzh_zj
+	 * @param primaryKey
 	 * @return
 	 */
 	@WebMethod
-	public String modifyQzhByTxt(@WebParam(name = "dataTxt") String dataTxt,
-			@WebParam(name = "qzh_zj") String qzh_zj);
+	public String updateQzhByTxt(@WebParam(name = "dataTxt") String dataTxt,
+			@WebParam(name = "primaryKey") String primaryKey);
+
 	/**
-	 * Title: 删除全宗（字符串形式） 返回; 0：成功！ 1：不成功！[失败原因]
-	 * @param qzh_zj
+	 * <p>
+	 * Title: 增加全宗数据 返回; 0：成功！ 1：不成功！[失败原因]
+	 * </p>
+	 * 
+	 * @param dataXml
+	 * @param primaryKey
 	 * @return
 	 */
 	@WebMethod
-	public String delQzhByTxt(@WebParam(name = "qzh_zj") String qzh_zj);
+	public String addQzhByXml(@WebParam(name = "dataXml") String dataXml,
+			@WebParam(name = "primaryKey") String primaryKey);
+
 	/**
-	 *  Title: 增加全宗（JSON形式） 返回; 0：成功！ 1：不成功！[失败原因]
+	 * <p>
+	 * Title: 修改全宗数据 返回; 0：成功！ 1：不成功！[失败原因]
+	 * </p>
+	 * 
+	 * @param dataXml
+	 * @param primaryKey
+	 * @return
+	 */
+	@WebMethod
+	public String updateQzhByXml(@WebParam(name = "dataXml") String dataXml,
+			@WebParam(name = "primaryKey") String primaryKey);
+
+	/**
+	 * <p>
+	 * Title: 增加全宗数据 返回; 0：成功！ 1：不成功！[失败原因]
+	 * </p>
+	 * 
 	 * @param dataJson
-	 * @param qzh_zj
+	 * @param primaryKey
 	 * @return
 	 */
 	@WebMethod
 	public String addQzhByJson(@WebParam(name = "dataJson") String dataJson,
-			@WebParam(name = "qzh_zj") String qzh_zj);
+			@WebParam(name = "primaryKey") String primaryKey);
+
 	/**
-	 * Title: 修改全宗（JSON形式） 返回; 0：成功！ 1：不成功！[失败原因]
+	 * <p>
+	 * Title: 修改全宗数据 返回; 0：成功！ 1：不成功！[失败原因]
+	 * </p>
+	 * 
 	 * @param dataJson
-	 * @param qzh_zj
+	 * @param primaryKey
 	 * @return
 	 */
 	@WebMethod
-	public String modifyQzhByJson(@WebParam(name = "dataJson") String dataJson,
-			@WebParam(name = "qzh_zj") String qzh_zj);
+	public String updateQzhByJson(@WebParam(name = "dataJson") String dataJson,
+			@WebParam(name = "primaryKey") String primaryKey);
+
 	/**
-	 * Title: 删除全宗（JSON形式） 返回; 0：成功！ 1：不成功！[失败原因]
-	 * @param qzh_zj
+	 * <p>
+	 * Title: 删除用户数据 返回; 0：成功！ 1：不成功！[失败原因]
+	 * </p>
+	 * 
+	 * @param primaryKey
 	 * @return
 	 */
 	@WebMethod
-	public String delQzhByJson(@WebParam(name = "qzh_zj") String qzh_zj);
+	public String delUserByKey(@WebParam(name = "primaryKey") String primaryKey);
+
 	/**
-	 * Title: 增加全宗（XML形式） 返回; 0：成功！ 1：不成功！[失败原因]
-	 * @param dataXml
-	 * @param qzh_zj
+	 * <p>
+	 * Title: 删除部门数据 返回; 0：成功！ 1：不成功！[失败原因]
+	 * </p>
+	 * 
+	 * @param primaryKey
 	 * @return
 	 */
-	public String addQzhByXml(@WebParam(name = "dataXml") String dataXml,
-			@WebParam(name = "qzh_zj") String qzh_zj);
+
+	@WebMethod
+	public String delDeptByKey(@WebParam(name = "primaryKey") String primaryKey);
+
 	/**
-	 * Title: 修改全宗（XML形式） 返回; 0：成功！ 1：不成功！[失败原因]
-	 * @param dataXml
-	 * @param qzh_zj
+	 * <p>
+	 * Title: 删除全宗数据 返回; 0：成功！ 1：不成功！[失败原因]
+	 * </p>
+	 * 
+	 * @param primaryKey
 	 * @return
 	 */
 	@WebMethod
-	public String modifyQzhByXml(@WebParam(name = "dataXml") String dataXml,
-			@WebParam(name = "qzh_zj") String qzh_zj);
-	/**
-	 * Title: 删除全宗（XML形式） 返回; 0：成功！ 1：不成功！[失败原因]
-	 * @param qzh_zj
-	 * @return
-	 */
-	@WebMethod
-	public String delQzhByXml(@WebParam(name = "qzh_zj") String qzh_zj);
+	public String delQzhByKey(@WebParam(name = "primaryKey") String primaryKey);
+
 }
