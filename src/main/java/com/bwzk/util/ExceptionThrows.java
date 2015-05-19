@@ -5,10 +5,6 @@ import com.bwzk.pojo.SUser;
 import com.bwzk.service.BaseService;
 
 public class ExceptionThrows extends Exception {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	String errorMessage;
 
@@ -38,24 +34,3 @@ public class ExceptionThrows extends Exception {
 
 }
 
-	// public static void main(String[] args)
-	//
-	// {
-	//
-	// try
-	//
-	// {
-	//
-	// new IsExist().isUserExist();
-	//
-	// }
-	//
-	// catch (ExceptionThrows ex)
-	//
-	// {
-	//
-	// System.out.println(ex.getMessage());
-	//
-	// }
-	//
-	// }
