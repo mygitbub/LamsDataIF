@@ -7,6 +7,7 @@
 //
 //import javax.xml.namespace.QName;
 //
+//import org.apache.commons.io.FileUtils;
 //import org.codehaus.jackson.map.ObjectMapper;
 //
 //import cn.lams.BaseDataServiceImplService;
@@ -63,9 +64,9 @@
 //			// String xml = FileUtils.readFileToString(new File(
 //			// "C:/XML/S_GROUP.XML"), "UTF-8");
 //			// bdsis.addDeptByXml(xml, "3333", "3333", "3333");
-//			// String xml = FileUtils.readFileToString(new File(
-//			// "C:/XML/S_QZH.XML"), "UTF-8");
-//			// bdsis.addQzhByXml(xml, "3333");
+////			 String xml = FileUtils.readFileToString(new File(
+////			 "C:/XML/S_QZH.XML"), "UTF-8");
+////			 bdsis.addQzhByXml(xml, "3333");
 //			// String xml = FileUtils.readFileToString(new File(
 //			// "C:/XML/S_USER.XML"), "UTF-8");
 //			// bdsis.addOrUpdateUserByXml(xml, "33331", "33331");

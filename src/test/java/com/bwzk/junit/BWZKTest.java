@@ -1,5 +1,6 @@
 //package com.bwzk.junit;
 //
+//import java.io.File;
 //import java.io.StringWriter;
 //import java.net.URL;
 //import java.util.HashMap;
@@ -7,6 +8,7 @@
 //
 //import javax.xml.namespace.QName;
 //
+//import org.apache.commons.io.FileUtils;
 //import org.codehaus.jackson.map.ObjectMapper;
 //import org.junit.Test;
 //import org.junit.runner.RunWith;
@@ -93,10 +95,10 @@
 //		// baseDataServiceImpl.ModifyQzhByJson(sw.toString().toString());
 //		// sw.close();
 //		// baseDataServiceImpl.DelQzhByJson("000");
-//		// String xml = FileUtils.readFileToString(new
-//		// File("D:/LamsDataIF/target/classes/XML/S_USER.XML") , "UTF-8");
-//		// System.out.println(baseDataServiceImpl.AddUserByXml("S_USER.XML",
-//		// xml));
+//		 String xml = FileUtils.readFileToString(new
+//		 File("D:/LamsDataIF/target/classes/XML/S_USER.XML") , "UTF-8");
+//		 System.out.println(baseDataServiceImpl.AddUserByXml("S_USER.XML",
+//		 xml));
 //		// String xml = FileUtils.readFileToString(new
 //		// File("D:/LamsDataIF/target/classes/XML/D_FILE25.XML") , "UTF-8");
 //		// System.out.println(arcDataService.fileReciveXml("D_FILE25.xml", xml,
