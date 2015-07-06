@@ -491,7 +491,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 		try {
 			Table table = XmlObjUtil.xml2Obj(dataXml, Table.class);
 			vars = convertTable2Map(table);
-			result = insertOrg4Map(vars, primaryKey, parentPk, orgPk);
+			result = insertDept4Map(vars, primaryKey, parentPk, orgPk);
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			result = "1[" + e.getMessage() + "]";
@@ -516,7 +516,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 		try {
 			Table table = XmlObjUtil.xml2Obj(dataXml, Table.class);
 			vars = convertTable2Map(table);
-			result = updateOrg4Map(vars, primaryKey);
+			result = updateDept4Map(vars, primaryKey);
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			result = "1[" + e.getMessage() + "]";
@@ -598,7 +598,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 		Map<String, String> vars = null;
 		try {
 			vars = mapper.readValue(dataJson, Map.class);
-			result = insertOrg4Map(vars, primaryKey, parentPk, orgPk);
+			result = insertDept4Map(vars, primaryKey, parentPk, orgPk);
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			result = "1[" + e.getMessage() + "]";
@@ -624,7 +624,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 			ObjectMapper mapper = new ObjectMapper();
 			Map<String, String> vars = null;
 			vars = mapper.readValue(dataJson, Map.class);
-			result = updateOrg4Map(vars, primaryKey);
+			result = updateDept4Map(vars, primaryKey);
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			result = "1[" + e.getMessage() + "]";

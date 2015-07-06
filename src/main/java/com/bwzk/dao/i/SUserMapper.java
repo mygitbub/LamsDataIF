@@ -42,6 +42,8 @@ public interface SUserMapper  extends BaseDao{
 
     int updateByPrimaryKey(SUser record);
     
+    int updateByKey(SUser record);
+    
 	@Select("SELECT DID,PID,USERCODE,USERNAME FROM S_USER")
     List<SUser> getAllUserList();
 	
