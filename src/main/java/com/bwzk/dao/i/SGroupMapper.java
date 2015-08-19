@@ -33,6 +33,8 @@ public interface SGroupMapper   extends BaseDao{
 
     int updateByPrimaryKey(SGroup record);
     
+    int updateByKey(SGroup record);
+    
     /**
      * <p>Title: 根据xml里面的mdCode来查询s_group中的depid</p>
      * <p>Description: </p>

@@ -288,4 +288,11 @@
       DEPID = #{depid,jdbcType=VARCHAR}
     where DID = #{did,jdbcType=INTEGER}
   </update>
+  <update id="updateByKey" parameterType="com.bwzk.pojo.SGroup">
+    update S_GROUP
+    set GID = #{gid,jdbcType=INTEGER},
+      GNAME = #{gname,jdbcType=VARCHAR},
+      BZ = #{bz,jdbcType=VARCHAR}
+    where GFZJ = #{gfzj,jdbcType=VARCHAR}
+  </update>
 </mapper>

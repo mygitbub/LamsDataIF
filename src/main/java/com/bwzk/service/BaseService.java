@@ -32,6 +32,7 @@ import com.bwzk.dao.i.SUserroleMapper;
 import com.bwzk.pojo.FDTable;
 import com.bwzk.pojo.SGroup;
 import com.bwzk.pojo.SUser;
+import com.bwzk.pojo.SUserWithBLOBs;
 import com.bwzk.pojo.SUserrole;
 import com.bwzk.util.CommonUtil;
 import com.bwzk.util.DateUtil;
@@ -601,7 +602,6 @@ public class BaseService {
 		values.setLength(0);
 		return result;
 	}
-
 	protected String updateUser4Map(Map<String, String> map, String esbid) {
 		String archKey = "";
 		String archVal = "";
@@ -678,7 +678,7 @@ public class BaseService {
 		return result;
 	}
 
-	protected String insertOrg4Map(Map<String, String> map, String gfzj,
+	protected String insertDept4Map(Map<String, String> map, String gfzj,
 			String parent_org_no, String qzh_zj) {
 		String archKey = "";
 		String archVal = "";
@@ -764,7 +764,7 @@ public class BaseService {
 		return result;
 	}
 
-	protected String updateOrg4Map(Map<String, String> map, String gfzj) {
+	protected String updateDept4Map(Map<String, String> map, String gfzj) {
 		String archKey = ""; // 档案字段
 		String archVal = ""; // 档案字段对应的值
 		String result = "1";
@@ -839,7 +839,100 @@ public class BaseService {
 		values.setLength(0);
 		return result;
 	}
-
+	protected String insertUser(SUserWithBLOBs suser, String dept_zj,
+			String esbid){
+		Integer pid = null;
+		String result = "1";
+		try {
+			Integer maxdid = getMaxDid("s_user");
+			SUser user = sUserMapper.getUserByEsbid(esbid);
+			new IsExistDepOrUser().isUserExist(user);
+			SGroup group = sGroupMapper.getGroupByGfzj(dept_zj);
+			if (group == null) {
+				pid = defaultYhGroup;
+			} else {
+				pid = group.getDid();
+			}
+			suser.setDid(maxdid);
+			suser.setPid(pid);
+			suser.setEsbid(esbid);
+			suser.setEsbcode(dept_zj);
+			sUserMapper.insert(suser);
+			log.error("增加一个用户:" + esbid);
+			result = "0";
+			SUserrole userrole = new SUserrole();
+			userrole.setDid(getMaxDid("S_USERROLE"));
+			userrole.setYhid(maxdid);
+			userrole.setJsid(jsid);
+			sUserroleMapper.insert(userrole);
+			log.error("用户:" + esbid + " 关联角色");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			log.error(e.getMessage());
+			result = "1";
+		}
+		return result;
+	}
+	protected String updateUser(SUserWithBLOBs suser, String esbid){
+		String result = "1";
+		try {
+			SUser user = sUserMapper.getUserByEsbid(esbid);
+			new IsExistDepOrUser().isUserNotExist(user);
+			suser.setEsbid(esbid);
+			sUserMapper.updateByKey(suser);
+			result = "0";
+			log.error("修改一个用户： " +esbid);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			log.error(e.getMessage());
+			result = "1";
+		}
+		return result;
+	}
+	protected String insertDept(SGroup sgroup, String gfzj,
+			String parent_org_no, String qzh_zj) {
+		String qzh = null;
+		Integer pid = null;
+		String result = "1";
+		try {
+			Integer maxdid = getMaxDid("s_group");
+			SGroup group = sGroupMapper.getGroupByGfzj(gfzj);
+			new IsExistDepOrUser().isDeptExist(group);
+			String deptQzh = getQzhByKey(qzh_zj);
+			SGroup parent = sGroupMapper.getGroupByGfzj(parent_org_no);
+			qzh = (deptQzh == null ? defaultDeptQzh : deptQzh);
+			pid = (parent == null ? defaultDeptPid : parent.getDid());
+			sgroup.setDid(maxdid);
+			sgroup.setPid(pid);
+			sgroup.setQzh(qzh);
+			sgroup.setGfzj(gfzj);
+			sgroup.setDepcode(parent_org_no);
+			sGroupMapper.insert(sgroup);
+			result = "0";
+			log.error("增加一个部门. " + gfzj);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			System.out.println(e.getMessage());
+			result = "1";
+		}
+		return result;
+	}
+	protected String updateDept(SGroup sgroup, String gfzj) {
+		String result = "1";
+		try {
+			SGroup sg = sGroupMapper.getGroupByGfzj(gfzj);
+			new IsExistDepOrUser().isDepNotExist(sg);
+			sgroup.setGfzj(gfzj);
+			sGroupMapper.updateByKey(sgroup);
+			result = "0";
+			log.error("修改一个部门. " + gfzj);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			System.out.println(e.getMessage());
+			result = "1";
+		}
+		return result;
+	}
 	/**
 	 * 根据部门名称获取全宗号
 	 * 
