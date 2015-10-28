@@ -1,17 +1,13 @@
 package com.bwzk.dao;
 
-import java.util.Date;
-import java.util.List;
-
+import com.bwzk.pojo.*;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
-import com.bwzk.pojo.FDTable;
-import com.bwzk.pojo.SDalx;
-import com.bwzk.pojo.SUser;
-import com.bwzk.pojo.WWjkgl;
+import java.util.Date;
+import java.util.List;
 
 @Repository
 public interface BaseDao{
@@ -69,5 +65,10 @@ public interface BaseDao{
 	
 	@Select("select * from w_wjkgl ")
 	List<WWjkgl> getAllWjkglList();
-	
+
+	@Select("SELECT * FROM S_FWQPZ WHERE ISDEFAULT=1")
+	SFwqpz getDefaultFwqpz();
+
+	@Select("SELECT * FROM S_FWQPZ WHERE pzname='${pzm}'")
+	SFwqpz getFwqpzByPzm(@Param("pzm") String pzm);
 }

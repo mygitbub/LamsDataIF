@@ -20,4 +20,8 @@
 			value="org.springframework.web.servlet.view.JstlView" />
 		<property name="prefix" value="/page/" />
 	</bean>
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="UTF-8" />
+		<property name="maxUploadSize" value="524288000" /><!-- 524288000 500M  104857600 100M -->
+	</bean>
 </beans>

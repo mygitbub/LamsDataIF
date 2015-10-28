@@ -1,10 +1,10 @@
 package com.bwzk.dao;
 
+import com.bwzk.pojo.EFile;
+
 import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
-
-import org.springframework.jdbc.core.PreparedStatementSetter;
 
 public interface JdbcDao {
 	/**
@@ -24,13 +24,11 @@ public interface JdbcDao {
 	
 	/**
 	 * 为了版本更新得到一条 keyword和分类号 gid=keyword
-	 * @param gid
 	 * @return
 	 */
 	public Map<String, Object> queryForMap(String sql);
 	/**
 	 * 为了版本更新得到一条 keyword和分类号 gid=keyword
-	 * @param gid
 	 * @return
 	 */
 	public List<Map<String, Object>> quertListMap(String sql);
@@ -47,5 +45,5 @@ public interface JdbcDao {
 	public String query4String(String sql) ;
 	public Connection getConn();
 	
-	public void insertEfile(String tableName , PreparedStatementSetter efileSetter);
+	public Integer insertEfile(String tableName ,  EFile eFile);
 }

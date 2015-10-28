@@ -118,7 +118,7 @@ public class CommonCtler {
 	 */
 	@RequestMapping(value="/sso" , method = RequestMethod.GET)
 	public String sso(@RequestParam String  usercode , @RequestParam String token ){
-		String lamsUrl = "http://"+lamsIP+"/Lams/directLogin?usercode=";
+		String lamsUrl = "http://"+arcServcieImpl.getLamsIP()+"/Lams/directLogin?usercode=";
 		Boolean result = judgeSSO(usercode, token);
 		if(result){//返回0 表示成功
 			lamsUrl = lamsUrl + usercode;
@@ -155,8 +155,5 @@ public class CommonCtler {
 	@Autowired
 	@Value("${interface.log.home.address}")
 	private String logHomeAdd;
-	@Autowired
-	@Value("${lams.ip}")
-	private String lamsIP;//档案服务器ip
 	private Logger log =  (Logger) LoggerFactory.getLogger(this.getClass());
 }

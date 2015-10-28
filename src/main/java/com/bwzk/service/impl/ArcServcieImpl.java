@@ -1,18 +1,6 @@
 package com.bwzk.service.impl;
 
-import java.util.List;
-
-import javax.jws.WebService;
-
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import ch.qos.logback.classic.Logger;
-
 import com.bwzk.dao.JdbcDao;
 import com.bwzk.dao.i.SGroupMapper;
 import com.bwzk.dao.i.SUserMapper;
@@ -20,6 +8,14 @@ import com.bwzk.dao.i.SUserroleMapper;
 import com.bwzk.pojo.SUser;
 import com.bwzk.service.BaseService;
 import com.bwzk.service.i.ArcService;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.jws.WebService;
+import java.util.List;
 
 @Service("arcServcieImpl")
 @WebService(name="ArcDataWs" , targetNamespace = "http://service.unis.com/")
@@ -61,9 +57,10 @@ public class ArcServcieImpl  extends BaseService implements ArcService{
 		return super.getBmidByuserCode(userCode);
 	}
 	
-	
-	
-	
+	public String getLamsIP(){
+		return super.getLamsIP();
+	}
+
 	@Autowired
 	private SGroupMapper sGroupMapper;
 	@Autowired
@@ -73,18 +70,5 @@ public class ArcServcieImpl  extends BaseService implements ArcService{
 	@Autowired
 	private JdbcDao jdbcDao;
 
-	@Autowired
-	@Value("${lams.dfile.status}")
-	private String status;//状态
-	@Autowired
-	@Value("${lams.dfile.attr}")
-	private String attr;//归档前后  1未归档  0已归档
-	@Autowired
-	@Value("${lams.dfile.attrex}")
-	private String attrex;//移交
-	@Autowired
-	@Value("${lams.ip}")
-	private String lamsIP;
-	
 	private Logger log =  (Logger) LoggerFactory.getLogger(this.getClass());
 }

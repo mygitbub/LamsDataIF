@@ -1,13 +1,7 @@
 package com.bwzk.dao;
 
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
-
+import ch.qos.logback.classic.Logger;
+import com.bwzk.pojo.EFile;
 import org.apache.ibatis.jdbc.RuntimeSqlException;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +9,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.stereotype.Component;
 
-import ch.qos.logback.classic.Logger;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TimeZone;
 @Component("jdbcDao")
 public class JdbcDaoImpl implements JdbcDao {
 	public void excute(String sql) throws RuntimeException{
@@ -103,10 +104,29 @@ public class JdbcDaoImpl implements JdbcDao {
 		}
 	}
 	
-	public void insertEfile(String tableName , PreparedStatementSetter efileSetter){
-		jdbcTemplate.update("insert into " + tableName + 
-				"(DID,PID,EFILENAME,TITLE,EXT,PZM,PATHNAME,STATUS,ATTR,ATTREX,CREATOR,CREATETIME,FILESIZE) "
-				+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?)" , efileSetter);
+	public Integer insertEfile(String tableName , final EFile eFile){
+		return jdbcTemplate.update("insert into " + tableName +
+				"(DID,PID,EFILENAME,TITLE,EXT,PZM,PATHNAME,STATUS,ATTR,ATTREX,CREATOR,CREATETIME,FILESIZE,MD5,CONVERTSTATUS) "
+				+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", new PreparedStatementSetter() {
+			public void setValues(PreparedStatement ps) throws SQLException {
+				Integer i = 1;
+				ps.setInt(i++, eFile.getDid());
+				ps.setInt(i++, eFile.getPid());
+				ps.setString(i++, eFile.getEfilename());
+				ps.setString(i++ , eFile.getTitle());
+				ps.setString(i++, eFile.getExt());
+				ps.setString(i++, eFile.getPzm());
+				ps.setString(i++, eFile.getPathname());
+				ps.setInt(i++, eFile.getStatus());
+				ps.setInt(i++ , eFile.getAttr());
+				ps.setInt(i++ , eFile.getAttrex());
+				ps.setString(i++, eFile.getCreator());
+				ps.setDate(i++, new java.sql.Date(eFile.getCreatetime().getTime()));
+				ps.setInt(i++, eFile.getFilesize());
+				ps.setString(i++, eFile.getMd5());
+				ps.setInt(i++ , 0);//电子文件转换的一个标识  0 是未转换
+			}
+		});
 	}
 	
 	/**

@@ -1,10 +1,9 @@
 package com.bwzk.service.i;
 
-import java.util.List;
+import com.bwzk.pojo.SUser;
 
 import javax.jws.WebService;
-
-import com.bwzk.pojo.SUser;
+import java.util.List;
 @WebService(name="ArcDataWs" , targetNamespace = "http://service.unis.com/")
 public interface ArcService {
 	/**
@@ -25,8 +24,9 @@ public interface ArcService {
 	public String getBmidStrByDepCode(String depCode);
 	/**
 	 * 得到bmid
-	 * @param usercode 
-	 * @return BMID str
+	 * @param userCode
 	 */
 	public String getBmidStrByUserCode(String userCode);
+
+	public String getLamsIP();
 }

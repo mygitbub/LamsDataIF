@@ -6,7 +6,6 @@ import java.util.List;
 public class SDalx implements java.io.Serializable {
 
 	// Fields
-
 	private Integer did;
 	private Integer qzid;
 	private Integer code;

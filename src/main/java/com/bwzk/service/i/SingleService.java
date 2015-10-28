@@ -8,7 +8,7 @@ public interface SingleService {
 	/**
 	 * <p>Title: fileReciveTxt</p>
 	 * <p>Description: 接受数据服务 数据使用 txt 传递,utf编码, 用&;分割 </p>
-	 * @param tableName 要传递的xml名称, 不带xml
+	 * @param xmlName 要传递的xml名称, 不带xml
 	 * @param dataTxt   txt 传递的值集合,utf编码, 用&;分割
 	 * @param gdrCode   数据的所属人 usercode
 	 * @date 2014年6月19日
@@ -19,8 +19,8 @@ public interface SingleService {
 	/**
 	 * <p>Title: fileReciveTxt</p>
 	 * <p>Description: 接受数据服务 数据使用 xml 传递,utf编码 </p>
-	 * @param tableName 要传递的xml名称, 不带xml
-	 * @param dataTxt   xm来传递
+	 * @param xmlName 要传递的xml名称, 不带xml
+	 * @param dataXml   xm来传递
 	 * @param gdrCode   数据的所属人 usercode
 	 * @date 2014年6月19日
 	*/

@@ -1,20 +1,19 @@
 package com.bwzk.service;
 
-import java.io.Reader;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TimeZone;
-
-import org.apache.commons.lang.StringUtils;
+import ch.qos.logback.classic.Logger;
+import com.bwzk.dao.JdbcDao;
+import com.bwzk.dao.i.SGroupMapper;
+import com.bwzk.dao.i.SQzhMapper;
+import com.bwzk.dao.i.SUserMapper;
+import com.bwzk.dao.i.SUserroleMapper;
+import com.bwzk.pojo.*;
+import com.bwzk.util.CommonUtil;
+import com.bwzk.util.DateUtil;
+import com.bwzk.util.ExceptionThrows;
+import com.bwzk.util.GlobalFinalAttr.DatabaseType;
+import com.bwzk.util.IsExistDepOrUser;
+import com.caucho.hessian.client.HessianProxyFactory;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.RuntimeSqlException;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.slf4j.LoggerFactory;
@@ -22,23 +21,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import ch.qos.logback.classic.Logger;
-
-import com.bwzk.dao.JdbcDao;
-import com.bwzk.dao.i.SGroupMapper;
-import com.bwzk.dao.i.SQzhMapper;
-import com.bwzk.dao.i.SUserMapper;
-import com.bwzk.dao.i.SUserroleMapper;
-import com.bwzk.pojo.FDTable;
-import com.bwzk.pojo.SGroup;
-import com.bwzk.pojo.SUser;
-import com.bwzk.pojo.SUserWithBLOBs;
-import com.bwzk.pojo.SUserrole;
-import com.bwzk.util.CommonUtil;
-import com.bwzk.util.DateUtil;
-import com.bwzk.util.ExceptionThrows;
-import com.bwzk.util.GlobalFinalAttr.DatabaseType;
-import com.bwzk.util.IsExistDepOrUser;
+import java.io.Reader;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.*;
 
 @Service
 public class BaseService {
@@ -483,8 +471,6 @@ public class BaseService {
 
 	/**
 	 * 通过组的得到一个groupList 从小到大 从最底层到最高层
-	 * 
-	 * @param 组的did
 	 */
 	private List<SGroup> getGroupList(Integer groupDid, List<SGroup> groupList) {
 		SGroup tempGroup = this.getGroupByDid(groupDid);
@@ -499,15 +485,28 @@ public class BaseService {
 
 	}
 
-	protected Integer getMaxDid(String tableName) {
-		Integer returnMaxDid = sUserMapper.getMaxDid(tableName);
-		if (returnMaxDid == null) {
-			returnMaxDid = 1;
-		} else {
-			returnMaxDid = returnMaxDid + 1;
+	/**
+	 * 会先从Lams获取did ,如果获取失败 或者为-1 会自己查询数据库获取
+	 * @param tableName
+	 * @return
+	 */
+	public Integer getMaxDid(String tableName) {
+		Integer maxDid = -1;
+		try {
+			HessianProxyFactory factory = new HessianProxyFactory();
+			factory.setOverloadEnabled(true);
+			OutInterfaceServcie remote = (OutInterfaceServcie) factory
+					.create(OutInterfaceServcie.class, "http://"+lamsIP+"/Lams/hs/openInterface.hs");
+			maxDid = remote.getMaxDid(tableName);
+		} catch (Exception e) {
+			log.error("从Lams获取DID出现错误: " + e.getMessage());
 		}
-		return returnMaxDid;
-
+		if(maxDid.equals(-1)){
+			maxDid = sUserMapper.getMaxDid(tableName);
+			maxDid = (maxDid == null ? 1 : maxDid++);
+			maxDid++;
+		}
+		return maxDid;
 	}
 
 	protected String insertUser4Map(Map<String, String> map, String dept_zj,
@@ -933,6 +932,10 @@ public class BaseService {
 		}
 		return result;
 	}
+
+	public Integer insertEfile(String tableName , final EFile eFile){
+		return jdbcDao.insertEfile(tableName , eFile);
+	}
 	/**
 	 * 根据部门名称获取全宗号
 	 * 
@@ -961,6 +964,35 @@ public class BaseService {
 		String sql = "select qzh from s_qzh where primarykey = " + key;
 		String qzh = jdbcDao.query4String(sql);
 		return qzh;
+	}
+
+	/**
+	 * 通过pzm的到服务器的配置.如果空的返回默认的
+	 * @param pzm s_fwqpz.pzname
+	 * @return
+	 */
+	public SFwqpz getFwqpz(String pzm){
+		SFwqpz fwqpz = null;
+		if(StringUtils.isNotBlank(pzm)){
+			fwqpz = sGroupMapper.getFwqpzByPzm(pzm);
+		}
+		return null == fwqpz ? sGroupMapper.getDefaultFwqpz() : fwqpz;
+	}
+
+	public String getLamsIP(){
+		return lamsIP;
+	}
+
+	public Integer getAttr() {
+		return attr;
+	}
+
+	public Integer getAttrex() {
+		return attrex;
+	}
+
+	public Integer getStatus() {
+		return status;
 	}
 
 	@Autowired
@@ -998,10 +1030,18 @@ public class BaseService {
 	protected String defaultDeptQzh;
 	@Autowired
 	@Value("${lams.dfile.attrex}")
-	protected String attrex;// 移交接收状态
+	protected Integer attrex;// 移交接收状态
 	@Autowired
 	@Value("${lams.dfile.attr}")
-	protected String attr;// 归档前后
+	protected Integer attr;// 归档前后
+	@Autowired
+	@Value("${lams.ip}")
+	protected String lamsIP;
+
+	@Autowired
+	@Value("${lams.dfile.status}")
+	protected Integer status;//状态
+
 	private String sysdate = null;
 	private Logger log = (Logger) LoggerFactory.getLogger(this.getClass());
 }

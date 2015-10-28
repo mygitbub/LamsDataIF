@@ -1,9 +1,14 @@
 package com.bwzk.service.impl;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-
+import ch.qos.logback.classic.Logger;
+import com.bwzk.dao.i.SBacklogMapper;
+import com.bwzk.dao.i.SUserMapper;
+import com.bwzk.pojo.SBacklog;
+import com.bwzk.pojo.SBacklogExample;
+import com.bwzk.pojo.SUser;
+import com.bwzk.service.BaseService;
+import com.bwzk.service.i.NoticeService;
+import com.bwzk.util.SeriKeyOper;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.LoggerFactory;
@@ -14,16 +19,9 @@ import org.springframework.core.io.support.EncodedResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
-import ch.qos.logback.classic.Logger;
-
-import com.bwzk.dao.i.SBacklogMapper;
-import com.bwzk.dao.i.SUserMapper;
-import com.bwzk.pojo.SBacklog;
-import com.bwzk.pojo.SBacklogExample;
-import com.bwzk.pojo.SUser;
-import com.bwzk.service.BaseService;
-import com.bwzk.service.i.NoticeService;
-import com.bwzk.util.SeriKeyOper;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 @Service("noticeServiceImpl")
 public class NoticeServiceImpl extends BaseService implements NoticeService {
 
@@ -135,9 +133,6 @@ public class NoticeServiceImpl extends BaseService implements NoticeService {
 	private SUserMapper sUserMapper;
 	@Autowired
 	private SBacklogMapper sBacklogMapper;
-	@Autowired
-	@Value("${lams.ip}")
-	private String lamsIP;
 	@Autowired
 	@Value("${sendinfo.todo.title}")
 	private String sendInfoTitle;

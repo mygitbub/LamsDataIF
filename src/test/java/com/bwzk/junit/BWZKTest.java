@@ -1,12 +1,7 @@
 package com.bwzk.junit;
 
-import java.io.File;
-import java.io.StringWriter;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.commons.io.FileUtils;
-import org.codehaus.jackson.map.ObjectMapper;
+import com.bwzk.pojo.EFile;
+import com.bwzk.service.BaseService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.bwzk.service.i.BaseDataService;
+import java.util.Date;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath*:spring/test*.xml" })
@@ -245,6 +240,25 @@ public class BWZKTest extends AbstractJUnit4SpringContextTests {
 			// bdsis.addQzhByXml(xml, "123123321");
 			// bdsis.modifyQzhByXml(xml, "123123321");
 			// bdsis.delQzhByXml("123123321");
+			String  tableName = "e_file1";
+			EFile eFile = new EFile();
+			String title = "tttile";
+			//DID,PID,EFILENAME,TITLE,EXT,PZM,PATHNAME,STATUS,ATTR,ATTREX,CREATOR,CREATETIME,FILESIZE,MD5,CONVERTSTATUS
+			eFile.setDid(baseService.getMaxDid(tableName));
+			eFile.setPid(1);
+			eFile.setEfilename("/dj测试");
+			eFile.setTitle(title);
+			eFile.setExt("doc");
+			eFile.setPzm("pzm");
+			eFile.setPathname("//ssss/sdfsdfs/sdf/");
+			eFile.setStatus(baseService.getStatus());
+			eFile.setAttr(baseService.getAttr());
+			eFile.setAttrex(baseService.getAttrex());
+			eFile.setCreator( "ROOT");
+			eFile.setCreatetime(new Date());
+			eFile.setFilesize(9999);
+			eFile.setMd5( "MD5Test");
+			System.out.println(baseService.insertEfile(tableName , eFile));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -252,7 +266,7 @@ public class BWZKTest extends AbstractJUnit4SpringContextTests {
 	}
 
 	@Autowired
-	private BaseDataService baseDataServiceImpl;
+	private BaseService baseService;
 	// @Autowired
 	// private SingleService arcDataService;
 }
