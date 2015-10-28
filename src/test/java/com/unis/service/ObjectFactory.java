@@ -1,4 +1,3 @@
-
 package com.unis.service;
 
 import javax.xml.bind.JAXBElement;
@@ -8,18 +7,17 @@ import javax.xml.namespace.QName;
 
 
 /**
- * This object contains factory methods for each 
- * Java content interface and Java element interface 
- * generated in the com.unis.service package. 
- * <p>An ObjectFactory allows you to programatically 
- * construct new instances of the Java representation 
- * for XML content. The Java representation of XML 
- * content can consist of schema derived interfaces 
- * and classes representing the binding of schema 
- * type definitions, element declarations and model 
- * groups.  Factory methods for each of these are 
+ * This object contains factory methods for each
+ * Java content interface and Java element interface
+ * generated in the com.unis.service package.
+ * <p>An ObjectFactory allows you to programatically
+ * construct new instances of the Java representation
+ * for XML content. The Java representation of XML
+ * content can consist of schema derived interfaces
+ * and classes representing the binding of schema
+ * type definitions, element declarations and model
+ * groups.  Factory methods for each of these are
  * provided in this class.
- * 
  */
 @XmlRegistry
 public class ObjectFactory {
@@ -33,14 +31,12 @@ public class ObjectFactory {
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.unis.service
-     * 
      */
     public ObjectFactory() {
     }
 
     /**
      * Create an instance of {@link FileReciveTxt }
-     * 
      */
     public FileReciveTxt createFileReciveTxt() {
         return new FileReciveTxt();
@@ -48,7 +44,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link FileReciveXml }
-     * 
      */
     public FileReciveXml createFileReciveXml() {
         return new FileReciveXml();
@@ -56,7 +51,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link FileReciveJsonResponse }
-     * 
      */
     public FileReciveJsonResponse createFileReciveJsonResponse() {
         return new FileReciveJsonResponse();
@@ -64,7 +58,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link FileReciveTxtResponse }
-     * 
      */
     public FileReciveTxtResponse createFileReciveTxtResponse() {
         return new FileReciveTxtResponse();
@@ -72,7 +65,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link FileReciveJson }
-     * 
      */
     public FileReciveJson createFileReciveJson() {
         return new FileReciveJson();
@@ -80,7 +72,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link FileReciveXmlResponse }
-     * 
      */
     public FileReciveXmlResponse createFileReciveXmlResponse() {
         return new FileReciveXmlResponse();
@@ -88,7 +79,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link FileReciveJsonResponse }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "http://service.unis.com/", name = "fileReciveJsonResponse")
     public JAXBElement<FileReciveJsonResponse> createFileReciveJsonResponse(FileReciveJsonResponse value) {
@@ -97,7 +87,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link FileReciveJson }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "http://service.unis.com/", name = "fileReciveJson")
     public JAXBElement<FileReciveJson> createFileReciveJson(FileReciveJson value) {
@@ -106,7 +95,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link FileReciveTxtResponse }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "http://service.unis.com/", name = "fileReciveTxtResponse")
     public JAXBElement<FileReciveTxtResponse> createFileReciveTxtResponse(FileReciveTxtResponse value) {
@@ -115,7 +103,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link FileReciveXmlResponse }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "http://service.unis.com/", name = "fileReciveXmlResponse")
     public JAXBElement<FileReciveXmlResponse> createFileReciveXmlResponse(FileReciveXmlResponse value) {
@@ -124,7 +111,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link FileReciveTxt }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "http://service.unis.com/", name = "fileReciveTxt")
     public JAXBElement<FileReciveTxt> createFileReciveTxt(FileReciveTxt value) {
@@ -133,7 +119,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link FileReciveXml }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "http://service.unis.com/", name = "fileReciveXml")
     public JAXBElement<FileReciveXml> createFileReciveXml(FileReciveXml value) {

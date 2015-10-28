@@ -1,15 +1,14 @@
 package com.bwzk.dao.i;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-
 import com.bwzk.dao.BaseDao;
 import com.bwzk.pojo.SBacklog;
 import com.bwzk.pojo.SBacklogExample;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
-public interface SBacklogMapper  extends BaseDao {
+import java.util.List;
+
+public interface SBacklogMapper extends BaseDao {
     int countByExample(SBacklogExample example);
 
     int deleteByExample(SBacklogExample example);
@@ -31,7 +30,7 @@ public interface SBacklogMapper  extends BaseDao {
     int updateByPrimaryKeySelective(SBacklog record);
 
     int updateByPrimaryKey(SBacklog record);
-    
-	@Select("SELECT COUNT(*) FROM S_BACKLOG WHERE ${whereSql}")
-	Integer getBackLogNum(@Param("whereSql") String whereSql);
+
+    @Select("SELECT COUNT(*) FROM S_BACKLOG WHERE ${whereSql}")
+    Integer getBackLogNum(@Param("whereSql") String whereSql);
 }

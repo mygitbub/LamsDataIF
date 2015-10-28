@@ -8,7 +8,8 @@
         <field notnull="true" length="0" fieldtype="3" chname="父ID" fieldname="PID" thevalue="-1"/>
         <field notnull="false" length="64" fieldtype="1" chname="档号" fieldname="KEYWORD" thevalue="just a strsdfs档号"/>
         <field notnull="false" length="0" fieldtype="3" chname="件号" fieldname="JH" thevalue="1"/>
-        <field notnull="false" length="254" fieldtype="1" chname="题名" fieldname="TITLE" thevalue="这'sdfasdfasdfasdfasdf'斯蒂芬"/>
+        <field notnull="false" length="254" fieldtype="1" chname="题名" fieldname="TITLE"
+               thevalue="这'sdfasdfasdfasdfasdf'斯蒂芬"/>
         <field notnull="false" length="50" fieldtype="11" chname="日期测试" fieldname="F13" thevalue="1986-06-19"/>
     </fields>
 </table>

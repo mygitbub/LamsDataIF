@@ -1,19 +1,17 @@
 package com.unis.service;
 
-import java.io.File;
-import java.io.IOException;
-
-import org.apache.commons.io.FileUtils;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 
+import java.io.IOException;
+
 
 public class TestCallWs {
-	public static void main(String[] args) throws JsonGenerationException, JsonMappingException, IOException {
-		ArcDataWsSingle ws = new SingleServiceImplService().getArcDataWsSinglePort();
-		//txt插入
-		System.out.println(ws.fileReciveTxt("D_FILE8.xml", "1&;-1&;1&;这'sdfasdfasdfasdfasdf'斯蒂芬&;4&;这是个提名&;", "aa"));
-		//json插入
+    public static void main(String[] args) throws JsonGenerationException, JsonMappingException, IOException {
+        ArcDataWsSingle ws = new SingleServiceImplService().getArcDataWsSinglePort();
+        //txt插入
+        System.out.println(ws.fileReciveTxt("D_FILE8.xml", "1&;-1&;1&;这'sdfasdfasdfasdfasdf'斯蒂芬&;4&;这是个提名&;", "aa"));
+        //json插入
 //		StringWriter sw = new StringWriter();
 //		Map<String, String> map = new HashMap<String, String>();
 //		map.put("ATTACHED", "1");
@@ -30,7 +28,7 @@ public class TestCallWs {
 ////		//xml
 //		String xml = FileUtils.readFileToString(new File("d:/D_FILE8.XML") , "UTF-8");
 //		System.out.println(ws.fileReciveXml("D_FILE8.xml", xml, "qink"));
-	}
+    }
 }
 
 //        <field notnull="false" length="0" fieldtype="3" chname="原文标志" fieldname="ATTACHED" thevalue="1"/>

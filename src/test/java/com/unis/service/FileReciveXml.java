@@ -1,4 +1,3 @@
-
 package com.unis.service;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -8,9 +7,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for fileReciveXml complex type.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p/>
  * <pre>
  * &lt;complexType name="fileReciveXml">
  *   &lt;complexContent>
@@ -24,14 +23,12 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "fileReciveXml", propOrder = {
-    "xmlName",
-    "dataXml",
-    "gdrCode"
+        "xmlName",
+        "dataXml",
+        "gdrCode"
 })
 public class FileReciveXml {
 
@@ -41,11 +38,9 @@ public class FileReciveXml {
 
     /**
      * Gets the value of the xmlName property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getXmlName() {
         return xmlName;
@@ -53,11 +48,9 @@ public class FileReciveXml {
 
     /**
      * Sets the value of the xmlName property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setXmlName(String value) {
         this.xmlName = value;
@@ -65,11 +58,9 @@ public class FileReciveXml {
 
     /**
      * Gets the value of the dataXml property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getDataXml() {
         return dataXml;
@@ -77,11 +68,9 @@ public class FileReciveXml {
 
     /**
      * Sets the value of the dataXml property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setDataXml(String value) {
         this.dataXml = value;
@@ -89,11 +78,9 @@ public class FileReciveXml {
 
     /**
      * Gets the value of the gdrCode property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is
+     * {@link String }
      */
     public String getGdrCode() {
         return gdrCode;
@@ -101,11 +88,9 @@ public class FileReciveXml {
 
     /**
      * Sets the value of the gdrCode property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is
+     *              {@link String }
      */
     public void setGdrCode(String value) {
         this.gdrCode = value;

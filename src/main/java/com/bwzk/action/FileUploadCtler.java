@@ -29,24 +29,24 @@ public class FileUploadCtler {
     /**
      * 接收http上传的电子文件
      */
-    @RequestMapping(value = "/uploadEfile", method = RequestMethod.POST , produces="text/html;charset=UTF-8")
+    @RequestMapping(value = "/uploadEfile", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
     @ResponseBody
-    public String upload(@RequestParam("Filedata") MultipartFile file ,
-                         @RequestParam("title") String title ,
-                         @RequestParam("tableName") String tableName ,
-                         @RequestParam("fileDID") Integer fileDID ,
-                         @RequestParam("pzm") String pzm ,
+    public String upload(@RequestParam("Filedata") MultipartFile file,
+                         @RequestParam("title") String title,
+                         @RequestParam("tableName") String tableName,
+                         @RequestParam("fileDID") Integer fileDID,
+                         @RequestParam("pzm") String pzm,
                          @RequestParam("upUserCode") String upUserCode) {
 
         SFwqpz fwqpz = null;
         String result = null;
-        String ext , md5Str , efilepath , realyFileName , uploadFileName = null;
+        String ext, md5Str, efilepath, realyFileName, uploadFileName = null;
         //电子文件不可以为, 电子文件的pid不为空
-        if(null != file && StringUtils.isNotBlank(pzm) && fileDID != null){
+        if (null != file && StringUtils.isNotBlank(pzm) && fileDID != null) {
             uploadFileName = file.getOriginalFilename();
             try {
                 fwqpz = baseService.getFwqpz(pzm);
-                if(StringUtils.isBlank(uploadFileName) || !file.getOriginalFilename().contains(".") || fileDID < 0){
+                if (StringUtils.isBlank(uploadFileName) || !file.getOriginalFilename().contains(".") || fileDID < 0) {
                     throw new RuntimeException("上传的电子文件名字为空,或无后缀,或者pid小于0");
                 }
                 ext = FilenameUtils.getExtension(uploadFileName);
@@ -55,7 +55,7 @@ public class FileUploadCtler {
                 efilepath = File.separator + tableName + File.separator
                         + DateUtil.getCurrentDateStr() + File.separator;
                 File newFile = new File(FilenameUtils.getFullPath((StringUtils.isBlank(fwqpz.getSavedbname())
-                        ? tempFilePath : fwqpz.getSavedbname()) + efilepath ) + realyFileName);
+                        ? tempFilePath : fwqpz.getSavedbname()) + efilepath) + realyFileName);
                 // 路径类似: D:\flvVideo\D_FILE2\84\2013-09-22\6cf7d800-6d69-4a9d-b886-c702445c9295.png
                 if (!newFile.exists()) {
                     FileUtils.touch(newFile);
@@ -76,15 +76,15 @@ public class FileUploadCtler {
                 eFile.setAttrex(baseService.getAttrex());
                 eFile.setCreator(StringUtils.isNotBlank(upUserCode) ? upUserCode : "ROOT");
                 eFile.setCreatetime(new Date());
-                eFile.setFilesize(((Long)file.getSize()).intValue()/1000);
-                eFile.setMd5( MD5.getFileMD5String(newFile));
-                baseService.insertEfile(tableName , eFile);
+                eFile.setFilesize(((Long) file.getSize()).intValue() / 1000);
+                eFile.setMd5(MD5.getFileMD5String(newFile));
+                baseService.insertEfile(tableName, eFile);
                 result = eFile.getDid() + "&success";
             } catch (Exception e) {
                 e.printStackTrace();
-                result = "-1&paramaterError"+e.getMessage();
+                result = "-1&paramaterError" + e.getMessage();
             }
-        }else{
+        } else {
             result = "-1&paramaterMissError";
         }
         return result;
