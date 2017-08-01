@@ -4,6 +4,8 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 
+import com.bwzk.util.ExceptionThrows;
+
 @WebService(name = "BaseDataWS", targetNamespace = "http://service.lams.cn/")
 public interface BaseDataService {
     /**
@@ -15,10 +17,11 @@ public interface BaseDataService {
      * @param deptPk
      * @param primaryKey
      * @return
+     * @throws ExceptionThrows 
      */
     public String addUserByTxt(@WebParam(name = "dataTxt") String dataTxt,
                                @WebParam(name = "deptPk") String deptPk,
-                               @WebParam(name = "primaryKey") String primaryKey);
+                               @WebParam(name = "primaryKey") String primaryKey) throws ExceptionThrows;
 
     /**
      * <p>
@@ -28,10 +31,11 @@ public interface BaseDataService {
      * @param dataTxt
      * @param primaryKey
      * @return
+     * @throws ExceptionThrows 
      */
     @WebMethod
     public String updateUserByTxt(@WebParam(name = "dataTxt") String dataTxt,
-                                  @WebParam(name = "primaryKey") String primaryKey);
+                                  @WebParam(name = "primaryKey") String primaryKey) throws ExceptionThrows;
 
     /**
      * <p>
@@ -43,12 +47,13 @@ public interface BaseDataService {
      * @param orgPk
      * @param parentPk
      * @return
+     * @throws ExceptionThrows 
      */
     @WebMethod
     public String addDeptByTxt(@WebParam(name = "dataTxt") String dataTxt,
                                @WebParam(name = "primaryKey") String primaryKey,
                                @WebParam(name = "orgPk") String orgPk,
-                               @WebParam(name = "parentPk") String parentPk);
+                               @WebParam(name = "parentPk") String parentPk) throws ExceptionThrows;
 
     /**
      * <p>
@@ -58,10 +63,11 @@ public interface BaseDataService {
      * @param dataTxt
      * @param primaryKey
      * @return
+     * @throws ExceptionThrows 
      */
     @WebMethod
     public String updateDeptByTxt(@WebParam(name = "dataTxt") String dataTxt,
-                                  @WebParam(name = "primaryKey") String primaryKey);
+                                  @WebParam(name = "primaryKey") String primaryKey) throws ExceptionThrows;
 
     /**
      * <p>
@@ -72,11 +78,12 @@ public interface BaseDataService {
      * @param deptPk
      * @param primaryKey
      * @return
+     * @throws ExceptionThrows 
      */
     @WebMethod
     public String addUserByXml(@WebParam(name = "dataXml") String dataXml,
                                @WebParam(name = "deptPk") String deptPk,
-                               @WebParam(name = "primaryKey") String primaryKey);
+                               @WebParam(name = "primaryKey") String primaryKey) throws ExceptionThrows;
 
     /**
      * <p>
@@ -86,10 +93,11 @@ public interface BaseDataService {
      * @param dataXml
      * @param primaryKey
      * @return
+     * @throws ExceptionThrows 
      */
     @WebMethod
     public String updateUserByXml(@WebParam(name = "dataXml") String dataXml,
-                                  @WebParam(name = "primaryKey") String primaryKey);
+                                  @WebParam(name = "primaryKey") String primaryKey) throws ExceptionThrows;
 
     /**
      * <p>
@@ -101,12 +109,13 @@ public interface BaseDataService {
      * @param orgPk
      * @param parentPk
      * @return
+     * @throws ExceptionThrows 
      */
     @WebMethod
     public String addDeptByXml(@WebParam(name = "dataXml") String dataXml,
                                @WebParam(name = "primaryKey") String primaryKey,
                                @WebParam(name = "orgPk") String orgPk,
-                               @WebParam(name = "parentPk") String parentPk);
+                               @WebParam(name = "parentPk") String parentPk) throws ExceptionThrows;
 
     /**
      * <p>
@@ -116,10 +125,11 @@ public interface BaseDataService {
      * @param dataXml
      * @param primaryKey
      * @return
+     * @throws ExceptionThrows 
      */
     @WebMethod
     public String updateDeptByXml(@WebParam(name = "dataXml") String dataXml,
-                                  @WebParam(name = "primaryKey") String primaryKey);
+                                  @WebParam(name = "primaryKey") String primaryKey) throws ExceptionThrows;
 
     /**
      * <p>
@@ -130,11 +140,12 @@ public interface BaseDataService {
      * @param deptPk
      * @param primaryKey
      * @return
+     * @throws ExceptionThrows 
      */
     @WebMethod
     public String addUserByJson(@WebParam(name = "dataJson") String dataJson,
                                 @WebParam(name = "deptPk") String deptPk,
-                                @WebParam(name = "primaryKey") String primaryKey);
+                                @WebParam(name = "primaryKey") String primaryKey) throws ExceptionThrows;
 
     /**
      * <p>
@@ -144,11 +155,12 @@ public interface BaseDataService {
      * @param dataJson
      * @param primaryKey
      * @return
+     * @throws ExceptionThrows 
      */
     @WebMethod
     public String updateUserByJson(
             @WebParam(name = "dataJson") String dataJson,
-            @WebParam(name = "primaryKey") String primaryKey);
+            @WebParam(name = "primaryKey") String primaryKey) throws ExceptionThrows;
 
     /**
      * <p>
@@ -160,12 +172,13 @@ public interface BaseDataService {
      * @param orgPk
      * @param parentPk
      * @return
+     * @throws ExceptionThrows 
      */
     @WebMethod
     public String addDeptByJson(@WebParam(name = "dataJson") String dataJson,
                                 @WebParam(name = "primaryKey") String primaryKey,
                                 @WebParam(name = "orgPk") String orgPk,
-                                @WebParam(name = "parentPk") String parentPk);
+                                @WebParam(name = "parentPk") String parentPk) throws ExceptionThrows;
 
     /**
      * <p>
@@ -175,11 +188,12 @@ public interface BaseDataService {
      * @param dataJson
      * @param primaryKey
      * @return
+     * @throws ExceptionThrows 
      */
     @WebMethod
     public String updateDeptByJson(
             @WebParam(name = "dataJson") String dataJson,
-            @WebParam(name = "primaryKey") String primaryKey);
+            @WebParam(name = "primaryKey") String primaryKey) throws ExceptionThrows;
 
     /**
      * Title: 增加或修改用户数据 返回; 0：成功！ 1：不成功！[失败原因]
@@ -408,9 +422,10 @@ public interface BaseDataService {
      *
      * @param primaryKey
      * @return
+     * @throws ExceptionThrows 
      */
     @WebMethod
-    public String delUserByKey(@WebParam(name = "primaryKey") String primaryKey);
+    public String delUserByKey(@WebParam(name = "primaryKey") String primaryKey) throws ExceptionThrows;
 
     /**
      * <p>
@@ -419,10 +434,11 @@ public interface BaseDataService {
      *
      * @param primaryKey
      * @return
+     * @throws ExceptionThrows 
      */
 
     @WebMethod
-    public String delDeptByKey(@WebParam(name = "primaryKey") String primaryKey);
+    public String delDeptByKey(@WebParam(name = "primaryKey") String primaryKey) throws ExceptionThrows;
 
     /**
      * <p>

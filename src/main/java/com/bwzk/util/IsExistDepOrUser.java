@@ -13,11 +13,11 @@ public class IsExistDepOrUser extends BaseService {
      * @param group
      * @throws ExceptionThrows
      */
-    public void isDepNotExist(SGroup group) throws ExceptionThrows
+    public void isDepNotExist(SGroup group, String primaryKey) throws ExceptionThrows
 
     {
         if (group == null) {
-            throw new ExceptionThrows("部门不存在");
+            throw new ExceptionThrows("主键"+primaryKey+"：部门不存在");
         }
     }
 
@@ -27,11 +27,11 @@ public class IsExistDepOrUser extends BaseService {
      * @param user
      * @throws ExceptionThrows
      */
-    public void isUserNotExist(SUser user) throws ExceptionThrows
+    public void isUserNotExist(SUser user, String primaryKey) throws ExceptionThrows
 
     {
         if (user == null) {
-            throw new ExceptionThrows("用户不存在！");
+            throw new ExceptionThrows("主键"+primaryKey+"：用户不存在！");
         }
     }
 
@@ -45,7 +45,7 @@ public class IsExistDepOrUser extends BaseService {
 
     {
         if (user != null) {
-            throw new ExceptionThrows("用户已存在！");
+            throw new ExceptionThrows("主键"+user.getEsbid()+"：用户已存在！");
         }
     }
 
@@ -59,7 +59,7 @@ public class IsExistDepOrUser extends BaseService {
 
     {
         if (group != null) {
-            throw new ExceptionThrows("部门已存在！");
+            throw new ExceptionThrows("主键"+group.getGfzj()+":部门已存在！");
         }
     }
 

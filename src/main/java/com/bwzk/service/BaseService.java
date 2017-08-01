@@ -1,6 +1,7 @@
 package com.bwzk.service;
 
 import ch.qos.logback.classic.Logger;
+
 import com.bwzk.dao.JdbcDao;
 import com.bwzk.dao.i.SGroupMapper;
 import com.bwzk.dao.i.SQzhMapper;
@@ -13,6 +14,7 @@ import com.bwzk.util.ExceptionThrows;
 import com.bwzk.util.GlobalFinalAttr.DatabaseType;
 import com.bwzk.util.IsExistDepOrUser;
 import com.caucho.hessian.client.HessianProxyFactory;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.RuntimeSqlException;
 import org.apache.ibatis.jdbc.ScriptRunner;
@@ -486,27 +488,37 @@ public class BaseService {
      * @param tableName
      * @return
      */
+//    public Integer getMaxDid(String tableName) {
+//        Integer maxDid = -1;
+//        try {
+//            HessianProxyFactory factory = new HessianProxyFactory();
+//            factory.setOverloadEnabled(true);
+//            OutInterfaceServcie remote = (OutInterfaceServcie) factory
+//                    .create(OutInterfaceServcie.class, "http://" + lamsIP + "/Lams/hs/openInterface.hs");
+//            maxDid = remote.getMaxDid(tableName);
+//        } catch (Exception e) {
+//            log.error("从Lams获取DID出现错误: " + e.getMessage());
+//        }
+//        if (maxDid.equals(-1)) {
+//            maxDid = sUserMapper.getMaxDid(tableName);
+//            maxDid = (maxDid == null ? 1 : maxDid++);
+//            maxDid++;
+//        }
+//        return maxDid;
+//    }
     public Integer getMaxDid(String tableName) {
-        Integer maxDid = -1;
-        try {
-            HessianProxyFactory factory = new HessianProxyFactory();
-            factory.setOverloadEnabled(true);
-            OutInterfaceServcie remote = (OutInterfaceServcie) factory
-                    .create(OutInterfaceServcie.class, "http://" + lamsIP + "/Lams/hs/openInterface.hs");
-            maxDid = remote.getMaxDid(tableName);
-        } catch (Exception e) {
-            log.error("从Lams获取DID出现错误: " + e.getMessage());
-        }
-        if (maxDid.equals(-1)) {
-            maxDid = sUserMapper.getMaxDid(tableName);
-            maxDid = (maxDid == null ? 1 : maxDid++);
-            maxDid++;
-        }
-        return maxDid;
-    }
-
+		Integer returnDId = sUserMapper.getMaxDid(tableName);
+		if (returnDId == null) {
+			returnDId = 1;
+		} else {
+			returnDId = returnDId + 1;
+		}
+		return returnDId;
+	}
     protected String insertUser4Map(Map<String, String> map, String dept_zj,
-                                    String esbid) {
+                                    String esbid) throws ExceptionThrows {
+	    SUser user = sUserMapper.getUserByEsbid(esbid);
+	    new IsExistDepOrUser().isUserExist(user);
         String archKey = "";
         String archVal = "";
         Integer pid = null;
@@ -556,36 +568,29 @@ public class BaseService {
                         }
                     }
                 }
-                try {
-                    SUser user = sUserMapper.getUserByEsbid(esbid);
-                    new IsExistDepOrUser().isUserExist(user);
-                    SGroup group = sGroupMapper.getGroupByGfzj(dept_zj);
-                    if (group == null) {
-                        pid = defaultYhGroup;
-                    } else {
-                        pid = group.getDid();
-                    }
-                    fields.append("did,pid,esbid,esbcode");
-                    values.append(maxdid).append(",").append(pid).append(",'")
-                            .append(esbid).append("',").append("'")
-                            .append(dept_zj).append("'");
-                    String SQL = "insert into s_user (" + fields.toString()
-                            + ") values ( " + values.toString() + " )";
-                    System.out.println(SQL);
-                    execSql(SQL);
-                    result = "0";
-                    log.error("插入一条数据成功. " + SQL);
-                    SUserrole userrole = new SUserrole();
-                    userrole.setDid(getMaxDid("S_USERROLE"));
-                    userrole.setYhid(maxdid);
-                    userrole.setJsid(jsid);
-                    sUserroleMapper.insert(userrole);
-                    log.error("用户:" + esbid + " 关联角色");
-                } catch (ExceptionThrows e) {
-                    System.out.println(e.getMessage());
-                    log.error(e.getMessage());
-                    result = "1";
+                   
+                SGroup group = sGroupMapper.getGroupByGfzj(dept_zj);
+                if (group == null) {
+                    pid = defaultYhGroup;
+                } else {
+                    pid = group.getDid();
                 }
+                fields.append("did,pid,esbid,esbcode");
+                values.append(maxdid).append(",").append(pid).append(",'")
+                        .append(esbid).append("',").append("'")
+                        .append(dept_zj).append("'");
+                String SQL = "insert into s_user (" + fields.toString()
+                        + ") values ( " + values.toString() + " )";
+                System.out.println(SQL);
+                execSql(SQL);
+                result = "0";
+                log.error("插入一条数据成功. " + SQL);
+                SUserrole userrole = new SUserrole();
+                userrole.setDid(getMaxDid("S_USERROLE"));
+                userrole.setYhid(maxdid);
+                userrole.setJsid(jsid);
+                sUserroleMapper.insert(userrole);
+                log.error("用户:" + esbid + " 关联角色");
             } catch (Exception e) {
                 e.printStackTrace();
                 log.error("插入一条数据失败." + e.getMessage());
@@ -598,7 +603,9 @@ public class BaseService {
         return result;
     }
 
-    protected String updateUser4Map(Map<String, String> map, String esbid) {
+    protected String updateUser4Map(Map<String, String> map, String esbid) throws ExceptionThrows {
+    	SUser user = sUserMapper.getUserByEsbid(esbid);
+        new IsExistDepOrUser().isUserNotExist(user, esbid);
         String archKey = "";
         String archVal = "";
         String result = "0";
@@ -646,22 +653,14 @@ public class BaseService {
                         }
                     }
                 }
-                try {
-                    SUser user = sUserMapper.getUserByEsbid(esbid);
-                    new IsExistDepOrUser().isUserNotExist(user);
-                    String SQL = "update s_user set "
-                            + fields.toString().substring(0,
-                            fields.length() - 1) + " where esbid = '"
-                            + esbid + "'";
-                    System.out.println(SQL);
-                    execSql(SQL);
-                    result = "0";
-                    log.error("更新一条数据成功. " + SQL);
-                } catch (ExceptionThrows e) {
-                    System.out.println(e.getMessage());
-                    log.error(e.getMessage());
-                    result = "1";
-                }
+                String SQL = "update s_user set "
+                        + fields.toString().substring(0,
+                        fields.length() - 1) + " where esbid = '"
+                        + esbid + "'";
+                System.out.println(SQL);
+                execSql(SQL);
+                result = "0";
+                log.error("更新一条数据成功. " + SQL);
             } catch (Exception e) {
                 e.printStackTrace();
                 log.error("更新一条数据失败. " + e.getMessage());
@@ -675,7 +674,9 @@ public class BaseService {
     }
 
     protected String insertDept4Map(Map<String, String> map, String gfzj,
-                                    String parent_org_no, String qzh_zj) {
+                                    String parent_org_no, String qzh_zj) throws ExceptionThrows {
+    	SGroup group = sGroupMapper.getGroupByGfzj(gfzj);
+        new IsExistDepOrUser().isDeptExist(group);
         String archKey = "";
         String archVal = "";
         String qzh = null;
@@ -726,28 +727,20 @@ public class BaseService {
                         }
                     }
                 }
-                try {
-                    SGroup group = sGroupMapper.getGroupByGfzj(gfzj);
-                    new IsExistDepOrUser().isDeptExist(group);
-                    String deptQzh = getQzhByKey(qzh_zj);
-                    SGroup parent = sGroupMapper.getGroupByGfzj(parent_org_no);
-                    qzh = (deptQzh == null ? defaultDeptQzh : deptQzh);
-                    pid = (parent == null ? defaultDeptPid : parent.getDid());
-                    fields.append("did,pid,qzh,gfzj,depcode");
-                    values.append(maxdid).append(",").append(pid).append(",'")
-                            .append(qzh).append("','").append(gfzj)
-                            .append("','").append(parent_org_no).append("'");
-                    String SQL = "insert into s_group (" + fields.toString()
-                            + ") values ( " + values.toString() + " )";
-                    System.out.println(SQL);
-                    execSql(SQL);
-                    result = "0";
-                    log.error("插入一条数据成功. " + SQL);
-                } catch (ExceptionThrows e) {
-                    log.error(e.getMessage());
-                    System.out.println(e.getMessage());
-                    result = "1";
-                }
+                String deptQzh = getQzhByKey(qzh_zj);
+                SGroup parent = sGroupMapper.getGroupByGfzj(parent_org_no);
+                qzh = (deptQzh == null ? defaultDeptQzh : deptQzh);
+                pid = (parent == null ? defaultDeptPid : parent.getDid());
+                fields.append("did,pid,qzh,gfzj,depcode");
+                values.append(maxdid).append(",").append(pid).append(",'")
+                        .append(qzh).append("','").append(gfzj)
+                        .append("','").append(parent_org_no).append("'");
+                String SQL = "insert into s_group (" + fields.toString()
+                        + ") values ( " + values.toString() + " )";
+                System.out.println(SQL);
+                execSql(SQL);
+                result = "0";
+                log.error("插入一条数据成功. " + SQL);
             } catch (Exception e) {
                 e.printStackTrace();
                 log.error("插入一条数据失败. " + e.getMessage());
@@ -760,7 +753,9 @@ public class BaseService {
         return result;
     }
 
-    protected String updateDept4Map(Map<String, String> map, String gfzj) {
+    protected String updateDept4Map(Map<String, String> map, String gfzj) throws ExceptionThrows {
+    	SGroup sg = sGroupMapper.getGroupByGfzj(gfzj);
+        new IsExistDepOrUser().isDepNotExist(sg, gfzj);
         String archKey = ""; // 档案字段
         String archVal = ""; // 档案字段对应的值
         String result = "1";
@@ -808,22 +803,14 @@ public class BaseService {
                         }
                     }
                 }
-                try {
-                    SGroup sg = sGroupMapper.getGroupByGfzj(gfzj);
-                    new IsExistDepOrUser().isDepNotExist(sg);
-                    String SQL = "update s_group set "
-                            + fields.toString().substring(0,
-                            fields.length() - 1) + " where gfzj = '"
-                            + gfzj + "'";
-                    System.out.println(SQL);
-                    execSql(SQL);
-                    result = "0";
-                    log.error("更新一条数据成功. " + SQL);
-                } catch (ExceptionThrows e) {
-                    log.error(e.getMessage());
-                    System.out.println(e.getMessage());
-                    result = "1";
-                }
+                String SQL = "update s_group set "
+                        + fields.toString().substring(0,
+                        fields.length() - 1) + " where gfzj = '"
+                        + gfzj + "'";
+                System.out.println(SQL);
+                execSql(SQL);
+                result = "0";
+                log.error("更新一条数据成功. " + SQL);
             } catch (Exception e) {
                 e.printStackTrace();
                 log.error("更新一条数据失败. " + e.getMessage());
@@ -875,7 +862,7 @@ public class BaseService {
         String result = "1";
         try {
             SUser user = sUserMapper.getUserByEsbid(esbid);
-            new IsExistDepOrUser().isUserNotExist(user);
+            new IsExistDepOrUser().isUserNotExist(user, esbid);
             suser.setEsbid(esbid);
             sUserMapper.updateByKey(suser);
             result = "0";
@@ -921,7 +908,7 @@ public class BaseService {
         String result = "1";
         try {
             SGroup sg = sGroupMapper.getGroupByGfzj(gfzj);
-            new IsExistDepOrUser().isDepNotExist(sg);
+            new IsExistDepOrUser().isDepNotExist(sg, gfzj);
             sgroup.setGfzj(gfzj);
             sGroupMapper.updateByKey(sgroup);
             result = "0";

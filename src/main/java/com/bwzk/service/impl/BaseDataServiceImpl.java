@@ -46,11 +46,14 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 	 * @param deptPk
 	 * @param primaryKey
 	 * @return
+	 * @throws ExceptionThrows 
 	 */
 	@WebMethod
 	public String addUserByTxt(@WebParam(name = "dataTxt") String dataTxt,
 			@WebParam(name = "deptPk") String deptPk,
-			@WebParam(name = "primaryKey") String primaryKey) {
+			@WebParam(name = "primaryKey") String primaryKey) throws ExceptionThrows {
+		SUser user = sUserMapper.getUserByEsbid(primaryKey);
+		new IsExistDepOrUser().isUserExist(user);
 		Integer maxdid = 0;
 		String SQL = "";
 		String result = "1";
@@ -105,41 +108,35 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 				}
 				i = i + 1;
 			}
-			try {
-				SUser user = sUserMapper.getUserByEsbid(primaryKey);
-				new IsExistDepOrUser().isUserExist(user);
-				SGroup group = sGroupMapper.getGroupByGfzj(deptPk);
-				if (group == null) {
-					pid = defaultYhGroup;
-				} else {
-					pid = group.getDid();
-				}
-				fields.append("did,pid,esbid,esbcode");
-				values.append(maxdid).append(",").append(pid).append(",'")
-						.append(primaryKey).append("',").append("'")
-						.append(deptPk).append("'");
-				SQL = "insert into " + table.getName() + " ("
-						+ fields.toString() + ") values ( " + values.toString()
-						+ " )";
-				execSql(SQL);
-				result = "0";
-				log.error("插入一条数据成功.addUserByTxt: " + SQL);
-				SUserrole userrole = new SUserrole();
-				userrole.setDid(getMaxDid("S_USERROLE"));
-				userrole.setYhid(maxdid);
-				userrole.setJsid(jsid);
-				sUserroleMapper.insert(userrole);
-				log.error("用户:" + primaryKey + " 关联角色");
-			} catch (ExceptionThrows e) {
-				System.out.println(e.getMessage());
-				log.error(e.getMessage());
-				result = "1";
+			SGroup group = sGroupMapper.getGroupByGfzj(deptPk);
+			if (group == null) {
+				pid = defaultYhGroup;
+			} else {
+				pid = group.getDid();
 			}
+			fields.append("did,pid,esbid,esbcode");
+			values.append(maxdid).append(",").append(pid).append(",'")
+					.append(primaryKey).append("',").append("'")
+					.append(deptPk).append("'");
+			SQL = "insert into " + table.getName() + " ("
+					+ fields.toString() + ") values ( " + values.toString()
+					+ " )";
+			execSql(SQL);
+			result = "0";
+			log.error("插入一条数据成功.addUserByTxt: " + SQL);
+			SUserrole userrole = new SUserrole();
+			userrole.setDid(getMaxDid("S_USERROLE"));
+			userrole.setYhid(maxdid);
+			userrole.setJsid(jsid);
+			sUserroleMapper.insert(userrole);
+			log.error("用户:" + primaryKey + " 关联角色");
+			
 			fields.setLength(0);
 			values.setLength(0);
 		} catch (Exception e) {
 			log.error("插入一条数据错误.addUserByTxt:", e);
 			log.error(SQL);
+			result = "1[" + e.getMessage() + "]";
 		}
 
 		return result;
@@ -153,10 +150,13 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 	 * @param dataTxt
 	 * @param primaryKey
 	 * @return
+	 * @throws ExceptionThrows 
 	 */
 	@WebMethod
 	public String updateUserByTxt(@WebParam(name = "dataTxt") String dataTxt,
-			@WebParam(name = "primaryKey") String primaryKey) {
+			@WebParam(name = "primaryKey") String primaryKey) throws ExceptionThrows {
+		SUser user = sUserMapper.getUserByEsbid(primaryKey);
+		new IsExistDepOrUser().isUserNotExist(user, primaryKey);
 		String SQL = "";
 		String result = "1";
 		String xmlPath = GlobalFinalAttr.XML_PATH + "S_USER.XML";
@@ -208,25 +208,18 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 				}
 				i = i + 1;
 			}
-			try {
-				SUser user = sUserMapper.getUserByEsbid(primaryKey);
-				new IsExistDepOrUser().isUserNotExist(user);
-				SQL = "update " + table.getName() + " set "
-						+ fields.toString().substring(0, fields.length() - 1)
-						+ " where esbid = '" + primaryKey + "'";
-				execSql(SQL);
-				result = "0";
-				log.error("更新一条数据成功.updateUserByTxt: " + SQL);
-				fields.setLength(0);
-				values.setLength(0);
-			} catch (ExceptionThrows e) {
-				System.out.println(e.getMessage());
-				log.error(e.getMessage());
-				result = "1";
-			}
+			SQL = "update " + table.getName() + " set "
+					+ fields.toString().substring(0, fields.length() - 1)
+					+ " where esbid = '" + primaryKey + "'";
+			execSql(SQL);
+			result = "0";
+			log.error("更新一条数据成功.updateUserByTxt: " + SQL);
+			fields.setLength(0);
+			values.setLength(0);
 		} catch (Exception e) {
 			log.error("更新一条数据错误.updateUserByTxt:", e);
 			log.error(SQL);
+			result = "1[" + e.getMessage() + "]";
 		}
 		return result;
 	}
@@ -241,12 +234,15 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 	 * @param orgPk
 	 * @param parentPk
 	 * @return
+	 * @throws ExceptionThrows 
 	 */
 	@WebMethod
 	public String addDeptByTxt(@WebParam(name = "dataTxt") String dataTxt,
 			@WebParam(name = "primaryKey") String primaryKey,
 			@WebParam(name = "orgPk") String orgPk,
-			@WebParam(name = "parentPk") String parentPk) {
+			@WebParam(name = "parentPk") String parentPk) throws ExceptionThrows {
+		SGroup group = sGroupMapper.getGroupByGfzj(primaryKey);
+		new IsExistDepOrUser().isDeptExist(group);
 		Integer maxdid = 0;
 		String SQL = "";
 		String result = "1";
@@ -302,9 +298,8 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 				}
 				i = i + 1;
 			}
-			try {
-				SGroup group = sGroupMapper.getGroupByGfzj(primaryKey);
-				new IsExistDepOrUser().isDeptExist(group);
+//			try {
+				
 				String deptQzh = getQzhByKey(orgPk);
 				SGroup parent = sGroupMapper.getGroupByGfzj(parentPk);
 				qzh = (deptQzh == null ? defaultDeptQzh : deptQzh);
@@ -321,15 +316,16 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 				log.error("插入一条数据成功.addDeptByTxt: " + SQL);
 				fields.setLength(0);
 				values.setLength(0);
-			} catch (ExceptionThrows e) {
-				log.error(e.getMessage());
-				System.out.println(e.getMessage());
-				result = "1";
-			}
+//			} catch (ExceptionThrows e) {
+//				log.error(e.getMessage());
+//				System.out.println(e.getMessage());
+//				result = "1";
+//			}
 
 		} catch (Exception e) {
 			log.error("插入一条数据错误.addDeptByTxt:", e);
 			log.error(SQL);
+			result = "1[" + e.getMessage() + "]";
 		}
 		return result;
 	}
@@ -342,10 +338,13 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 	 * @param dataTxt
 	 * @param primaryKey
 	 * @return
+	 * @throws ExceptionThrows 
 	 */
 	@WebMethod
 	public String updateDeptByTxt(@WebParam(name = "dataTxt") String dataTxt,
-			@WebParam(name = "primaryKey") String primaryKey) {
+			@WebParam(name = "primaryKey") String primaryKey) throws ExceptionThrows {
+		SGroup sg = sGroupMapper.getGroupByGfzj(primaryKey);
+		new IsExistDepOrUser().isDepNotExist(sg, primaryKey);
 		String SQL = "";
 		String result = "1";
 		String xmlPath = GlobalFinalAttr.XML_PATH + "S_GROUP.XML";
@@ -397,25 +396,18 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 				}
 				i = i + 1;
 			}
-			try {
-				SGroup sg = sGroupMapper.getGroupByGfzj(primaryKey);
-				new IsExistDepOrUser().isDepNotExist(sg);
-				SQL = "update " + table.getName() + " set "
-						+ fields.toString().substring(0, fields.length() - 1)
-						+ " where gfzj = '" + primaryKey + "'";
-				execSql(SQL);
-				result = "0";
-				log.error("更新一条数据成功.updateDeptByTxt: " + SQL);
-				fields.setLength(0);
-				values.setLength(0);
-			} catch (ExceptionThrows e) {
-				log.error(e.getMessage());
-				System.out.println(e.getMessage());
-				result = "1";
-			}
+			SQL = "update " + table.getName() + " set "
+					+ fields.toString().substring(0, fields.length() - 1)
+					+ " where gfzj = '" + primaryKey + "'";
+			execSql(SQL);
+			result = "0";
+			log.error("更新一条数据成功.updateDeptByTxt: " + SQL);
+			fields.setLength(0);
+			values.setLength(0);
 		} catch (Exception e) {
 			log.error("更新一条数据错误.updateDeptByTxt:", e);
 			log.error(SQL);
+			result = "1[" + e.getMessage() + "]";
 		}
 		return result;
 	}
@@ -429,11 +421,14 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 	 * @param deptPk
 	 * @param primaryKey
 	 * @return
+	 * @throws ExceptionThrows 
 	 */
 	@WebMethod
 	public String addUserByXml(@WebParam(name = "dataXml") String dataXml,
 			@WebParam(name = "deptPk") String deptPk,
-			@WebParam(name = "primaryKey") String primaryKey) {
+			@WebParam(name = "primaryKey") String primaryKey) throws ExceptionThrows {
+		SUser user = sUserMapper.getUserByEsbid(primaryKey);
+		new IsExistDepOrUser().isUserExist(user);
 		String result = "0";
 		try {
 			Table table = XmlObjUtil.xml2Obj(dataXml, Table.class);
@@ -454,10 +449,13 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 	 * @param dataXml
 	 * @param primaryKey
 	 * @return
+	 * @throws ExceptionThrows 
 	 */
 	@WebMethod
 	public String updateUserByXml(@WebParam(name = "dataXml") String dataXml,
-			@WebParam(name = "primaryKey") String primaryKey) {
+			@WebParam(name = "primaryKey") String primaryKey) throws ExceptionThrows {
+		SUser user = sUserMapper.getUserByEsbid(primaryKey);
+		new IsExistDepOrUser().isUserNotExist(user, primaryKey);
 		String result = "0";
 		try {
 			Table table = XmlObjUtil.xml2Obj(dataXml, Table.class);
@@ -480,12 +478,15 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 	 * @param orgPk
 	 * @param parentPk
 	 * @return
+	 * @throws ExceptionThrows 
 	 */
 	@WebMethod
 	public String addDeptByXml(@WebParam(name = "dataXml") String dataXml,
 			@WebParam(name = "primaryKey") String primaryKey,
 			@WebParam(name = "orgPk") String orgPk,
-			@WebParam(name = "parentPk") String parentPk) {
+			@WebParam(name = "parentPk") String parentPk) throws ExceptionThrows {
+		SGroup group = sGroupMapper.getGroupByGfzj(primaryKey);
+		new IsExistDepOrUser().isDeptExist(group);
 		String result = null;
 		Map<String, String> vars = null;
 		try {
@@ -507,10 +508,13 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 	 * @param dataXml
 	 * @param primaryKey
 	 * @return
+	 * @throws ExceptionThrows 
 	 */
 	@WebMethod
 	public String updateDeptByXml(@WebParam(name = "dataXml") String dataXml,
-			@WebParam(name = "primaryKey") String primaryKey) {
+			@WebParam(name = "primaryKey") String primaryKey) throws ExceptionThrows {
+		SGroup sg = sGroupMapper.getGroupByGfzj(primaryKey);
+		new IsExistDepOrUser().isDepNotExist(sg, primaryKey);
 		String result = "0";
 		Map<String, String> vars = null;
 		try {
@@ -533,11 +537,14 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 	 * @param deptPk
 	 * @param primaryKey
 	 * @return
+	 * @throws ExceptionThrows 
 	 */
 	@WebMethod
 	public String addUserByJson(@WebParam(name = "dataJson") String dataJson,
 			@WebParam(name = "deptPk") String deptPk,
-			@WebParam(name = "primaryKey") String primaryKey) {
+			@WebParam(name = "primaryKey") String primaryKey) throws ExceptionThrows {
+		SUser user = sUserMapper.getUserByEsbid(primaryKey);
+		new IsExistDepOrUser().isUserExist(user);
 		String result = "0";
 		try {
 			ObjectMapper mapper = new ObjectMapper();
@@ -559,11 +566,14 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 	 * @param dataJson
 	 * @param primaryKey
 	 * @return
+	 * @throws ExceptionThrows 
 	 */
 	@WebMethod
 	public String updateUserByJson(
 			@WebParam(name = "dataJson") String dataJson,
-			@WebParam(name = "primaryKey") String primaryKey) {
+			@WebParam(name = "primaryKey") String primaryKey) throws ExceptionThrows {
+		SUser user = sUserMapper.getUserByEsbid(primaryKey);
+		new IsExistDepOrUser().isUserNotExist(user, primaryKey);
 		String result = "0";
 		try {
 			ObjectMapper mapper = new ObjectMapper();
@@ -587,12 +597,15 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 	 * @param orgPk
 	 * @param parentPk
 	 * @return
+	 * @throws ExceptionThrows 
 	 */
 	@WebMethod
 	public String addDeptByJson(@WebParam(name = "dataJson") String dataJson,
 			@WebParam(name = "primaryKey") String primaryKey,
 			@WebParam(name = "orgPk") String orgPk,
-			@WebParam(name = "parentPk") String parentPk) {
+			@WebParam(name = "parentPk") String parentPk) throws ExceptionThrows {
+		SGroup group = sGroupMapper.getGroupByGfzj(primaryKey);
+		new IsExistDepOrUser().isDeptExist(group);
 		String result = null;
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, String> vars = null;
@@ -614,11 +627,14 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 	 * @param dataJson
 	 * @param primaryKey
 	 * @return
+	 * @throws ExceptionThrows 
 	 */
 	@WebMethod
 	public String updateDeptByJson(
 			@WebParam(name = "dataJson") String dataJson,
-			@WebParam(name = "primaryKey") String primaryKey) {
+			@WebParam(name = "primaryKey") String primaryKey) throws ExceptionThrows {
+		SGroup sg = sGroupMapper.getGroupByGfzj(primaryKey);
+		new IsExistDepOrUser().isDepNotExist(sg, primaryKey);
 		String result = "0";
 		try {
 			ObjectMapper mapper = new ObjectMapper();
@@ -731,6 +747,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 		} catch (Exception e) {
 			log.error("插入一条数据错误.addOrUpdateUserByTxt:", e);
 			log.error(SQL);
+			result = "1[" + e.getMessage() + "]";
 		}
 
 		return result;
@@ -832,6 +849,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 		} catch (Exception e) {
 			log.error("插入一条数据错误.addOrUpdateDeptByTxt:", e);
 			log.error(SQL);
+			result = "1[" + e.getMessage() + "]";
 		}
 		return result;
 	}
@@ -933,6 +951,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 			} catch (Exception e) {
 				log.error("插入一条数据错误.addOrUpdateUserByXml:", e);
 				log.error(SQL);
+				result = "1[" + e.getMessage() + "]";
 			}
 		}
 		return result;
@@ -1029,6 +1048,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 			} catch (Exception e) {
 				e.printStackTrace();
 				log.error("插入一条数据失败.addOrUpdateDeptByXml: " + e.getMessage());
+				result = "1[" + e.getMessage() + "]";
 			}
 		}
 		return result;
@@ -1135,6 +1155,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 			} catch (Exception e) {
 				e.printStackTrace();
 				log.error("插入一条数据失败.addOrUpdateUserByJson: " + e.getMessage());
+				result = "1[" + e.getMessage() + "]";
 			}
 		}
 		return result;
@@ -1236,6 +1257,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 			} catch (Exception e) {
 				e.printStackTrace();
 				log.error("插入一条数据失败.addOrUpdateDeptByJson: " + e.getMessage());
+				result = "1[" + e.getMessage() + "]";
 			}
 		}
 		return result;
@@ -1329,6 +1351,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 		} catch (Exception e) {
 			log.error("插入一条数据错误.addOrUpdateQzhByTxt:", e);
 			log.error(SQL);
+			result = "1[" + e.getMessage() + "]";
 		}
 		return result;
 	}
@@ -2107,13 +2130,14 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 	 * 
 	 * @param primaryKey
 	 * @return
+	 * @throws ExceptionThrows 
 	 */
 	@WebMethod
-	public String delUserByKey(@WebParam(name = "primaryKey") String primaryKey) {
+	public String delUserByKey(@WebParam(name = "primaryKey") String primaryKey) throws ExceptionThrows {
+		SUser user = sUserMapper.getUserByEsbid(primaryKey);
+		new IsExistDepOrUser().isUserNotExist(user, primaryKey);
 		String result = "0";
 		try {
-			SUser user = sUserMapper.getUserByEsbid(primaryKey);
-			new IsExistDepOrUser().isUserNotExist(user);
 			sUserMapper.delUserByEsbid(primaryKey);
 			log.error("删除一个用户:" + primaryKey);
 		} catch (Exception e) {
@@ -2130,13 +2154,14 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 	 * 
 	 * @param primaryKey
 	 * @return
+	 * @throws ExceptionThrows 
 	 */
 	@WebMethod
-	public String delDeptByKey(@WebParam(name = "primaryKey") String primaryKey) {
+	public String delDeptByKey(@WebParam(name = "primaryKey") String primaryKey) throws ExceptionThrows {
+		SGroup sg = sGroupMapper.getGroupByGfzj(primaryKey);
+		new IsExistDepOrUser().isDepNotExist(sg, primaryKey);
 		String result = "0";
 		try {
-			SGroup sg = sGroupMapper.getGroupByGfzj(primaryKey);
-			new IsExistDepOrUser().isDepNotExist(sg);
 			jdbcDao.excute("DELETE S_GROUP  WHERE GFZJ='" + primaryKey + "'");
 			log.error("删除一个部门:" + primaryKey);
 		} catch (Exception e) {
