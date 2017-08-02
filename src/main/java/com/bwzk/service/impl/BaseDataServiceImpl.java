@@ -64,7 +64,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 		File xmlFile = new File(xmlPath);
 		if (!xmlFile.exists()) {
 			log.error("XML文件不存在");
-			return result;
+			return result+"XML文件不存在";
 		}
 		try {
 			maxdid = getMaxDid("s_user");
@@ -75,7 +75,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 			String[] s = dataTxt.split(GlobalFinalAttr.SEPARATOR);
 			if (xmlfields.size() != s.length) {
 				log.error("传入的值于xml的数量不符合");
-				return result;
+				return result+"传入的值于xml的数量不符合";
 			}
 			int i = 0;
 			for (Field field : xmlfields) {// 循环字段
@@ -163,7 +163,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 		File xmlFile = new File(xmlPath);
 		if (!xmlFile.exists()) {
 			log.error("XML文件不存在");
-			return result;
+			return result+"XML文件不存在";
 		}
 		try {
 			StringBuffer fields = new StringBuffer();
@@ -175,7 +175,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 			String[] s = dataTxt.split(GlobalFinalAttr.SEPARATOR);
 			if (xmlfields.size() != s.length) {
 				log.error("传入的值于xml的数量不符合");
-				return result;
+				return result+"传入的值于xml的数量不符合";
 			}
 			int i = 0;
 			for (Field field : xmlfields) {// 循环字段
@@ -254,7 +254,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 		File xmlFile = new File(xmlPath);
 		if (!xmlFile.exists()) {
 			log.error("XML文件不存在");
-			return result;
+			return result+"XML文件不存在";
 		}
 		try {
 			maxdid = getMaxDid("s_group");
@@ -267,7 +267,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 			String[] s = dataTxt.split(GlobalFinalAttr.SEPARATOR);
 			if (xmlfields.size() != s.length) {
 				log.error("传入的值于xml的数量不符合");
-				return result;
+				return result+"传入的值于xml的数量不符合";
 			}
 			int i = 0;
 			for (Field field : xmlfields) {// 循环字段
@@ -365,7 +365,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 			String[] s = dataTxt.split(GlobalFinalAttr.SEPARATOR);
 			if (xmlfields.size() != s.length) {
 				log.error("传入的值于xml的数量不符合");
-				return result;
+				return result+"传入的值于xml的数量不符合";
 			}
 			int i = 0;
 			for (Field field : xmlfields) {// 循环字段
@@ -677,7 +677,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 		File xmlFile = new File(xmlPath);
 		if (!xmlFile.exists()) {
 			log.error("XML文件不存在");
-			return result;
+			return result+"XML文件不存在";
 		}
 		try {
 			maxdid = getMaxDid("s_user");
@@ -688,7 +688,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 			String[] s = dataTxt.split(GlobalFinalAttr.SEPARATOR);
 			if (xmlfields.size() != s.length) {
 				log.error("传入的值于xml的数量不符合");
-				return result;
+				return result+"传入的值于xml的数量不符合";
 			}
 			int i = 0;
 			for (Field field : xmlfields) {// 循环字段
@@ -785,7 +785,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 		File xmlFile = new File(xmlPath);
 		if (!xmlFile.exists()) {
 			log.error("XML文件不存在");
-			return result;
+			return result+"XML文件不存在";
 		}
 		try {
 			maxdid = getMaxDid("s_group");
@@ -798,7 +798,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 			String[] s = dataTxt.split(GlobalFinalAttr.SEPARATOR);
 			if (xmlfields.size() != s.length) {
 				log.error("传入的值于xml的数量不符合");
-				return result;
+				return result+"传入的值于xml的数量不符合";
 			}
 			int i = 0;
 			for (Field field : xmlfields) {// 循环字段
@@ -1292,7 +1292,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 		File xmlFile = new File(xmlPath);
 		if (!xmlFile.exists()) {
 			log.error("XML文件不存在");
-			return result;
+			return result+"XML文件不存在";
 		}
 		try {
 			maxdid = getMaxDid("s_qzh");
@@ -1305,7 +1305,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 			String[] s = dataTxt.split(GlobalFinalAttr.SEPARATOR);
 			if (xmlfields.size() != s.length) {
 				log.error("传入的值于xml的数量不符合");
-				return result;
+				return result+"传入的值于xml的数量不符合";
 			}
 			int i = 0;
 			for (Field field : xmlfields) {// 循环字段
@@ -1389,7 +1389,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 			File xmlFile = new File(xmlPath);
 			if (!xmlFile.exists()) {
 				log.error("XML文件不存在");
-				return "1";
+				return "1"+"XML文件不存在";
 			}
 			Table table = XmlObjUtil.xml2Obj(dataXml, Table.class);
 			map = convertTable2Map(table);
@@ -1577,7 +1577,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 		File xmlFile = new File(xmlPath);
 		if (!xmlFile.exists()) {
 			log.error("XML文件不存在");
-			return result;
+			return result+"XML文件不存在";
 		}
 		try {
 			maxdid = getMaxDid("s_qzh");
@@ -1590,7 +1590,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 			String[] s = dataTxt.split(GlobalFinalAttr.SEPARATOR);
 			if (xmlfields.size() != s.length) {
 				log.error("传入的值于xml的数量不符合");
-				return result;
+				return result+"传入的值于xml的数量不符合";
 			}
 			int i = 0;
 			for (Field field : xmlfields) {// 循环字段
@@ -1667,7 +1667,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 		File xmlFile = new File(xmlPath);
 		if (!xmlFile.exists()) {
 			log.error("XML文件不存在");
-			return result;
+			return result+"XML文件不存在";
 		}
 		try {
 			StringBuffer fields = new StringBuffer();
@@ -1679,7 +1679,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 			String[] s = dataTxt.split(GlobalFinalAttr.SEPARATOR);
 			if (xmlfields.size() != s.length) {
 				log.error("传入的值于xml的数量不符合");
-				return result;
+				return result+"传入的值于xml的数量不符合";
 			}
 			int i = 0;
 			for (Field field : xmlfields) {// 循环字段
@@ -1760,7 +1760,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 			File xmlFile = new File(xmlPath);
 			if (!xmlFile.exists()) {
 				log.error("XML文件不存在");
-				return "1";
+				return "1"+"XML文件不存在";
 			}
 			Table table = XmlObjUtil.xml2Obj(dataXml, Table.class);
 			map = convertTable2Map(table);
@@ -1862,7 +1862,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 			File xmlFile = new File(xmlPath);
 			if (!xmlFile.exists()) {
 				log.error("XML文件不存在");
-				return "1";
+				return "1"+"XML文件不存在";
 			}
 			Table table = XmlObjUtil.xml2Obj(dataXml, Table.class);
 			map = convertTable2Map(table);
