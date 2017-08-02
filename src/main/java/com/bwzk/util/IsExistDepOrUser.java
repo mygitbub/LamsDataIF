@@ -1,5 +1,7 @@
 package com.bwzk.util;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.bwzk.pojo.SGroup;
 import com.bwzk.pojo.SQzh;
 import com.bwzk.pojo.SUser;
@@ -73,7 +75,7 @@ public class IsExistDepOrUser extends BaseService {
 
     {
         if (sqh != null) {
-            throw new ExceptionThrows("全宗已存在！");
+            throw new ExceptionThrows("主键"+sqh.getPrimarykey()+":全宗已存在！");
         }
     }
 
@@ -83,11 +85,23 @@ public class IsExistDepOrUser extends BaseService {
      * @param sqh
      * @throws ExceptionThrows
      */
-    public void isQzhNotExist(SQzh sqh) throws ExceptionThrows
+    public void isQzhNotExist(SQzh sqh, String primaryKey) throws ExceptionThrows
 
     {
         if (sqh == null) {
-            throw new ExceptionThrows("全宗不存在！");
+            throw new ExceptionThrows("主键"+primaryKey+":全宗不存在！");
         }
+    }
+    /**
+     * 全宗主键不存在异常
+    * @Title: isQzhNotExist4Key  
+    * @Description: TODO
+    * @author mazhongrui 
+    * @date 2017年8月2日 上午11:11:34
+     */
+    public void isQzhNotExist4Key(String qzh, String orgPk) throws ExceptionThrows{
+    	if(StringUtils.isBlank(qzh)){
+    		throw new ExceptionThrows("主键"+orgPk+":全宗不存在！");
+    	}
     }
 }

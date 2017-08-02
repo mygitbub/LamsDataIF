@@ -241,6 +241,8 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 			@WebParam(name = "primaryKey") String primaryKey,
 			@WebParam(name = "orgPk") String orgPk,
 			@WebParam(name = "parentPk") String parentPk) throws ExceptionThrows {
+		String deptQzh = getQzhByKey(orgPk);
+		new IsExistDepOrUser().isQzhNotExist4Key(deptQzh, orgPk);
 		SGroup group = sGroupMapper.getGroupByGfzj(primaryKey);
 		new IsExistDepOrUser().isDeptExist(group);
 		Integer maxdid = 0;
@@ -300,7 +302,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 			}
 //			try {
 				
-				String deptQzh = getQzhByKey(orgPk);
+				deptQzh = getQzhByKey(orgPk);
 				SGroup parent = sGroupMapper.getGroupByGfzj(parentPk);
 				qzh = (deptQzh == null ? defaultDeptQzh : deptQzh);
 				pid = (parent == null ? defaultDeptPid : parent.getDid());
@@ -485,6 +487,8 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 			@WebParam(name = "primaryKey") String primaryKey,
 			@WebParam(name = "orgPk") String orgPk,
 			@WebParam(name = "parentPk") String parentPk) throws ExceptionThrows {
+		String deptQzh = getQzhByKey(orgPk);
+		new IsExistDepOrUser().isQzhNotExist4Key(deptQzh, orgPk);
 		SGroup group = sGroupMapper.getGroupByGfzj(primaryKey);
 		new IsExistDepOrUser().isDeptExist(group);
 		String result = null;
@@ -604,6 +608,8 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 			@WebParam(name = "primaryKey") String primaryKey,
 			@WebParam(name = "orgPk") String orgPk,
 			@WebParam(name = "parentPk") String parentPk) throws ExceptionThrows {
+		String deptQzh = getQzhByKey(orgPk);
+		new IsExistDepOrUser().isQzhNotExist4Key(deptQzh, orgPk);
 		SGroup group = sGroupMapper.getGroupByGfzj(primaryKey);
 		new IsExistDepOrUser().isDeptExist(group);
 		String result = null;
@@ -1708,7 +1714,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 			}
 			try {
 				SQzh sqzh = sQzhMapper.getSQzhByPrimarkKey(primaryKey);
-				new IsExistDepOrUser().isQzhNotExist(sqzh);
+				new IsExistDepOrUser().isQzhNotExist(sqzh, primaryKey);
 				SQL = "update " + table.getName() + " set "
 						+ fields.toString().substring(0, fields.length() - 1)
 						+ " where primarykey = '" + primaryKey + "'";
@@ -1906,7 +1912,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 				}
 				try {
 					SQzh sqzh = sQzhMapper.getSQzhByPrimarkKey(primaryKey);
-					new IsExistDepOrUser().isQzhNotExist(sqzh);
+					new IsExistDepOrUser().isQzhNotExist(sqzh, primaryKey);
 					String SQL = "update s_qzh set "
 							+ fields.toString().substring(0,
 									fields.length() - 1)
@@ -2097,7 +2103,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 				}
 				try {
 					SQzh sqzh = sQzhMapper.getSQzhByPrimarkKey(primaryKey);
-					new IsExistDepOrUser().isQzhNotExist(sqzh);
+					new IsExistDepOrUser().isQzhNotExist(sqzh, primaryKey);
 					String SQL = "update s_qzh set "
 							+ fields.toString().substring(0,
 									fields.length() - 1)
@@ -2184,7 +2190,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 		String result = "0";
 		try {
 			SQzh sqzh = sQzhMapper.getSQzhByPrimarkKey(primaryKey);
-			new IsExistDepOrUser().isQzhNotExist(sqzh);
+			new IsExistDepOrUser().isQzhNotExist(sqzh, primaryKey);
 			jdbcDao.excute("DELETE S_QZH  WHERE primarykey='" + primaryKey
 					+ "'");
 			log.error("删除一个全宗:" + primaryKey);
