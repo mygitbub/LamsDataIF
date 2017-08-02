@@ -53,7 +53,9 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 			@WebParam(name = "deptPk") String deptPk,
 			@WebParam(name = "primaryKey") String primaryKey) throws ExceptionThrows {
 		SUser user = sUserMapper.getUserByEsbid(primaryKey);
-		new IsExistDepOrUser().isUserExist(user);
+		IsExistDepOrUser.isUserExist(user);
+		SGroup group = sGroupMapper.getGroupByGfzj(deptPk);
+		IsExistDepOrUser.isDepNotExist(group, deptPk);
 		Integer maxdid = 0;
 		String SQL = "";
 		String result = "1";
@@ -108,7 +110,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 				}
 				i = i + 1;
 			}
-			SGroup group = sGroupMapper.getGroupByGfzj(deptPk);
+			group = sGroupMapper.getGroupByGfzj(deptPk);
 			if (group == null) {
 				pid = defaultYhGroup;
 			} else {
@@ -156,7 +158,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 	public String updateUserByTxt(@WebParam(name = "dataTxt") String dataTxt,
 			@WebParam(name = "primaryKey") String primaryKey) throws ExceptionThrows {
 		SUser user = sUserMapper.getUserByEsbid(primaryKey);
-		new IsExistDepOrUser().isUserNotExist(user, primaryKey);
+		IsExistDepOrUser.isUserNotExist(user, primaryKey);
 		String SQL = "";
 		String result = "1";
 		String xmlPath = GlobalFinalAttr.XML_PATH + "S_USER.XML";
@@ -242,9 +244,9 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 			@WebParam(name = "orgPk") String orgPk,
 			@WebParam(name = "parentPk") String parentPk) throws ExceptionThrows {
 		String deptQzh = getQzhByKey(orgPk);
-		new IsExistDepOrUser().isQzhNotExist4Key(deptQzh, orgPk);
+		IsExistDepOrUser.isQzhNotExist4Key(deptQzh, orgPk);
 		SGroup group = sGroupMapper.getGroupByGfzj(primaryKey);
-		new IsExistDepOrUser().isDeptExist(group);
+		IsExistDepOrUser.isDeptExist(group);
 		Integer maxdid = 0;
 		String SQL = "";
 		String result = "1";
@@ -346,7 +348,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 	public String updateDeptByTxt(@WebParam(name = "dataTxt") String dataTxt,
 			@WebParam(name = "primaryKey") String primaryKey) throws ExceptionThrows {
 		SGroup sg = sGroupMapper.getGroupByGfzj(primaryKey);
-		new IsExistDepOrUser().isDepNotExist(sg, primaryKey);
+		IsExistDepOrUser.isDepNotExist(sg, primaryKey);
 		String SQL = "";
 		String result = "1";
 		String xmlPath = GlobalFinalAttr.XML_PATH + "S_GROUP.XML";
@@ -430,7 +432,9 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 			@WebParam(name = "deptPk") String deptPk,
 			@WebParam(name = "primaryKey") String primaryKey) throws ExceptionThrows {
 		SUser user = sUserMapper.getUserByEsbid(primaryKey);
-		new IsExistDepOrUser().isUserExist(user);
+		IsExistDepOrUser.isUserExist(user);
+		SGroup group = sGroupMapper.getGroupByGfzj(deptPk);
+		IsExistDepOrUser.isDepNotExist(group, deptPk);
 		String result = "0";
 		try {
 			Table table = XmlObjUtil.xml2Obj(dataXml, Table.class);
@@ -457,7 +461,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 	public String updateUserByXml(@WebParam(name = "dataXml") String dataXml,
 			@WebParam(name = "primaryKey") String primaryKey) throws ExceptionThrows {
 		SUser user = sUserMapper.getUserByEsbid(primaryKey);
-		new IsExistDepOrUser().isUserNotExist(user, primaryKey);
+		IsExistDepOrUser.isUserNotExist(user, primaryKey);
 		String result = "0";
 		try {
 			Table table = XmlObjUtil.xml2Obj(dataXml, Table.class);
@@ -488,9 +492,9 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 			@WebParam(name = "orgPk") String orgPk,
 			@WebParam(name = "parentPk") String parentPk) throws ExceptionThrows {
 		String deptQzh = getQzhByKey(orgPk);
-		new IsExistDepOrUser().isQzhNotExist4Key(deptQzh, orgPk);
+		IsExistDepOrUser.isQzhNotExist4Key(deptQzh, orgPk);
 		SGroup group = sGroupMapper.getGroupByGfzj(primaryKey);
-		new IsExistDepOrUser().isDeptExist(group);
+		IsExistDepOrUser.isDeptExist(group);
 		String result = null;
 		Map<String, String> vars = null;
 		try {
@@ -518,7 +522,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 	public String updateDeptByXml(@WebParam(name = "dataXml") String dataXml,
 			@WebParam(name = "primaryKey") String primaryKey) throws ExceptionThrows {
 		SGroup sg = sGroupMapper.getGroupByGfzj(primaryKey);
-		new IsExistDepOrUser().isDepNotExist(sg, primaryKey);
+		IsExistDepOrUser.isDepNotExist(sg, primaryKey);
 		String result = "0";
 		Map<String, String> vars = null;
 		try {
@@ -548,7 +552,9 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 			@WebParam(name = "deptPk") String deptPk,
 			@WebParam(name = "primaryKey") String primaryKey) throws ExceptionThrows {
 		SUser user = sUserMapper.getUserByEsbid(primaryKey);
-		new IsExistDepOrUser().isUserExist(user);
+		IsExistDepOrUser.isUserExist(user);
+		SGroup group = sGroupMapper.getGroupByGfzj(deptPk);
+		IsExistDepOrUser.isDepNotExist(group, deptPk);
 		String result = "0";
 		try {
 			ObjectMapper mapper = new ObjectMapper();
@@ -577,7 +583,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 			@WebParam(name = "dataJson") String dataJson,
 			@WebParam(name = "primaryKey") String primaryKey) throws ExceptionThrows {
 		SUser user = sUserMapper.getUserByEsbid(primaryKey);
-		new IsExistDepOrUser().isUserNotExist(user, primaryKey);
+		IsExistDepOrUser.isUserNotExist(user, primaryKey);
 		String result = "0";
 		try {
 			ObjectMapper mapper = new ObjectMapper();
@@ -609,9 +615,9 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 			@WebParam(name = "orgPk") String orgPk,
 			@WebParam(name = "parentPk") String parentPk) throws ExceptionThrows {
 		String deptQzh = getQzhByKey(orgPk);
-		new IsExistDepOrUser().isQzhNotExist4Key(deptQzh, orgPk);
+		IsExistDepOrUser.isQzhNotExist4Key(deptQzh, orgPk);
 		SGroup group = sGroupMapper.getGroupByGfzj(primaryKey);
-		new IsExistDepOrUser().isDeptExist(group);
+		IsExistDepOrUser.isDeptExist(group);
 		String result = null;
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, String> vars = null;
@@ -640,7 +646,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 			@WebParam(name = "dataJson") String dataJson,
 			@WebParam(name = "primaryKey") String primaryKey) throws ExceptionThrows {
 		SGroup sg = sGroupMapper.getGroupByGfzj(primaryKey);
-		new IsExistDepOrUser().isDepNotExist(sg, primaryKey);
+		IsExistDepOrUser.isDepNotExist(sg, primaryKey);
 		String result = "0";
 		try {
 			ObjectMapper mapper = new ObjectMapper();
@@ -1625,7 +1631,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 			}
 			try {
 				SQzh sqzh = sQzhMapper.getSQzhByPrimarkKey(primaryKey);
-				new IsExistDepOrUser().isQzhExist(sqzh);
+				IsExistDepOrUser.isQzhExist(sqzh);
 				fields.append("did,primarykey");
 				values.append(maxdid).append(",'").append(primaryKey)
 						.append("'");
@@ -1714,7 +1720,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 			}
 			try {
 				SQzh sqzh = sQzhMapper.getSQzhByPrimarkKey(primaryKey);
-				new IsExistDepOrUser().isQzhNotExist(sqzh, primaryKey);
+				IsExistDepOrUser.isQzhNotExist(sqzh, primaryKey);
 				SQL = "update " + table.getName() + " set "
 						+ fields.toString().substring(0, fields.length() - 1)
 						+ " where primarykey = '" + primaryKey + "'";
@@ -1811,7 +1817,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 				}
 				try {
 					SQzh sqzh = sQzhMapper.getSQzhByPrimarkKey(primaryKey);
-					new IsExistDepOrUser().isQzhExist(sqzh);
+					IsExistDepOrUser.isQzhExist(sqzh);
 					fields.append("did,primarykey");
 					values.append(maxdid).append(",'").append(primaryKey)
 							.append("'");
@@ -1912,7 +1918,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 				}
 				try {
 					SQzh sqzh = sQzhMapper.getSQzhByPrimarkKey(primaryKey);
-					new IsExistDepOrUser().isQzhNotExist(sqzh, primaryKey);
+					IsExistDepOrUser.isQzhNotExist(sqzh, primaryKey);
 					String SQL = "update s_qzh set "
 							+ fields.toString().substring(0,
 									fields.length() - 1)
@@ -2008,7 +2014,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 				}
 				try {
 					SQzh sqzh = sQzhMapper.getSQzhByPrimarkKey(primaryKey);
-					new IsExistDepOrUser().isQzhExist(sqzh);
+					IsExistDepOrUser.isQzhExist(sqzh);
 					fields.append("did,primarykey");
 					values.append(maxdid).append(",'").append(primaryKey)
 							.append("'");
@@ -2103,7 +2109,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 				}
 				try {
 					SQzh sqzh = sQzhMapper.getSQzhByPrimarkKey(primaryKey);
-					new IsExistDepOrUser().isQzhNotExist(sqzh, primaryKey);
+					IsExistDepOrUser.isQzhNotExist(sqzh, primaryKey);
 					String SQL = "update s_qzh set "
 							+ fields.toString().substring(0,
 									fields.length() - 1)
@@ -2141,7 +2147,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 	@WebMethod
 	public String delUserByKey(@WebParam(name = "primaryKey") String primaryKey) throws ExceptionThrows {
 		SUser user = sUserMapper.getUserByEsbid(primaryKey);
-		new IsExistDepOrUser().isUserNotExist(user, primaryKey);
+		IsExistDepOrUser.isUserNotExist(user, primaryKey);
 		String result = "0";
 		try {
 			sUserMapper.delUserByEsbid(primaryKey);
@@ -2165,7 +2171,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 	@WebMethod
 	public String delDeptByKey(@WebParam(name = "primaryKey") String primaryKey) throws ExceptionThrows {
 		SGroup sg = sGroupMapper.getGroupByGfzj(primaryKey);
-		new IsExistDepOrUser().isDepNotExist(sg, primaryKey);
+		IsExistDepOrUser.isDepNotExist(sg, primaryKey);
 		String result = "0";
 		try {
 			jdbcDao.excute("DELETE S_GROUP  WHERE GFZJ='" + primaryKey + "'");
@@ -2190,7 +2196,7 @@ public class BaseDataServiceImpl extends BaseService implements BaseDataService 
 		String result = "0";
 		try {
 			SQzh sqzh = sQzhMapper.getSQzhByPrimarkKey(primaryKey);
-			new IsExistDepOrUser().isQzhNotExist(sqzh, primaryKey);
+			IsExistDepOrUser.isQzhNotExist(sqzh, primaryKey);
 			jdbcDao.excute("DELETE S_QZH  WHERE primarykey='" + primaryKey
 					+ "'");
 			log.error("删除一个全宗:" + primaryKey);

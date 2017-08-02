@@ -15,8 +15,7 @@ public class IsExistDepOrUser extends BaseService {
      * @param group
      * @throws ExceptionThrows
      */
-    public void isDepNotExist(SGroup group, String primaryKey) throws ExceptionThrows
-
+    public static void isDepNotExist(SGroup group, String primaryKey) throws ExceptionThrows
     {
         if (group == null) {
             throw new ExceptionThrows("主键"+primaryKey+"：部门不存在");
@@ -29,7 +28,7 @@ public class IsExistDepOrUser extends BaseService {
      * @param user
      * @throws ExceptionThrows
      */
-    public void isUserNotExist(SUser user, String primaryKey) throws ExceptionThrows
+    public static void isUserNotExist(SUser user, String primaryKey) throws ExceptionThrows
 
     {
         if (user == null) {
@@ -43,7 +42,7 @@ public class IsExistDepOrUser extends BaseService {
      * @param user
      * @throws ExceptionThrows
      */
-    public void isUserExist(SUser user) throws ExceptionThrows
+    public static void isUserExist(SUser user) throws ExceptionThrows
 
     {
         if (user != null) {
@@ -57,7 +56,7 @@ public class IsExistDepOrUser extends BaseService {
      * @param group
      * @throws ExceptionThrows
      */
-    public void isDeptExist(SGroup group) throws ExceptionThrows
+    public static void isDeptExist(SGroup group) throws ExceptionThrows
 
     {
         if (group != null) {
@@ -71,7 +70,7 @@ public class IsExistDepOrUser extends BaseService {
      * @param sqh
      * @throws ExceptionThrows
      */
-    public void isQzhExist(SQzh sqh) throws ExceptionThrows
+    public static void isQzhExist(SQzh sqh) throws ExceptionThrows
 
     {
         if (sqh != null) {
@@ -85,7 +84,7 @@ public class IsExistDepOrUser extends BaseService {
      * @param sqh
      * @throws ExceptionThrows
      */
-    public void isQzhNotExist(SQzh sqh, String primaryKey) throws ExceptionThrows
+    public static void isQzhNotExist(SQzh sqh, String primaryKey) throws ExceptionThrows
 
     {
         if (sqh == null) {
@@ -99,7 +98,7 @@ public class IsExistDepOrUser extends BaseService {
     * @author mazhongrui 
     * @date 2017年8月2日 上午11:11:34
      */
-    public void isQzhNotExist4Key(String qzh, String orgPk) throws ExceptionThrows{
+    public static void isQzhNotExist4Key(String qzh, String orgPk) throws ExceptionThrows{
     	if(StringUtils.isBlank(qzh)){
     		throw new ExceptionThrows("主键"+orgPk+":全宗不存在！");
     	}
